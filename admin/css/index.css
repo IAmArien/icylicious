@@ -1,0 +1,101 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+:root {
+  --black: #080808;
+  --dark-grey: #1c1c1c;
+  --light-grey: #414141;
+  --super-light-grey: #5d5d5d;
+  --yellow: #ffca26;
+  --white: #ffffff;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--dark-grey);
+}
+
+.content-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
+}
+
+.content-form-wrapper {
+  width: 400px;
+  background-color: var(--light-grey);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.h2-form-title {
+  text-align: center;
+  color: var(--white);
+  line-height: 0px;
+  letter-spacing: 10px !important;
+}
+
+.p-form-title-description {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--white);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--super-light-grey);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: var(--super-light-grey);
+  color: var(--white) !important;
+}
+
+input::placeholder {
+  color: var(--white);
+}
+
+input:focus {
+  outline: none !important;
+  border: 2px solid var(--yellow);
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--yellow);
+  border-radius: 4px;
+  margin: 15px 0 0 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.div-form-footer {
+  margin-top: 30px;
+}
+
+.p-form-footer-title {
+  color: var(--white);
+  text-align: center;
+}
+
+.a-form-forgot-password {
+  color: var(--yellow);
+}
+
+.a-form-forgot-password:hover {
+  color: var(--yellow);
+}

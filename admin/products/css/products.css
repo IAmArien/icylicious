@@ -1,0 +1,363 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+:root {
+  --black: #080808;
+  --dark-grey: #1c1c1c;
+  --light-grey: #414141;
+  --super-light-grey: #5d5d5d;
+  --yellow: #ffca26;
+  --white: #ffffff;
+  --light-white: #ececec;
+  --super-light-white: #f2f1f1;
+  --disabled-color: #848383;
+  --light-blue: #2392f4;
+}
+
+body {
+  background-color: var(--white);
+}
+
+/**
+====================================================================================
+SIDE BAR CSS
+====================================================================================
+**/
+.sidebar-container {
+  background-color: var(--light-grey);
+  width: 275px;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-fixed-top {
+  background-color: var(--light-grey) !important;
+}
+
+.div-tm-title {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.h4-tm-title {
+  text-align: center;
+  font-size: 11pt;
+  letter-spacing: 5px !important;
+  margin-inline: 15px;
+  padding-block: 10px;
+  border-radius: 7px;
+  margin-bottom: 0px !important;
+}
+
+.div-sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-inline: 15px;
+  margin-top: 25px;
+}
+
+.h6-title-name {
+  font-size: 13pt;
+  margin-bottom: 0px !important;
+}
+
+.p-title-email {
+  font-size: 9pt;
+  line-height: 0px;
+  margin-top: 10px;
+}
+
+.img-sidebar-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin-top: -5px;
+}
+
+.div-siderbar-menu-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 15px;
+  padding-top: 25px;
+  gap: 10px;
+}
+
+.div-siderbar-profile-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--super-light-grey);
+  padding-inline: 15px;
+  padding-block: 7px;
+  gap: 10px;
+}
+
+.btn-menu {
+  text-align: left;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.btn-menu-selected:hover {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-menu-selected:active {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-menu-unselected:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-menu-unselected:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+/**
+====================================================================================
+SIDE BAR CSS
+====================================================================================
+**/
+
+/**
+====================================================================================
+CONTENT CSS
+====================================================================================
+**/
+.content {
+  padding-left: 275px;
+}
+
+.a-navbar-path {
+  font-size: 12pt;
+}
+
+.a-navbar-path:hover {
+  color: var(--dark-grey) !important;
+}
+
+.a-navbar-path:active {
+  color: var(--dark-grey) !important;
+}
+
+.a-navbar-path:focus {
+  color: var(--dark-grey) !important;
+}
+
+.btn-profile:hover {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-profile:active {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-logout:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-logout:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+/**
+====================================================================================
+CONTENT CSS
+====================================================================================
+**/
+
+/**
+====================================================================================
+CONTENT WRAPPER CSS
+====================================================================================
+**/
+.content-wrapper {
+  padding-inline: 30px;
+  padding-block: 30px;
+}
+
+.div-content-title {
+  display: flex;
+}
+
+.div-content-title-labels {
+  flex: 1;
+}
+
+.dt-length, .dt-search, .dt-info {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: 10pt;
+  font-style: normal;
+}
+
+.btn-regular-outline:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-regular-outline:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+/**
+OUTLINE PRIMARY
+*/
+.btn-outline-primary {
+  border-color: var(--dark-grey) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+/**
+OUTLINE PRIMARY
+*/
+
+.btn-primary, .btn-danger {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  color: var(--dark-grey) !important;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  color: var(--dark-grey) !important;
+}
+
+.is_readonly {
+  color: var(--disabled-color) !important;
+}
+
+.gender-select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  color: var(--dark-grey) !important;
+}
+
+.category-select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  color: var(--dark-grey) !important;
+}
+
+td {
+  font-size: 10pt;
+}
+
+th {
+  font-size: 10pt;
+}
+
+.active>.page-link, .page-link.active {
+  background-color: var(--light-blue) !important;
+  border-color: var(--light-blue) !important;
+}
+
+.div-img-placeholder {
+  width: 100%;
+  height: 300px;
+  border: 2px solid var(--super-light-grey);
+  border-style: dashed;
+  border-radius: 10px;
+}
+
+.img-placeholder {
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+}
+
+.div-img-selections {
+  width: 100%;
+  height: 100px;
+  border: 2px solid var(--super-light-grey);
+  border-style: dashed;
+  border-radius: 10px;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.div-img-selections:hover {
+  opacity: 0.5;
+}
+
+/**
+====================================================================================
+CONTENT WRAPPER CSS
+====================================================================================
+**/

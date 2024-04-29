@@ -1,0 +1,239 @@
+* {
+  margin: 0;
+}
+
+:root {
+  --black: #080808;
+  --dark-grey: #1c1c1c;
+  --light-grey: #414141;
+  --super-light-grey: #5d5d5d;
+  --yellow: #ffca26;
+  --white: #ffffff;
+  --light-white: #ececec;
+  --disabled-color: #848383;
+  --light-blue: #2392f4;
+}
+
+.sans-regular {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sans-italic {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.sans-500 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.sans-italic-500 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.sans-600 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.sans-italic-600 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.sans-700 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.sans-italic-700 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.sans-800 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.sans-italic-800 {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.sans-bold {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.sans-italic-bold {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.sans-bolder {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.sans-italic-bolder {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bolder;
+  font-style: italic;
+}
+
+.sans-lighter {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: lighter;
+  font-style: normal;
+}
+
+.sans-italic-lighter {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: lighter;
+  font-style: italic;
+}
+
+.color-white {
+  color: var(--white);
+}
+
+.color-yellow {
+  color: var(--yellow);
+}
+
+.color-super-light-grey {
+  color: var(--super-light-grey);
+}
+
+.color-light-grey {
+  color: var(--light-grey);
+}
+
+.color-dark-grey {
+  color: var(--dark-grey);
+}
+
+.color-black {
+  color: var(--black);
+}
+
+.color-light-blue {
+  color: var(--light-blue);
+}
+
+.background-color-white {
+  background-color: var(--white);
+}
+
+.background-color-yellow {
+  background-color: var(--yellow);
+}
+
+.background-color-super-light-grey {
+  background-color: var(--super-light-grey);
+}
+
+.background-color-light-grey {
+  background-color: var(--light-grey);
+}
+
+.background-color-dark-grey {
+  background-color: var(--dark-grey);
+}
+
+.background-color-black {
+  background-color: var(--black);
+}
+
+.border-color-white {
+  border-color: var(--white);
+}
+
+.border-color-yellow {
+  border-color: var(--yellow);
+}
+
+.border-color-super-light-grey {
+  border-color: var(--super-light-grey);
+}
+
+.border-color-light-grey {
+  border-color: var(--light-grey);
+}
+
+.border-color-dark-grey {
+  border-color: var(--dark-grey);
+}
+
+.border-color-black {
+  border-color: var(--black);
+}
+
+.size-09 {
+  font-size: 9pt !important;
+}
+
+.size-10 {
+  font-size: 10pt !important;
+}
+
+.size-11 {
+  font-size: 11pt !important;
+}
+
+.size-12 {
+  font-size: 12pt !important;
+}
+
+.size-13 {
+  font-size: 13pt !important;
+}
+
+.size-14 {
+  font-size: 14pt !important;
+}
+
+.size-15 {
+  font-size: 15pt !important;
+}
+
+.size-16 {
+  font-size: 16pt !important;
+}
+
+.modal-dialog-centered {
+  justify-content: center;
+}
