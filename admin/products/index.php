@@ -191,7 +191,73 @@
               </thead>
               <tbody>
                 <?php
-                  
+                  $fetch_query = "SELECT * FROM products_info ORDER BY id DESC";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      $product_id = $row['id'];
+                      $product_name = $row['product_name'];
+                      $product_description = $row['product_description'];
+                      $product_category = "";
+                      $product_variant = "";
+                      // fetch categories
+                      $fetch_query = "SELECT PC.category_id, CTG.category_name, CTG.category_description 
+                        FROM products_categories AS PC 
+                        INNER JOIN categories AS CTG ON
+                        PC.category_id = CTG.id 
+                        WHERE PC.product_id = ".$product_id."";
+                      $cat_result = $conn->query($fetch_query);
+                      if ($cat_result->num_rows > 0) {
+                        $cat_row = $cat_result->fetch_assoc();
+                        $product_category = $cat_row['category_name'];
+                      }
+                      // fetch variants and prices
+                      $fetch_query = "SELECT PP.variant_id, PP.variant_price, VT.variant_name, VT.variant_description 
+                        FROM products_prices AS PP 
+                        INNER JOIN variants AS VT ON
+                        PP.variant_id = VT.id 
+                        WHERE PP.product_id = ".$product_id."";
+                      $var_result = $conn->query($fetch_query);
+                      if ($var_result->num_rows > 0) {
+                        $var_row = $var_result->fetch_assoc();
+                        $product_variant = $var_row['variant_name'];
+                      }
+                      echo '
+                        <tr>
+                          <td class="sans-600">
+                            '.$product_name.'
+                          </td>
+                          <td class="sans-regular">
+                            '.$product_description.'
+                          </td>
+                          <td class="sans-700">
+                            '.$product_category.'
+                          </td>
+                          <td class="sans-regular">
+                            '.$product_variant.'
+                          </td>
+                          <td>
+                            <button
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticEditCategory"
+                              class="btn btn-outline-primary btn-sm 
+                                sans-400 
+                                color-white"
+                              type="button">
+                              <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button
+                              class="btn btn-outline-primary btn-sm 
+                                sans-400 
+                                color-white"
+                              type="button">
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ';
+                    }
+                  }
                 ?>
               </tbody>
             </table>
