@@ -295,7 +295,7 @@
                         style="margin-top: 7px;"
                       >
                       <label for="product_description" class="sans-600" style="margin-top: 10px;">Product (Description)</label>
-                      <textarea class="sans-regular" rows="8" required style="margin-top: 7px;"></textarea>
+                      <textarea name="product_description" class="sans-regular" rows="8" required style="margin-top: 7px;"></textarea>
                       <label for="product_category" class="sans-600" style="margin-top: 10px;">Product (Category)</label>
                       <select class="form-select category-select" id="product_category" name="product_category" required style="margin-top: 7px;">
                         <?php
@@ -304,11 +304,12 @@
                           if ($result->num_rows > 0) {
                             $counter = 1;
                             while ($row = $result->fetch_assoc()) {
+                              $category_id = $row['id'];
                               $category_name = $row['category_name'];
                               if ($counter == 1) {
-                                echo '<option selected value="'.$category_name.'">'.$category_name.'</option>';
+                                echo '<option selected value="'.$category_id.'">'.$category_name.'</option>';
                               } else {
-                                echo '<option value="'.$category_name.'">'.$category_name.'</option>';
+                                echo '<option value="'.$category_id.'">'.$category_name.'</option>';
                               }
                               $counter += 1;
                             }
@@ -325,11 +326,12 @@
                           if ($result->num_rows > 0) {
                             $counter = 1;
                             while ($row = $result->fetch_assoc()) {
+                              $variant_id = $row['id'];
                               $variant_name = $row['variant_name'];
                               if ($counter == 1) {
-                                echo '<option selected value="'.$variant_name.'">'.$variant_name.'</option>';
+                                echo '<option selected value="'.$variant_id.'">'.$variant_name.'</option>';
                               } else {
-                                echo '<option value="'.$variant_name.'">'.$variant_name.'</option>';
+                                echo '<option value="'.$variant_id.'">'.$variant_name.'</option>';
                               }
                               $counter += 1;
                             }
