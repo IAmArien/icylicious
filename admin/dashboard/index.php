@@ -1,6 +1,6 @@
 <?php
   session_start();
-  include('../utils/connections.php');
+  include('../../utils/connections.php');
   if (
     !isset($_SESSION['user_credentials.username']) &&
     !isset($_SESSION['user_credentials.type'])

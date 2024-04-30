@@ -334,16 +334,17 @@ th {
 
 .img-placeholder {
   width: 100%;
-  height: 300px;
-  border-radius: 10px;
+  height: 295px;
+  border-radius: 7px;
+  object-fit: cover;
 }
 
 .div-img-selections {
   width: 100%;
-  height: 100px;
+  height: 90px;
   border: 2px solid var(--super-light-grey);
   border-style: dashed;
-  border-radius: 10px;
+  border-radius: 7px;
   display: flex;
   gap: 5px;
   flex-direction: column;
@@ -352,8 +353,32 @@ th {
   cursor: pointer;
 }
 
+.img-selection-placeholder {
+  width: 100%;
+  height: 85px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.img-selection-clear-icon {
+  position: relative;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
 .div-img-selections:hover {
   opacity: 0.5;
+}
+
+.b-remove-image {
+  text-align: center;
+  line-height: 0px;
+  font-weight: bold;
+  margin-top: 15px;
+  cursor: pointer;
+  display: none;
 }
 
 /**

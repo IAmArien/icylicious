@@ -5,33 +5,91 @@
   try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_FILES["product_image_1"])) {
-        $target_dir = "uploads/";
-        $target_file = $target_dir.basename($_FILES["product_image_1"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $target_dir = "../uploads/";
+        $file_name = basename($_FILES["product_image_1"]["name"]);
+        $temp_path = $target_dir.$file_name;
+        $file_type = strtolower(pathinfo($temp_path, PATHINFO_EXTENSION));
+        $new_file_name = md5($file_name)."-".rand(0, 500).'.'.$file_type;
+        $target_file = $target_dir.$new_file_name;
         $file_exists = file_exists($target_file);
-        $uploaded = move_uploaded_file(
-          $_FILES['product_image_1']['tmp_name'],
-          $target_file
-        );
-        $response = [
-          'fileExists' => $file_exists,
-          'uploaded' => $uploaded,
-          'imageFileType' => $imageFileType,
-          'targetFile' => $target_file,
-          'name' => $_FILES['product_image_1']
-        ];
-        echo json_encode($response);
+        if ($file_exists) {
+          $response = [
+            'status' => 422,
+            'message' => 'File already exists'
+          ];
+          echo json_encode($response);
+        } else {
+          $uploaded = move_uploaded_file(
+            $_FILES['product_image_1']['tmp_name'],
+            $target_file
+          );
+          $response = [
+            'status' => 201,
+            'message' => 'File upload successful',
+            'file' => $target_file
+          ];
+          echo json_encode($response);
+        }
         unset($_SESSION['errors.type']);
         unset($_SESSION['errors.title']);
         unset($_SESSION['errors.message']);
       }
       if (isset($_FILES["product_image_2"])) {
+        $target_dir = "../uploads/";
+        $file_name = basename($_FILES["product_image_2"]["name"]);
+        $temp_path = $target_dir.$file_name;
+        $file_type = strtolower(pathinfo($temp_path, PATHINFO_EXTENSION));
+        $new_file_name = md5($file_name)."-".rand(0, 500).'.'.$file_type;
+        $target_file = $target_dir.$new_file_name;
+        $file_exists = file_exists($target_file);
+        if ($file_exists) {
+          $response = [
+            'status' => 422,
+            'message' => 'File already exists'
+          ];
+          echo json_encode($response);
+        } else {
+          $uploaded = move_uploaded_file(
+            $_FILES['product_image_2']['tmp_name'],
+            $target_file
+          );
+          $response = [
+            'status' => 201,
+            'message' => 'File upload successful',
+            'file' => $target_file
+          ];
+          echo json_encode($response);
+        }
         unset($_SESSION['errors.type']);
         unset($_SESSION['errors.title']);
         unset($_SESSION['errors.message']);
       }
       if (isset($_FILES["product_image_3"])) {
+        $target_dir = "../uploads/";
+        $file_name = basename($_FILES["product_image_3"]["name"]);
+        $temp_path = $target_dir.$file_name;
+        $file_type = strtolower(pathinfo($temp_path, PATHINFO_EXTENSION));
+        $new_file_name = md5($file_name)."-".rand(0, 500).'.'.$file_type;
+        $target_file = $target_dir.$new_file_name;
+        $file_exists = file_exists($target_file);
+        if ($file_exists) {
+          $response = [
+            'status' => 422,
+            'message' => 'File already exists'
+          ];
+          echo json_encode($response);
+        } else {
+          $uploaded = move_uploaded_file(
+            $_FILES['product_image_3']['tmp_name'],
+            $target_file
+          );
+          $response = [
+            'status' => 201,
+            'message' => 'File upload successful',
+            'file' => $target_file
+          ];
+          echo json_encode($response);
+        }
         unset($_SESSION['errors.type']);
         unset($_SESSION['errors.title']);
         unset($_SESSION['errors.message']);

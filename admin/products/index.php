@@ -245,6 +245,9 @@
               <p class="sans-regular">Fill up all the fields in this form to add a new Product.</p>
               <div class="row">
                 <div class="col-lg-4">
+                  <input id="an-fpi" type="hidden" name="first_product_image" />
+                  <input id="an-spi" type="hidden" name="second_product_image" />
+                  <input id="an-tpi" type="hidden" name="third_product_image" />
                   <input type="file" id="addImage1" accept="image/*" name="product_image_1" style="display: none;" />
                   <input type="file" id="addImage2" accept="image/*" name="product_image_2" style="display: none;" />
                   <input type="file" id="addImage3" accept="image/*" name="product_image_3" style="display: none;" />
@@ -254,21 +257,27 @@
                   <div class="row" style="margin-top: 15px;">
                     <div class="col-lg-4">
                       <div id="div-add-image-1" class="div-img-selections sans-regular color-super-light-grey size-10">
-                        <i class="fas fa-plus-circle size-15"></i>
-                        Add Image
+                        <img id="img-selection-1" src="../../assets/images/initial_logo.jpg" class="img-selection-placeholder" style="display: none;" />
+                        <i id="i-add-image-1" class="fas fa-plus-circle size-15"></i>
+                        <b id="b-add-image-1">Add Image</b>
                       </div>
+                      <p id="p-remove-image-1" class="b-remove-image color-super-light-grey size-10">Remove</p>
                     </div>
                     <div class="col-lg-4">
                       <div id="div-add-image-2" class="div-img-selections sans-regular color-super-light-grey size-10">
-                        <i class="fas fa-plus-circle size-15"></i>
-                        Add Image
+                        <img id="img-selection-2" src="../../assets/images/initial_logo.jpg" class="img-selection-placeholder" style="display: none;" />
+                        <i id="i-add-image-2" class="fas fa-plus-circle size-15"></i>
+                        <b id="b-add-image-2">Add Image</b>
                       </div>
+                      <p id="p-remove-image-2" class="b-remove-image color-super-light-grey size-10">Remove</p>
                     </div>
                     <div class="col-lg-4">
                       <div id="div-add-image-3" class="div-img-selections sans-regular color-super-light-grey size-10">
-                        <i class="fas fa-plus-circle size-15"></i>
-                        Add Image
+                        <img id="img-selection-3" src="../../assets/images/initial_logo.jpg" class="img-selection-placeholder" style="display: none;" />
+                        <i id="i-add-image-3" class="fas fa-plus-circle size-15"></i>
+                        <b id="b-add-image-3">Add Image</b>
                       </div>
+                      <p id="p-remove-image-3" class="b-remove-image color-super-light-grey size-10">Remove</p>
                     </div>
                   </div>
                 </div>
@@ -350,7 +359,6 @@
                           type="number" 
                           placeholder="(Your new price, eg. ₱199.00)"
                           name="promotion_price" 
-                          required 
                           class="sans-regular"
                           style="margin-top: 10px;"
                         >
@@ -368,7 +376,6 @@
                             type="number" 
                             placeholder="(eg. Buy 1)"
                             name="buy_x" 
-                            required 
                             class="sans-regular"
                             style="margin-top: 10px;"
                           >
@@ -379,7 +386,6 @@
                             type="number" 
                             placeholder="(eg. Take 1)"
                             name="take_x" 
-                            required 
                             class="sans-regular"
                             style="margin-top: 10px;"
                           >
@@ -451,19 +457,28 @@
       if (this.value === 'discounted') {
         $('#div-promotion-price').css('display', 'block');
         $('#div-buy-x-take-x').css('display', 'none');
+        $('#promotion_price').attr('required', 'required');
+        $('#buy_x').removeAttr('required');
+        $('#take_x').removeAttr('required');
       } else if (this.value === 'buy_x_take_x') {
         $('#div-promotion-price').css('display', 'none');
         $('#div-buy-x-take-x').css('display', 'flex');
+        $('#promotion_price').removeAttr('required');
+        $('#buy_x').attr('required', 'required');
+        $('#take_x').attr('required', 'required');
       } else {
         $('#div-promotion-price').css('display', 'none');
         $('#div-buy-x-take-x').css('display', 'none');
+        $('#promotion_price').removeAttr('required');
+        $('#buy_x').removeAttr('required');
+        $('#take_x').removeAttr('required');
       }
     });
     $('input[type=file][name=product_image_1]').change(function(event) {
-      console.log('path: ', this.files[0]);
-      const form_data = new FormData();                  
-      form_data.append('product_image_1', this.files[0]);                       
-      $.ajax({
+      if (this.files.length > 0) {
+        const form_data = new FormData();                  
+        form_data.append('product_image_1', this.files[0]);                       
+        $.ajax({
           url: '../actions/add_product_image.php',
           cache: false,
           contentType: false,
@@ -471,32 +486,240 @@
           data: form_data,
           method: 'post',
           type: 'post',
-          success: function(response){
-            console.log(response);
+          success: (response) => {
+            if (response.status === 201) {
+              // display image in large placeholder
+              $('#img-placeholder').attr('src', response.file);
+              $('#img-placeholder').css('display', 'block');
+              // display image in small placeholder
+              $('#img-selection-1').attr('src', response.file);
+              $('#img-selection-1').css('display', 'block');
+              // remove plus and "Add Image" label
+              $('#i-add-image-1').css('display', 'none');
+              $('#b-add-image-1').css('display', 'none');
+              // store to input field for API call
+              $('#an-fpi').val(response.file);
+              // display remove image label
+              $('#p-remove-image-1').css('display', 'block');
+            } else {
+              // remove image in large placeholder
+              $('#img-placeholder').attr('src', '');
+              $('#img-placeholder').css('display', 'none');
+              // remove image in small placeholder
+              $('#img-selection-1').attr('src', '');
+              $('#img-selection-1').css('display', 'none');
+              // display plus and "Add Image" label
+              $('#i-add-image-1').css('display', 'block');
+              $('#b-add-image-1').css('display', 'block');
+              // remove stored input field
+              $('#an-fpi').val('');
+              // hide remove image label
+              $('#p-remove-image-1').css('display', 'none');
+            }
           },
-          error: function(error){
-            console.log(error);
+          error: (error) => {
+            // remove image in large placeholder
+            $('#img-placeholder').attr('src', '');
+            $('#img-placeholder').css('display', 'none');
+            // remove image in small placeholder
+            $('#img-selection-1').attr('src', '');
+            $('#img-selection-1').css('display', 'none');
+            // display plus and "Add Image" label
+            $('#i-add-image-1').css('display', 'block');
+            $('#b-add-image-1').css('display', 'block');
+            // remove stored input field
+            $('#an-fpi').val('');
+            // hide remove image label
+            $('#p-remove-image-1').css('display', 'none');
           }
-      });
-      //$('#img-placeholder').attr('src', this.value);
-      //$('#img-placeholder').css('display', 'block');
+        });
+      }
     });
     $('input[type=file][name=product_image_2]').change(function() {
-      console.log(this.value);
+      if (this.files.length > 0) {
+        const form_data = new FormData();                  
+        form_data.append('product_image_2', this.files[0]);                       
+        $.ajax({
+          url: '../actions/add_product_image.php',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_data,
+          method: 'post',
+          type: 'post',
+          success: (response) => {
+            if (response.status === 201) {
+              // display image in large placeholder
+              $('#img-placeholder').attr('src', response.file);
+              $('#img-placeholder').css('display', 'block');
+              // display image in small placeholder
+              $('#img-selection-2').attr('src', response.file);
+              $('#img-selection-2').css('display', 'block');
+              // remove plus and "Add Image" label
+              $('#i-add-image-2').css('display', 'none');
+              $('#b-add-image-2').css('display', 'none');
+              // store to input field for API call
+              $('#an-spi').val(response.file);
+              // display remove image label
+              $('#p-remove-image-2').css('display', 'block');
+            } else {
+              // remove image in large placeholder
+              $('#img-placeholder').attr('src', '');
+              $('#img-placeholder').css('display', 'none');
+              // remove image in small placeholder
+              $('#img-selection-2').attr('src', '');
+              $('#img-selection-2').css('display', 'none');
+              // display plus and "Add Image" label
+              $('#i-add-image-2').css('display', 'block');
+              $('#b-add-image-2').css('display', 'block');
+              // remove stored input field
+              $('#an-spi').val('');
+              // hide remove image label
+              $('#p-remove-image-2').css('display', 'none');
+            }
+          },
+          error: (error) => {
+            // remove image in large placeholder
+            $('#img-placeholder').attr('src', '');
+            $('#img-placeholder').css('display', 'none');
+            // remove image in small placeholder
+            $('#img-selection-2').attr('src', '');
+            $('#img-selection-2').css('display', 'none');
+            // display plus and "Add Image" label
+            $('#i-add-image-2').css('display', 'block');
+            $('#b-add-image-2').css('display', 'block');
+            // remove stored input field
+            $('#an-spi').val('');
+            // hide remove image label
+            $('#p-remove-image-2').css('display', 'none');
+          }
+        });
+      }
     });
     $('input[type=file][name=product_image_3]').change(function() {
-      console.log(this.value);
+      if (this.files.length > 0) {
+        const form_data = new FormData();                  
+        form_data.append('product_image_3', this.files[0]);                       
+        $.ajax({
+          url: '../actions/add_product_image.php',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_data,
+          method: 'post',
+          type: 'post',
+          success: (response) => {
+            if (response.status === 201) {
+              // display image in large placeholder
+              $('#img-placeholder').attr('src', response.file);
+              $('#img-placeholder').css('display', 'block');
+              // display image in small placeholder
+              $('#img-selection-3').attr('src', response.file);
+              $('#img-selection-3').css('display', 'block');
+              // remove plus and "Add Image" label
+              $('#i-add-image-3').css('display', 'none');
+              $('#b-add-image-3').css('display', 'none');
+              // store to input field for API call
+              $('#an-tpi').val(response.file);
+              // display remove image label
+              $('#p-remove-image-3').css('display', 'block');
+            } else {
+              // remove image in large placeholder
+              $('#img-placeholder').attr('src', '');
+              $('#img-placeholder').css('display', 'none');
+              // remove image in small placeholder
+              $('#img-selection-3').attr('src', '');
+              $('#img-selection-3').css('display', 'none');
+              // display plus and "Add Image" label
+              $('#i-add-image-3').css('display', 'block');
+              $('#b-add-image-3').css('display', 'block');
+              // remove stored input field
+              $('#an-tpi').val('');
+              // hide remove image label
+              $('#p-remove-image-3').css('display', 'none');
+            }
+          },
+          error: (error) => {
+            // remove image in large placeholder
+            $('#img-placeholder').attr('src', '');
+            $('#img-placeholder').css('display', 'none');
+            // remove image in small placeholder
+            $('#img-selection-3').attr('src', '');
+            $('#img-selection-3').css('display', 'none');
+            // display plus and "Add Image" label
+            $('#i-add-image-3').css('display', 'block');
+            $('#b-add-image-3').css('display', 'block');
+            // remove stored input field
+            $('#an-tpi').val('');
+            // hide remove image label
+            $('#p-remove-image-3').css('display', 'none');
+          }
+        });
+      }
     });
-    $('#div-add-image-1').click(() => {
-      $('#addImage1').trigger('click');
+    $('#div-add-image-1').click(() => { $('#addImage1').trigger('click'); });
+    $('#div-add-image-2').click(() => { $('#addImage2').trigger('click'); });
+    $('#div-add-image-3').click(() => { $('#addImage3').trigger('click'); });
+    $('#p-remove-image-1').click(() => {
+      // remove image in small placeholder
+      $('#img-selection-1').attr('src', '');
+      $('#img-selection-1').css('display', 'none');
+      // display plus and "Add Image" label
+      $('#i-add-image-1').css('display', 'block');
+      $('#b-add-image-1').css('display', 'block');
+      // remove stored input field
+      $('#an-fpi').val('');
+      // hide remove image label
+      $('#p-remove-image-1').css('display', 'none');
+      const fpi = $('#an-fpi').val();
+      const spi = $('#an-spi').val();
+      const tpi = $('#an-tpi').val();
+      if (fpi === '' && spi === '' && tpi === '') {
+        // remove image in large placeholder
+        $('#img-placeholder').attr('src', '');
+        $('#img-placeholder').css('display', 'none');
+      }
     });
-    $('#div-add-image-2').click(() => {
-      $('#addImage2').trigger('click');
+    $('#p-remove-image-2').click(() => {
+      // remove image in small placeholder
+      $('#img-selection-2').attr('src', '');
+      $('#img-selection-2').css('display', 'none');
+      // display plus and "Add Image" label
+      $('#i-add-image-2').css('display', 'block');
+      $('#b-add-image-2').css('display', 'block');
+      // remove stored input field
+      $('#an-spi').val('');
+      // hide remove image label
+      $('#p-remove-image-2').css('display', 'none');
+      const fpi = $('#an-fpi').val();
+      const spi = $('#an-spi').val();
+      const tpi = $('#an-tpi').val();
+      if (fpi === '' && spi === '' && tpi === '') {
+        // remove image in large placeholder
+        $('#img-placeholder').attr('src', '');
+        $('#img-placeholder').css('display', 'none');
+      }
     });
-    $('#div-add-image-3').click(() => {
-      $('#addImage3').trigger('click');
+    $('#p-remove-image-3').click(() => {
+      // remove image in small placeholder
+      $('#img-selection-3').attr('src', '');
+      $('#img-selection-3').css('display', 'none');
+      // display plus and "Add Image" label
+      $('#i-add-image-3').css('display', 'block');
+      $('#b-add-image-3').css('display', 'block');
+      // remove stored input field
+      $('#an-tpi').val('');
+      // hide remove image label
+      $('#p-remove-image-3').css('display', 'none');
+      const fpi = $('#an-fpi').val();
+      const spi = $('#an-spi').val();
+      const tpi = $('#an-tpi').val();
+      if (fpi === '' && spi === '' && tpi === '') {
+        // remove image in large placeholder
+        $('#img-placeholder').attr('src', '');
+        $('#img-placeholder').css('display', 'none');
+      }
     });
-
   </script>
   <script type="text/javascript">
     const onDeleteUser = (email) => {
