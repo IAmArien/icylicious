@@ -10,10 +10,13 @@
   --super-light-grey: #5d5d5d;
   --yellow: #ffca26;
   --white: #ffffff;
+  --light-white: #ececec;
+  --disabled-color: #848383;
+  --light-blue: #2392f4;
 }
 
 body {
-  background-color: var(--dark-grey);
+  background-color: var(--white);
 }
 
 /**
@@ -23,7 +26,7 @@ SIDE BAR CSS
 **/
 .sidebar-container {
   background-color: var(--light-grey);
-  width: 300px;
+  width: 275px;
   height: 100%;
   position: fixed;
   display: flex;
@@ -31,7 +34,7 @@ SIDE BAR CSS
 }
 
 .navbar-fixed-top {
-  background-color: var(--super-light-grey) !important;
+  background-color: var(--light-grey) !important;
 }
 
 .div-tm-title {
@@ -57,16 +60,16 @@ SIDE BAR CSS
   align-items: center;
   gap: 15px;
   padding-inline: 15px;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .h6-title-name {
-  font-size: 15pt;
+  font-size: 13pt;
   margin-bottom: 0px !important;
 }
 
 .p-title-email {
-  font-size: 10pt;
+  font-size: 9pt;
   line-height: 0px;
   margin-top: 10px;
 }
@@ -87,10 +90,19 @@ SIDE BAR CSS
   gap: 10px;
 }
 
+.div-siderbar-profile-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--super-light-grey);
+  padding-inline: 15px;
+  padding-block: 7px;
+  gap: 10px;
+}
+
 .btn-menu {
   text-align: left;
-  padding-top: 13px !important;
-  padding-bottom: 13px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }
 
 .btn-menu-selected:hover {
@@ -129,19 +141,23 @@ CONTENT CSS
 ====================================================================================
 **/
 .content {
-  padding-left: 300px;
+  padding-left: 275px;
+}
+
+.a-navbar-path {
+  font-size: 12pt;
 }
 
 .a-navbar-path:hover {
-  color: var(--white) !important;
+  color: var(--dark-grey) !important;
 }
 
 .a-navbar-path:active {
-  color: var(--white) !important;
+  color: var(--dark-grey) !important;
 }
 
 .a-navbar-path:focus {
-  color: var(--white) !important;
+  color: var(--dark-grey) !important;
 }
 
 .btn-profile:hover {
@@ -170,5 +186,139 @@ CONTENT CSS
 /**
 ====================================================================================
 CONTENT CSS
+====================================================================================
+**/
+
+/**
+====================================================================================
+CONTENT WRAPPER CSS
+====================================================================================
+**/
+.content-wrapper {
+  padding-inline: 30px;
+  padding-block: 30px;
+}
+
+.div-content-title {
+  display: flex;
+}
+
+.div-content-title-labels {
+  flex: 1;
+}
+
+.dt-length, .dt-search, .dt-info {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: 10pt;
+  font-style: normal;
+}
+
+.btn-regular-outline:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-regular-outline:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+/**
+OUTLINE PRIMARY
+*/
+.btn-outline-primary {
+  border-color: var(--dark-grey) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+/**
+OUTLINE PRIMARY
+*/
+
+.btn-primary, .btn-danger {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: var(--light-white);
+  color: var(--dark-grey) !important;
+}
+
+.is_readonly {
+  color: var(--disabled-color) !important;
+}
+
+.gender-select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: var(--light-white);
+  color: var(--dark-grey) !important;
+}
+
+td {
+  font-size: 10pt;
+}
+
+th {
+  font-size: 10pt;
+}
+
+.active>.page-link, .page-link.active {
+  background-color: var(--light-blue) !important;
+  border-color: var(--light-blue) !important;
+}
+
+.badge-enabled {
+  background-color: #28a745;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-disabled {
+  background-color: #dc3545;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+/**
+====================================================================================
+CONTENT WRAPPER CSS
 ====================================================================================
 **/
