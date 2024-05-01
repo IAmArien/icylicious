@@ -239,7 +239,7 @@
                           <td>
                             <button
                               data-bs-toggle="modal"
-                              data-bs-target="#staticEditCategory"
+                              data-bs-target="#staticEditProduct"
                               class="btn btn-outline-primary btn-sm 
                                 sans-400 
                                 color-white"
@@ -247,6 +247,9 @@
                               <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                             <button
+                              onclick="onDeleteProduct(
+                                '."'".$product_id."',".'
+                              )"
                               class="btn btn-outline-primary btn-sm 
                                 sans-400 
                                 color-white"
@@ -267,26 +270,26 @@
     </div>
     <div
       class="modal fade" 
-      id="staticDeleteUser" 
+      id="staticDeleteProduct" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
       tabindex="-1" 
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
       <div class="modal-dialog modal-md modal-dialog-centered">
-        <form action="../actions/delete_user.php" method="POST">
-          <input id="delete-ue" type="hidden" name="email" />
+        <form action="../actions/delete_product.php" method="POST">
+          <input id="delete-pid" type="hidden" name="product_id" />
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Delete This User?</h1>
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Delete This Product?</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p class="sans-regular size-14">Are you sure you want to delete this user?. It cannot be undone.</p>
+              <p class="sans-regular size-14">Are you sure you want to delete this product?. It cannot be undone.</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary sans-600">Delete Account</button>
+              <button type="submit" class="btn btn-primary sans-600">Delete Product</button>
             </div>
           </div>
         </form>
@@ -473,6 +476,199 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary sans-600">Add Product</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticEditProduct" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <form action="../actions/update_product.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Edit Product</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular">Fill up all the fields in this form to update this Product.</p>
+              <div class="row">
+                <div class="col-lg-4">
+                  <input id="ed-fpi" type="hidden" name="first_product_image" />
+                  <input id="ed-spi" type="hidden" name="second_product_image" />
+                  <input id="ed-tpi" type="hidden" name="third_product_image" />
+                  <input type="file" id="addImage1" accept="image/*" name="product_image_1" style="display: none;" />
+                  <input type="file" id="addImage2" accept="image/*" name="product_image_2" style="display: none;" />
+                  <input type="file" id="addImage3" accept="image/*" name="product_image_3" style="display: none;" />
+                  <div class="div-img-placeholder">
+                    <img id="ed-mg-placeholder" src="../../assets/images/initial_logo.jpg" class="img-placeholder" style="display: none;" />
+                  </div>
+                  <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-4">
+                      <div id="ed-div-add-image-1" class="div-img-selections sans-regular color-super-light-grey size-10">
+                        <img id="ed-img-selection-1" src="../../assets/images/initial_logo.jpg" class="img-selection-placeholder" style="display: none;" />
+                        <i id="ed-i-add-image-1" class="fas fa-plus-circle size-15"></i>
+                        <b id="ed-b-add-image-1">Add Image</b>
+                      </div>
+                      <p id="ed-p-remove-image-1" class="b-remove-image color-super-light-grey size-10">Remove</p>
+                    </div>
+                    <div class="col-lg-4">
+                      <div id="ed-div-add-image-2" class="div-img-selections sans-regular color-super-light-grey size-10">
+                        <img id="ed-img-selection-2" src="../../assets/images/initial_logo.jpg" class="img-selection-placeholder" style="display: none;" />
+                        <i id="ed-i-add-image-2" class="fas fa-plus-circle size-15"></i>
+                        <b id="ed-b-add-image-2">Add Image</b>
+                      </div>
+                      <p id="ed-p-remove-image-2" class="b-remove-image color-super-light-grey size-10">Remove</p>
+                    </div>
+                    <div class="col-lg-4">
+                      <div id="ed-div-add-image-3" class="div-img-selections sans-regular color-super-light-grey size-10">
+                        <img id="ed-img-selection-3" src="../../assets/images/initial_logo.jpg" class="img-selection-placeholder" style="display: none;" />
+                        <i id="ed-i-add-image-3" class="fas fa-plus-circle size-15"></i>
+                        <b id="ed-b-add-image-3">Add Image</b>
+                      </div>
+                      <p id="ed-p-remove-image-3" class="b-remove-image color-super-light-grey size-10">Remove</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-8">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label for="product_name" class="sans-600">Product (Name)</label>
+                      <input 
+                        id="ed-product_name" 
+                        type="text" 
+                        placeholder="(eg. Iced Caramel Macchiato)" 
+                        name="product_name" 
+                        required 
+                        class="sans-regular"
+                        style="margin-top: 7px;"
+                      >
+                      <label for="product_description" class="sans-600" style="margin-top: 10px;">Product (Description)</label>
+                      <textarea
+                        id="ed-product_description"
+                        name="product_description" 
+                        class="sans-regular" 
+                        rows="8" 
+                        required 
+                        style="margin-top: 7px;">
+                      </textarea>
+                      <label for="product_category" class="sans-600" style="margin-top: 10px;">Product (Category)</label>
+                      <select class="form-select category-select" id="ed-product_category" name="product_category" required style="margin-top: 7px;">
+                        <?php
+                          $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $counter = 1;
+                            while ($row = $result->fetch_assoc()) {
+                              $category_id = $row['id'];
+                              $category_name = $row['category_name'];
+                              if ($counter == 1) {
+                                echo '<option selected value="'.$category_id.'">'.$category_name.'</option>';
+                              } else {
+                                echo '<option value="'.$category_id.'">'.$category_name.'</option>';
+                              }
+                              $counter += 1;
+                            }
+                          }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="col-lg-6">
+                      <label for="product_variants" class="sans-600">Product (Variant)</label>
+                      <select class="form-select category-select" id="ed-product_variants" name="product_variants" required style="margin-top: 7px;">
+                        <?php
+                          $fetch_query = "SELECT * FROM variants WHERE is_enabled = 1 ORDER BY variant_type ASC";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $counter = 1;
+                            while ($row = $result->fetch_assoc()) {
+                              $variant_id = $row['id'];
+                              $variant_name = $row['variant_name'];
+                              if ($counter == 1) {
+                                echo '<option selected value="'.$variant_id.'">'.$variant_name.'</option>';
+                              } else {
+                                echo '<option value="'.$variant_id.'">'.$variant_name.'</option>';
+                              }
+                              $counter += 1;
+                            }
+                          }
+                        ?>
+                      </select>
+                      <label for="product_price" class="sans-600" style="margin-top: 10px;">Product (Price)</label>
+                      <input 
+                        id="ed-product_price" 
+                        type="number" 
+                        placeholder="(eg. ₱249.00)"
+                        name="product_price" 
+                        required 
+                        class="sans-regular"
+                        style="margin-top: 7px;"
+                      >
+                      <label for="product_price" class="sans-600" style="margin-top: 12px;">Promotions</label>
+                      <div class="form-check" style="margin-top: 10px;">
+                        <input class="form-check-input" type="radio" name="promotion" value="discounted" id="discountedRadio">
+                        <label class="form-check-label sans-regular" for="discountedRadio" style="padding-left: 10px; padding-top: 5px;">
+                          Discounted?
+                        </label>
+                      </div>
+                      <div id="ed-div-promotion-price" style="display: none;">
+                        <input 
+                          id="ed-promotion_price" 
+                          type="number" 
+                          placeholder="(Your new price, eg. ₱199.00)"
+                          name="promotion_price" 
+                          class="sans-regular"
+                          style="margin-top: 10px;"
+                        >
+                      </div>
+                      <div class="form-check" style="margin-top: 10px;">
+                        <input class="form-check-input" type="radio" name="promotion" value="buy_x_take_x" id="buyXtakeXRadio">
+                        <label class="form-check-label sans-regular" for="buyXtakeXRadio" style="padding-left: 10px; padding-top: 5px;">
+                          Buy (x) Take (x)?
+                        </label>
+                      </div>
+                      <div id="ed-div-buy-x-take-x" style="display: none; gap: 6px;">
+                        <div style="flex: 1;">
+                          <input 
+                            id="ed-buy_x" 
+                            type="number" 
+                            placeholder="(eg. Buy 1)"
+                            name="buy_x" 
+                            class="sans-regular"
+                            style="margin-top: 10px;"
+                          >
+                        </div>
+                        <div style="flex: 1;">
+                          <input 
+                            id="ed-take_x" 
+                            type="number" 
+                            placeholder="(eg. Take 1)"
+                            name="take_x" 
+                            class="sans-regular"
+                            style="margin-top: 10px;"
+                          >
+                        </div>
+                      </div>
+                      <div class="form-check" style="margin-top: 10px;">
+                        <input class="form-check-input" type="radio" name="promotion" value="none" id="nonRadio" checked>
+                        <label class="form-check-label sans-regular" for="nonRadio" style="padding-left: 10px; padding-top: 5px;">
+                          None
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Update Product</button>
             </div>
           </div>
         </form>
@@ -790,9 +986,9 @@
     });
   </script>
   <script type="text/javascript">
-    const onDeleteUser = (email) => {
-      $('#staticDeleteUser').modal('show');
-      $('#delete-ue').val(email);
+    const onDeleteProduct = (product_id) => {
+      $('#staticDeleteProduct').modal('show');
+      $('#delete-pid').val(product_id);
     }
     const onEditUser = (
       user_id,
