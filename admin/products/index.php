@@ -199,9 +199,17 @@
                       $product_name = $row['product_name'];
                       $product_description = $row['product_description'];
                       $product_category = "";
+                      $product_category_id = 0;
                       $product_variant = "";
+                      $product_variant_id = 0;
+                      $product_variant_price = 0;
+                      $promotional_price = 0;
+                      $is_buy_x_take_x = -1;
+                      $buy_x_of = 0;
+                      $take_x_of = 0;
+                      $product_images = array();
                       // fetch categories
-                      $fetch_query = "SELECT PC.category_id, CTG.category_name, CTG.category_description 
+                      $fetch_query = "SELECT PC.category_id, CTG.category_name, CTG.category_description, CTG.id 
                         FROM products_categories AS PC 
                         INNER JOIN categories AS CTG ON
                         PC.category_id = CTG.id 
@@ -210,9 +218,10 @@
                       if ($cat_result->num_rows > 0) {
                         $cat_row = $cat_result->fetch_assoc();
                         $product_category = $cat_row['category_name'];
+                        $product_category_id = $cat_row['id'];
                       }
                       // fetch variants and prices
-                      $fetch_query = "SELECT PP.variant_id, PP.variant_price, VT.variant_name, VT.variant_description 
+                      $fetch_query = "SELECT PP.variant_id, PP.variant_price, VT.variant_name, VT.variant_description, VT.id 
                         FROM products_prices AS PP 
                         INNER JOIN variants AS VT ON
                         PP.variant_id = VT.id 
@@ -220,8 +229,32 @@
                       $var_result = $conn->query($fetch_query);
                       if ($var_result->num_rows > 0) {
                         $var_row = $var_result->fetch_assoc();
+                        $product_variant_id = $var_row['id'];
+                        $product_variant_price = $var_row['variant_price'];
                         $product_variant = $var_row['variant_name'];
                       }
+                      // fetch promotions
+                      $fetch_query = "SELECT PM.product_id, PM.promotional_price, PM.is_buy_x_take_x, PM.buy_x_of, PM.take_x_of 
+                        FROM PROMOTIONS AS PM 
+                        WHERE PM.product_id = ".$product_id."";
+                      $prom_result = $conn->query($fetch_query);
+                      if ($prom_result->num_rows > 0) {
+                        $prom_row = $prom_result->fetch_assoc();
+                        $promotional_price = $prom_row['promotional_price'];
+                        $is_buy_x_take_x = $prom_row['is_buy_x_take_x'];
+                        $buy_x_of = $prom_row['buy_x_of'];
+                        $take_x_of = $prom_row['take_x_of'];
+                      }
+                      // fetch product images
+                      $fetch_query = "SELECT product_images FROM products_images WHERE product_id = ".$product_id."";
+                      $img_result = $conn->query($fetch_query);
+                      if ($img_result->num_rows > 0) {
+                        while ($img_row = $img_result->fetch_assoc()) {
+                          $image = $img_row['product_images'];
+                          array_push($product_images, $image);
+                        }
+                      }
+                      $final_prod_images = implode(',', $product_images);
                       echo '
                         <tr>
                           <td class="sans-600">
@@ -238,8 +271,19 @@
                           </td>
                           <td>
                             <button
-                              data-bs-toggle="modal"
-                              data-bs-target="#staticEditProduct"
+                              onclick="onEditProduct(
+                                '."'".$product_id."',".'
+                                '."'".$product_name."',".'
+                                '."'".$product_description."',".'
+                                '."'".$product_category_id."',".'
+                                '."'".$product_variant_id."',".'
+                                '."'".$product_variant_price."',".'
+                                '."'".$promotional_price."',".'
+                                '."'".$is_buy_x_take_x."',".'
+                                '."'".$buy_x_of."',".'
+                                '."'".$take_x_of."',".'
+                                '."'".$final_prod_images."'".'
+                              )"
                               class="btn btn-outline-primary btn-sm 
                                 sans-400 
                                 color-white"
@@ -248,7 +292,7 @@
                             </button>
                             <button
                               onclick="onDeleteProduct(
-                                '."'".$product_id."',".'
+                                '."'".$product_id."'".'
                               )"
                               class="btn btn-outline-primary btn-sm 
                                 sans-400 
@@ -497,17 +541,18 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <input id="ed-product_id" type="hidden" name="ed-product_id" />
               <p class="sans-regular">Fill up all the fields in this form to update this Product.</p>
               <div class="row">
                 <div class="col-lg-4">
-                  <input id="ed-fpi" type="hidden" name="first_product_image" />
-                  <input id="ed-spi" type="hidden" name="second_product_image" />
-                  <input id="ed-tpi" type="hidden" name="third_product_image" />
+                  <input id="ed-an-fpi" type="hidden" name="first_product_image" />
+                  <input id="ed-an-spi" type="hidden" name="second_product_image" />
+                  <input id="ed-an-tpi" type="hidden" name="third_product_image" />
                   <input type="file" id="ed-addImage1" accept="image/*" name="ed-product_image_1" style="display: none;" />
                   <input type="file" id="ed-addImage2" accept="image/*" name="ed-product_image_2" style="display: none;" />
                   <input type="file" id="ed-addImage3" accept="image/*" name="ed-product_image_3" style="display: none;" />
                   <div class="div-img-placeholder">
-                    <img id="ed-mg-placeholder" src="../../assets/images/initial_logo.jpg" class="img-placeholder" style="display: none;" />
+                    <img id="ed-img-placeholder" src="../../assets/images/initial_logo.jpg" class="img-placeholder" style="display: none;" />
                   </div>
                   <div class="row" style="margin-top: 15px;">
                     <div class="col-lg-4">
@@ -556,8 +601,7 @@
                         class="sans-regular" 
                         rows="8" 
                         required 
-                        style="margin-top: 7px;">
-                      </textarea>
+                        style="margin-top: 7px;"></textarea>
                       <label for="ed-product_category" class="sans-600" style="margin-top: 10px;">Product (Category)</label>
                       <select class="form-select category-select" id="ed-product_category" name="ed-product_category" required style="margin-top: 7px;">
                         <?php
@@ -613,7 +657,7 @@
                       <label for="ed-promotion" class="sans-600" style="margin-top: 12px;">Promotions</label>
                       <div class="form-check" style="margin-top: 10px;">
                         <input class="form-check-input" type="radio" name="ed-promotion" value="discounted" id="ed-discountedRadio">
-                        <label class="form-check-label sans-regular" for="discountedRadio" style="padding-left: 10px; padding-top: 5px;">
+                        <label class="form-check-label sans-regular" for="ed-discountedRadio" style="padding-left: 10px; padding-top: 5px;">
                           Discounted?
                         </label>
                       </div>
@@ -716,299 +760,164 @@
       });
     });
   </script>
-  <script type="text/javascript">
-    $('input[type=radio][name=promotion]').change(function() {
-      if (this.value === 'discounted') {
-        $('#div-promotion-price').css('display', 'block');
-        $('#div-buy-x-take-x').css('display', 'none');
-        $('#promotion_price').attr('required', 'required');
-        $('#buy_x').removeAttr('required');
-        $('#take_x').removeAttr('required');
-      } else if (this.value === 'buy_x_take_x') {
-        $('#div-promotion-price').css('display', 'none');
-        $('#div-buy-x-take-x').css('display', 'flex');
-        $('#promotion_price').removeAttr('required');
-        $('#buy_x').attr('required', 'required');
-        $('#take_x').attr('required', 'required');
-      } else {
-        $('#div-promotion-price').css('display', 'none');
-        $('#div-buy-x-take-x').css('display', 'none');
-        $('#promotion_price').removeAttr('required');
-        $('#buy_x').removeAttr('required');
-        $('#take_x').removeAttr('required');
-      }
-    });
-    $('input[type=file][name=product_image_1]').change(function(event) {
-      if (this.files.length > 0) {
-        const form_data = new FormData();                  
-        form_data.append('product_image_1', this.files[0]);                       
-        $.ajax({
-          url: '../actions/add_product_image.php',
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: form_data,
-          method: 'post',
-          type: 'post',
-          success: (response) => {
-            if (response.status === 201) {
-              // display image in large placeholder
-              $('#img-placeholder').attr('src', response.file);
-              $('#img-placeholder').css('display', 'block');
-              // display image in small placeholder
-              $('#img-selection-1').attr('src', response.file);
-              $('#img-selection-1').css('display', 'block');
-              // remove plus and "Add Image" label
-              $('#i-add-image-1').css('display', 'none');
-              $('#b-add-image-1').css('display', 'none');
-              // store to input field for API call
-              $('#an-fpi').val(response.file);
-              // display remove image label
-              $('#p-remove-image-1').css('display', 'block');
-            } else {
-              // remove image in large placeholder
-              $('#img-placeholder').attr('src', '');
-              $('#img-placeholder').css('display', 'none');
-              // remove image in small placeholder
-              $('#img-selection-1').attr('src', '');
-              $('#img-selection-1').css('display', 'none');
-              // display plus and "Add Image" label
-              $('#i-add-image-1').css('display', 'block');
-              $('#b-add-image-1').css('display', 'block');
-              // remove stored input field
-              $('#an-fpi').val('');
-              // hide remove image label
-              $('#p-remove-image-1').css('display', 'none');
-            }
-          },
-          error: (error) => {
-            // remove image in large placeholder
-            $('#img-placeholder').attr('src', '');
-            $('#img-placeholder').css('display', 'none');
-            // remove image in small placeholder
-            $('#img-selection-1').attr('src', '');
-            $('#img-selection-1').css('display', 'none');
-            // display plus and "Add Image" label
-            $('#i-add-image-1').css('display', 'block');
-            $('#b-add-image-1').css('display', 'block');
-            // remove stored input field
-            $('#an-fpi').val('');
-            // hide remove image label
-            $('#p-remove-image-1').css('display', 'none');
-          }
-        });
-      }
-    });
-    $('input[type=file][name=product_image_2]').change(function() {
-      if (this.files.length > 0) {
-        const form_data = new FormData();                  
-        form_data.append('product_image_2', this.files[0]);                       
-        $.ajax({
-          url: '../actions/add_product_image.php',
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: form_data,
-          method: 'post',
-          type: 'post',
-          success: (response) => {
-            if (response.status === 201) {
-              // display image in large placeholder
-              $('#img-placeholder').attr('src', response.file);
-              $('#img-placeholder').css('display', 'block');
-              // display image in small placeholder
-              $('#img-selection-2').attr('src', response.file);
-              $('#img-selection-2').css('display', 'block');
-              // remove plus and "Add Image" label
-              $('#i-add-image-2').css('display', 'none');
-              $('#b-add-image-2').css('display', 'none');
-              // store to input field for API call
-              $('#an-spi').val(response.file);
-              // display remove image label
-              $('#p-remove-image-2').css('display', 'block');
-            } else {
-              // remove image in large placeholder
-              $('#img-placeholder').attr('src', '');
-              $('#img-placeholder').css('display', 'none');
-              // remove image in small placeholder
-              $('#img-selection-2').attr('src', '');
-              $('#img-selection-2').css('display', 'none');
-              // display plus and "Add Image" label
-              $('#i-add-image-2').css('display', 'block');
-              $('#b-add-image-2').css('display', 'block');
-              // remove stored input field
-              $('#an-spi').val('');
-              // hide remove image label
-              $('#p-remove-image-2').css('display', 'none');
-            }
-          },
-          error: (error) => {
-            // remove image in large placeholder
-            $('#img-placeholder').attr('src', '');
-            $('#img-placeholder').css('display', 'none');
-            // remove image in small placeholder
-            $('#img-selection-2').attr('src', '');
-            $('#img-selection-2').css('display', 'none');
-            // display plus and "Add Image" label
-            $('#i-add-image-2').css('display', 'block');
-            $('#b-add-image-2').css('display', 'block');
-            // remove stored input field
-            $('#an-spi').val('');
-            // hide remove image label
-            $('#p-remove-image-2').css('display', 'none');
-          }
-        });
-      }
-    });
-    $('input[type=file][name=product_image_3]').change(function() {
-      if (this.files.length > 0) {
-        const form_data = new FormData();                  
-        form_data.append('product_image_3', this.files[0]);                       
-        $.ajax({
-          url: '../actions/add_product_image.php',
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: form_data,
-          method: 'post',
-          type: 'post',
-          success: (response) => {
-            if (response.status === 201) {
-              // display image in large placeholder
-              $('#img-placeholder').attr('src', response.file);
-              $('#img-placeholder').css('display', 'block');
-              // display image in small placeholder
-              $('#img-selection-3').attr('src', response.file);
-              $('#img-selection-3').css('display', 'block');
-              // remove plus and "Add Image" label
-              $('#i-add-image-3').css('display', 'none');
-              $('#b-add-image-3').css('display', 'none');
-              // store to input field for API call
-              $('#an-tpi').val(response.file);
-              // display remove image label
-              $('#p-remove-image-3').css('display', 'block');
-            } else {
-              // remove image in large placeholder
-              $('#img-placeholder').attr('src', '');
-              $('#img-placeholder').css('display', 'none');
-              // remove image in small placeholder
-              $('#img-selection-3').attr('src', '');
-              $('#img-selection-3').css('display', 'none');
-              // display plus and "Add Image" label
-              $('#i-add-image-3').css('display', 'block');
-              $('#b-add-image-3').css('display', 'block');
-              // remove stored input field
-              $('#an-tpi').val('');
-              // hide remove image label
-              $('#p-remove-image-3').css('display', 'none');
-            }
-          },
-          error: (error) => {
-            // remove image in large placeholder
-            $('#img-placeholder').attr('src', '');
-            $('#img-placeholder').css('display', 'none');
-            // remove image in small placeholder
-            $('#img-selection-3').attr('src', '');
-            $('#img-selection-3').css('display', 'none');
-            // display plus and "Add Image" label
-            $('#i-add-image-3').css('display', 'block');
-            $('#b-add-image-3').css('display', 'block');
-            // remove stored input field
-            $('#an-tpi').val('');
-            // hide remove image label
-            $('#p-remove-image-3').css('display', 'none');
-          }
-        });
-      }
-    });
-    $('#div-add-image-1').click(() => { $('#addImage1').trigger('click'); });
-    $('#div-add-image-2').click(() => { $('#addImage2').trigger('click'); });
-    $('#div-add-image-3').click(() => { $('#addImage3').trigger('click'); });
-    $('#p-remove-image-1').click(() => {
-      // remove image in small placeholder
-      $('#img-selection-1').attr('src', '');
-      $('#img-selection-1').css('display', 'none');
-      // display plus and "Add Image" label
-      $('#i-add-image-1').css('display', 'block');
-      $('#b-add-image-1').css('display', 'block');
-      // remove stored input field
-      $('#an-fpi').val('');
-      // hide remove image label
-      $('#p-remove-image-1').css('display', 'none');
-      const fpi = $('#an-fpi').val();
-      const spi = $('#an-spi').val();
-      const tpi = $('#an-tpi').val();
-      if (fpi === '' && spi === '' && tpi === '') {
-        // remove image in large placeholder
-        $('#img-placeholder').attr('src', '');
-        $('#img-placeholder').css('display', 'none');
-      }
-    });
-    $('#p-remove-image-2').click(() => {
-      // remove image in small placeholder
-      $('#img-selection-2').attr('src', '');
-      $('#img-selection-2').css('display', 'none');
-      // display plus and "Add Image" label
-      $('#i-add-image-2').css('display', 'block');
-      $('#b-add-image-2').css('display', 'block');
-      // remove stored input field
-      $('#an-spi').val('');
-      // hide remove image label
-      $('#p-remove-image-2').css('display', 'none');
-      const fpi = $('#an-fpi').val();
-      const spi = $('#an-spi').val();
-      const tpi = $('#an-tpi').val();
-      if (fpi === '' && spi === '' && tpi === '') {
-        // remove image in large placeholder
-        $('#img-placeholder').attr('src', '');
-        $('#img-placeholder').css('display', 'none');
-      }
-    });
-    $('#p-remove-image-3').click(() => {
-      // remove image in small placeholder
-      $('#img-selection-3').attr('src', '');
-      $('#img-selection-3').css('display', 'none');
-      // display plus and "Add Image" label
-      $('#i-add-image-3').css('display', 'block');
-      $('#b-add-image-3').css('display', 'block');
-      // remove stored input field
-      $('#an-tpi').val('');
-      // hide remove image label
-      $('#p-remove-image-3').css('display', 'none');
-      const fpi = $('#an-fpi').val();
-      const spi = $('#an-spi').val();
-      const tpi = $('#an-tpi').val();
-      if (fpi === '' && spi === '' && tpi === '') {
-        // remove image in large placeholder
-        $('#img-placeholder').attr('src', '');
-        $('#img-placeholder').css('display', 'none');
-      }
-    });
-  </script>
+  <script type="text/javascript" src="./js/add_products.js"></script>
+  <script type="text/javascript" src="./js/edit_products.js"></script>
   <script type="text/javascript">
     const onDeleteProduct = (product_id) => {
       $('#staticDeleteProduct').modal('show');
       $('#delete-pid').val(product_id);
     }
-    const onEditUser = (
-      user_id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      address,
-      gender,
-      birth_date
+    const onEditProduct = (
+      product_id,
+      product_name,
+      product_description,
+      product_category_id,
+      product_variant_id,
+      product_price,
+      promotional_price,
+      is_buy_x_take_x,
+      buy_x_of,
+      take_x_of,
+      product_images
     ) => {
-      $('#edit-ui').val(user_id);
-      $('#edit-ue').val(email);
-      $('#edit-fn').val(first_name);
-      $('#edit-ln').val(last_name);
-      $('#edit-ea').val(email);
-      $('#edit-pn').val(phone);
-      $('#edit-ad').val(address);
-      $('#edit-gd').val(gender);
-      $('#edit-bd').val(birth_date);
+      const prod_images = product_images.split(',');
+      const first_image = prod_images?.[0];
+      const second_image = prod_images?.[1];
+      const third_image = prod_images?.[2];
+      $('#staticEditProduct').modal('show');
+      $('#ed-product_id').val(product_id);
+      $('#ed-product_name').val(product_name);
+      $('#ed-product_description').val(product_description);
+      $('#ed-product_category').val(product_category_id).change();
+      $('#ed-product_variants').val(product_variant_id).change();
+      $('#ed-product_price').val(product_price);
+      if (is_buy_x_take_x === "1") {
+        $('#ed-buyXtakeXRadio').prop('checked', true);
+        $('#ed-discountedRadio').prop('checked', false);
+        $('#ed-nonRadio').prop('checked', false);
+        $('#ed-promotion_price').val('');
+        $('#ed-buy_x').val(buy_x_of);
+        $('#ed-take_x').val(take_x_of);
+        $('#ed-div-promotion-price').css('display', 'none');
+        $('#ed-div-buy-x-take-x').css('display', 'flex');
+        $('#ed-promotion_price').removeAttr('required');
+        $('#ed-buy_x').attr('required', 'required');
+        $('#ed-take_x').attr('required', 'required');
+      } else if (is_buy_x_take_x === "0") {
+        $('#ed-buyXtakeXRadio').prop('checked', false);
+        $('#ed-discountedRadio').prop('checked', true);
+        $('#ed-nonRadio').prop('checked', false);
+        $('#ed-promotion_price').val(promotional_price);
+        $('#ed-buy_x').val('');
+        $('#ed-take_x').val('');
+        $('#ed-div-promotion-price').css('display', 'block');
+        $('#ed-div-buy-x-take-x').css('display', 'none');
+        $('#ed-promotion_price').attr('required', 'required');
+        $('#ed-buy_x').removeAttr('required');
+        $('#ed-take_x').removeAttr('required');
+      } else {
+        $('#ed-buyXtakeXRadio').prop('checked', false);
+        $('#ed-discountedRadio').prop('checked', false);
+        $('#ed-nonRadio').prop('checked', true);
+        $('#ed-promotion_price').val('');
+        $('#ed-buy_x').val('');
+        $('#ed-take_x').val('');
+        $('#ed-div-promotion-price').css('display', 'none');
+        $('#ed-div-buy-x-take-x').css('display', 'none');
+        $('#ed-promotion_price').removeAttr('required');
+        $('#ed-buy_x').removeAttr('required');
+        $('#ed-take_x').removeAttr('required');
+      }
+      // display first image
+      if (first_image !== undefined && first_image !== "") {
+        // display image in large placeholder
+        $('#ed-img-placeholder').attr('src', first_image);
+        $('#ed-img-placeholder').css('display', 'block');
+        // display image in small placeholder
+        $('#ed-img-selection-1').attr('src', first_image);
+        $('#ed-img-selection-1').css('display', 'block');
+        // remove plus and "Add Image" label
+        $('#ed-i-add-image-1').css('display', 'none');
+        $('#ed-b-add-image-1').css('display', 'none');
+        // store to input field for API call
+        $('#ed-an-fpi').val(first_image);
+        // display remove image label
+        $('#ed-p-remove-image-1').css('display', 'block');
+      } else {
+        // remove image in large placeholder
+        $('#ed-img-placeholder').attr('src', '');
+        $('#ed-img-placeholder').css('display', 'none');
+        // remove image in small placeholder
+        $('#ed-img-selection-1').attr('src', '');
+        $('#ed-img-selection-1').css('display', 'none');
+        // display plus and "Add Image" label
+        $('#ed-i-add-image-1').css('display', 'block');
+        $('#ed-b-add-image-1').css('display', 'block');
+        // remove stored input field
+        $('#ed-an-fpi').val('');
+        // hide remove image label
+        $('#ed-p-remove-image-1').css('display', 'none');
+      }
+      // display second image
+      if (second_image !== undefined && second_image !== "") {
+        // display image in large placeholder
+        $('#ed-img-placeholder').attr('src', second_image);
+        $('#ed-img-placeholder').css('display', 'block');
+        // display image in small placeholder
+        $('#ed-img-selection-2').attr('src', second_image);
+        $('#ed-img-selection-2').css('display', 'block');
+        // remove plus and "Add Image" label
+        $('#ed-i-add-image-2').css('display', 'none');
+        $('#ed-b-add-image-2').css('display', 'none');
+        // store to input field for API call
+        $('#ed-an-fpi').val(second_image);
+        // display remove image label
+        $('#ed-p-remove-image-2').css('display', 'block');
+      } else {
+        // remove image in large placeholder
+        $('#ed-img-placeholder').attr('src', '');
+        $('#ed-img-placeholder').css('display', 'none');
+        // remove image in small placeholder
+        $('#ed-img-selection-2').attr('src', '');
+        $('#ed-img-selection-2').css('display', 'none');
+        // display plus and "Add Image" label
+        $('#ed-i-add-image-2').css('display', 'block');
+        $('#ed-b-add-image-2').css('display', 'block');
+        // remove stored input field
+        $('#ed-an-fpi').val('');
+        // hide remove image label
+        $('#ed-p-remove-image-2').css('display', 'none');
+      }
+      // display third image
+      if (third_image !== undefined && third_image !== "") {
+        // display image in large placeholder
+        $('#ed-img-placeholder').attr('src', third_image);
+        $('#ed-img-placeholder').css('display', 'block');
+        // display image in small placeholder
+        $('#ed-img-selection-3').attr('src', third_image);
+        $('#ed-img-selection-3').css('display', 'block');
+        // remove plus and "Add Image" label
+        $('#ed-i-add-image-3').css('display', 'none');
+        $('#ed-b-add-image-3').css('display', 'none');
+        // store to input field for API call
+        $('#ed-an-fpi').val(third_image);
+        // display remove image label
+        $('#ed-p-remove-image-3').css('display', 'block');
+      } else {
+        // remove image in large placeholder
+        $('#ed-img-placeholder').attr('src', '');
+        $('#ed-img-placeholder').css('display', 'none');
+        // remove image in small placeholder
+        $('#ed-img-selection-3').attr('src', '');
+        $('#ed-img-selection-3').css('display', 'none');
+        // display plus and "Add Image" label
+        $('#ed-i-add-image-3').css('display', 'block');
+        $('#ed-b-add-image-3').css('display', 'block');
+        // remove stored input field
+        $('#ed-an-fpi').val('');
+        // hide remove image label
+        $('#ed-p-remove-image-3').css('display', 'none');
+      }
     }
-  </script>    
+  </script>
 </html>
