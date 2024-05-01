@@ -5,20 +5,20 @@
   try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $promotion_type = 'none';
-      $promotion_price = '0';
-      $promotion_buy_x = '0';
-      $promotion_take_x = '0';
+      $promotion_price = 0;
+      $promotion_buy_x = 0;
+      $promotion_take_x = 0;
       if (isset($_POST['promotion'])) {
         $promotion_type = $conn->real_escape_string($_POST['promotion']);
       }
       if (isset($_POST['promotion_price'])) {
-        $promotion_price = $conn->real_escape_string($_POST['promotion_price']);
+        $promotion_price = intval($conn->real_escape_string($_POST['promotion_price']));
       }
       if (isset($_POST['buy_x'])) {
-        $promotion_buy_x = $conn->real_escape_string($_POST['buy_x']);
+        $promotion_buy_x = intval($conn->real_escape_string($_POST['buy_x']));
       }
       if (isset($_POST['take_x'])) {
-        $promotion_take_x = $conn->real_escape_string($_POST['take_x']);
+        $promotion_take_x = intval($conn->real_escape_string($_POST['take_x']));
       }
       if (
         isset($_POST['product_name']) &&
@@ -29,9 +29,9 @@
       ) {
         $product_name = $conn->real_escape_string($_POST['product_name']);
         $product_description = $conn->real_escape_string($_POST['product_description']);
-        $product_category = $conn->real_escape_string($_POST['product_category']);
-        $product_variants = $conn->real_escape_string($_POST['product_variants']);
-        $product_price = $conn->real_escape_string($_POST['product_price']);
+        $product_category = intval($conn->real_escape_string($_POST['product_category']));
+        $product_variants = intval($conn->real_escape_string($_POST['product_variants']));
+        $product_price = intval($conn->real_escape_string($_POST['product_price']));
 
         // insert product info
         $insert_query = "INSERT INTO products_info (
@@ -46,7 +46,7 @@
         $fetch_query = "SELECT id FROM products_info ORDER BY id DESC LIMIT 1";
         $result = $conn->query($fetch_query);
         $row = $result->fetch_assoc();
-        $product_id = $row['id'];
+        $product_id = intval($row['id']);
 
         // insert categories
         $insert_query = "INSERT INTO products_categories (category_id, product_id) VALUES (?, ?)";
@@ -62,13 +62,19 @@
 
         // insert promotions if there's any
         if ($promotion_type == 'discounted') {
-          $ptype = '0';
-          $insert_query = "INSERT INTO promotions (product_id, promotional_price, is_buy_x_take_x) VALUES (?, ?, ?)";
+          $ptype = 0;
+          $insert_query = "INSERT INTO promotions (
+            product_id,
+            promotional_price,
+            is_buy_x_take_x,
+            buy_x_of,
+            take_x_of
+          ) VALUES (?, ?, ?, ?, ?)";
           $stmt = $conn->prepare($insert_query);
-          $stmt->bind_param('sss', $product_id, $promotion_price, $ptype);
+          $stmt->bind_param('sssss', $product_id, $promotion_price, $ptype, $promotion_buy_x, $promotion_take_x);
           $result = $stmt->execute();
         } else if ($promotion_type == 'buy_x_take_x') {
-          $ptype = '1';
+          $ptype = 1;
           $insert_query = "INSERT INTO promotions (
             product_id,
             promotional_price,

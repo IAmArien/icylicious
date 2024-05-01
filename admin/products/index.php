@@ -503,9 +503,9 @@
                   <input id="ed-fpi" type="hidden" name="first_product_image" />
                   <input id="ed-spi" type="hidden" name="second_product_image" />
                   <input id="ed-tpi" type="hidden" name="third_product_image" />
-                  <input type="file" id="ed-addImage1" accept="image/*" name="product_image_1" style="display: none;" />
-                  <input type="file" id="ed-addImage2" accept="image/*" name="product_image_2" style="display: none;" />
-                  <input type="file" id="ed-addImage3" accept="image/*" name="product_image_3" style="display: none;" />
+                  <input type="file" id="ed-addImage1" accept="image/*" name="ed-product_image_1" style="display: none;" />
+                  <input type="file" id="ed-addImage2" accept="image/*" name="ed-product_image_2" style="display: none;" />
+                  <input type="file" id="ed-addImage3" accept="image/*" name="ed-product_image_3" style="display: none;" />
                   <div class="div-img-placeholder">
                     <img id="ed-mg-placeholder" src="../../assets/images/initial_logo.jpg" class="img-placeholder" style="display: none;" />
                   </div>
@@ -539,27 +539,27 @@
                 <div class="col-lg-8">
                   <div class="row">
                     <div class="col-lg-6">
-                      <label for="product_name" class="sans-600">Product (Name)</label>
+                      <label for="ed-product_name" class="sans-600">Product (Name)</label>
                       <input 
                         id="ed-product_name" 
                         type="text" 
                         placeholder="(eg. Iced Caramel Macchiato)" 
-                        name="product_name" 
+                        name="ed-product_name" 
                         required 
                         class="sans-regular"
                         style="margin-top: 7px;"
                       >
-                      <label for="product_description" class="sans-600" style="margin-top: 10px;">Product (Description)</label>
+                      <label for="ed-product_description" class="sans-600" style="margin-top: 10px;">Product (Description)</label>
                       <textarea
                         id="ed-product_description"
-                        name="product_description" 
+                        name="ed-product_description" 
                         class="sans-regular" 
                         rows="8" 
                         required 
                         style="margin-top: 7px;">
                       </textarea>
-                      <label for="product_category" class="sans-600" style="margin-top: 10px;">Product (Category)</label>
-                      <select class="form-select category-select" id="ed-product_category" name="product_category" required style="margin-top: 7px;">
+                      <label for="ed-product_category" class="sans-600" style="margin-top: 10px;">Product (Category)</label>
+                      <select class="form-select category-select" id="ed-product_category" name="ed-product_category" required style="margin-top: 7px;">
                         <?php
                           $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
                           $result = $conn->query($fetch_query);
@@ -580,8 +580,8 @@
                       </select>
                     </div>
                     <div class="col-lg-6">
-                      <label for="product_variants" class="sans-600">Product (Variant)</label>
-                      <select class="form-select category-select" id="ed-product_variants" name="product_variants" required style="margin-top: 7px;">
+                      <label for="ed-product_variants" class="sans-600">Product (Variant)</label>
+                      <select class="form-select category-select" id="ed-product_variants" name="ed-product_variants" required style="margin-top: 7px;">
                         <?php
                           $fetch_query = "SELECT * FROM variants WHERE is_enabled = 1 ORDER BY variant_type ASC";
                           $result = $conn->query($fetch_query);
@@ -600,19 +600,19 @@
                           }
                         ?>
                       </select>
-                      <label for="product_price" class="sans-600" style="margin-top: 10px;">Product (Price)</label>
+                      <label for="ed-product_price" class="sans-600" style="margin-top: 10px;">Product (Price)</label>
                       <input 
                         id="ed-product_price" 
                         type="number" 
                         placeholder="(eg. ₱249.00)"
-                        name="product_price" 
+                        name="ed-product_price" 
                         required 
                         class="sans-regular"
                         style="margin-top: 7px;"
                       >
-                      <label for="product_price" class="sans-600" style="margin-top: 12px;">Promotions</label>
+                      <label for="ed-promotion" class="sans-600" style="margin-top: 12px;">Promotions</label>
                       <div class="form-check" style="margin-top: 10px;">
-                        <input class="form-check-input" type="radio" name="promotion" value="discounted" id="discountedRadio">
+                        <input class="form-check-input" type="radio" name="ed-promotion" value="discounted" id="ed-discountedRadio">
                         <label class="form-check-label sans-regular" for="discountedRadio" style="padding-left: 10px; padding-top: 5px;">
                           Discounted?
                         </label>
@@ -622,14 +622,14 @@
                           id="ed-promotion_price" 
                           type="number" 
                           placeholder="(Your new price, eg. ₱199.00)"
-                          name="promotion_price" 
+                          name="ed-promotion_price" 
                           class="sans-regular"
                           style="margin-top: 10px;"
                         >
                       </div>
                       <div class="form-check" style="margin-top: 10px;">
-                        <input class="form-check-input" type="radio" name="promotion" value="buy_x_take_x" id="buyXtakeXRadio">
-                        <label class="form-check-label sans-regular" for="buyXtakeXRadio" style="padding-left: 10px; padding-top: 5px;">
+                        <input class="form-check-input" type="radio" name="ed-promotion" value="buy_x_take_x" id="ed-buyXtakeXRadio">
+                        <label class="form-check-label sans-regular" for="ed-buyXtakeXRadio" style="padding-left: 10px; padding-top: 5px;">
                           Buy (x) Take (x)?
                         </label>
                       </div>
@@ -639,7 +639,7 @@
                             id="ed-buy_x" 
                             type="number" 
                             placeholder="(eg. Buy 1)"
-                            name="buy_x" 
+                            name="ed-buy_x" 
                             class="sans-regular"
                             style="margin-top: 10px;"
                           >
@@ -649,15 +649,15 @@
                             id="ed-take_x" 
                             type="number" 
                             placeholder="(eg. Take 1)"
-                            name="take_x" 
+                            name="ed-take_x" 
                             class="sans-regular"
                             style="margin-top: 10px;"
                           >
                         </div>
                       </div>
                       <div class="form-check" style="margin-top: 10px;">
-                        <input class="form-check-input" type="radio" name="promotion" value="none" id="nonRadio" checked>
-                        <label class="form-check-label sans-regular" for="nonRadio" style="padding-left: 10px; padding-top: 5px;">
+                        <input class="form-check-input" type="radio" name="ed-promotion" value="none" id="ed-nonRadio" checked>
+                        <label class="form-check-label sans-regular" for="ed-nonRadio" style="padding-left: 10px; padding-top: 5px;">
                           None
                         </label>
                       </div>
