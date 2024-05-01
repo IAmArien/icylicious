@@ -503,9 +503,9 @@
                   <input id="ed-fpi" type="hidden" name="first_product_image" />
                   <input id="ed-spi" type="hidden" name="second_product_image" />
                   <input id="ed-tpi" type="hidden" name="third_product_image" />
-                  <input type="file" id="addImage1" accept="image/*" name="product_image_1" style="display: none;" />
-                  <input type="file" id="addImage2" accept="image/*" name="product_image_2" style="display: none;" />
-                  <input type="file" id="addImage3" accept="image/*" name="product_image_3" style="display: none;" />
+                  <input type="file" id="ed-addImage1" accept="image/*" name="product_image_1" style="display: none;" />
+                  <input type="file" id="ed-addImage2" accept="image/*" name="product_image_2" style="display: none;" />
+                  <input type="file" id="ed-addImage3" accept="image/*" name="product_image_3" style="display: none;" />
                   <div class="div-img-placeholder">
                     <img id="ed-mg-placeholder" src="../../assets/images/initial_logo.jpg" class="img-placeholder" style="display: none;" />
                   </div>
