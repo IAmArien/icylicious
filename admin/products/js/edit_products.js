@@ -107,7 +107,7 @@ $(document).ready(() => {
             $('#ed-i-add-image-2').css('display', 'none');
             $('#ed-b-add-image-2').css('display', 'none');
             // store to input field for API call
-            $('#ed-an-fpi').val(response.file);
+            $('#ed-an-spi').val(response.file);
             // display remove image label
             $('#ed-p-remove-image-2').css('display', 'block');
           } else {
@@ -121,7 +121,7 @@ $(document).ready(() => {
             $('#ed-i-add-image-2').css('display', 'block');
             $('#ed-b-add-image-2').css('display', 'block');
             // remove stored input field
-            $('#ed-an-fpi').val('');
+            $('#ed-an-spi').val('');
             // hide remove image label
             $('#ed-p-remove-image-2').css('display', 'none');
           }
@@ -137,7 +137,7 @@ $(document).ready(() => {
           $('#ed-i-add-image-2').css('display', 'block');
           $('#ed-b-add-image-2').css('display', 'block');
           // remove stored input field
-          $('#ed-an-fpi').val('');
+          $('#ed-an-spi').val('');
           // hide remove image label
           $('#ed-p-remove-image-2').css('display', 'none');
         }
@@ -168,7 +168,7 @@ $(document).ready(() => {
             $('#ed-i-add-image-3').css('display', 'none');
             $('#ed-b-add-image-3').css('display', 'none');
             // store to input field for API call
-            $('#ed-an-fpi').val(response.file);
+            $('#ed-an-tpi').val(response.file);
             // display remove image label
             $('#ed-p-remove-image-3').css('display', 'block');
           } else {
@@ -182,7 +182,7 @@ $(document).ready(() => {
             $('#ed-i-add-image-3').css('display', 'block');
             $('#ed-b-add-image-3').css('display', 'block');
             // remove stored input field
-            $('#ed-an-fpi').val('');
+            $('#ed-an-tpi').val('');
             // hide remove image label
             $('#ed-p-remove-image-3').css('display', 'none');
           }
@@ -198,7 +198,7 @@ $(document).ready(() => {
           $('#ed-i-add-image-3').css('display', 'block');
           $('#ed-b-add-image-3').css('display', 'block');
           // remove stored input field
-          $('#ed-an-fpi').val('');
+          $('#ed-an-tpi').val('');
           // hide remove image label
           $('#ed-p-remove-image-3').css('display', 'none');
         }

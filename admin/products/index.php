@@ -246,11 +246,11 @@
                         $take_x_of = $prom_row['take_x_of'];
                       }
                       // fetch product images
-                      $fetch_query = "SELECT product_images FROM products_images WHERE product_id = ".$product_id."";
+                      $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
                       $img_result = $conn->query($fetch_query);
                       if ($img_result->num_rows > 0) {
                         while ($img_row = $img_result->fetch_assoc()) {
-                          $image = $img_row['product_images'];
+                          $image = $img_row['product_image'];
                           array_push($product_images, $image);
                         }
                       }
@@ -870,7 +870,7 @@
         $('#ed-i-add-image-2').css('display', 'none');
         $('#ed-b-add-image-2').css('display', 'none');
         // store to input field for API call
-        $('#ed-an-fpi').val(second_image);
+        $('#ed-an-spi').val(second_image);
         // display remove image label
         $('#ed-p-remove-image-2').css('display', 'block');
       } else {
@@ -884,7 +884,7 @@
         $('#ed-i-add-image-2').css('display', 'block');
         $('#ed-b-add-image-2').css('display', 'block');
         // remove stored input field
-        $('#ed-an-fpi').val('');
+        $('#ed-an-spi').val('');
         // hide remove image label
         $('#ed-p-remove-image-2').css('display', 'none');
       }
@@ -900,7 +900,7 @@
         $('#ed-i-add-image-3').css('display', 'none');
         $('#ed-b-add-image-3').css('display', 'none');
         // store to input field for API call
-        $('#ed-an-fpi').val(third_image);
+        $('#ed-an-tpi').val(third_image);
         // display remove image label
         $('#ed-p-remove-image-3').css('display', 'block');
       } else {
@@ -914,7 +914,7 @@
         $('#ed-i-add-image-3').css('display', 'block');
         $('#ed-b-add-image-3').css('display', 'block');
         // remove stored input field
-        $('#ed-an-fpi').val('');
+        $('#ed-an-tpi').val('');
         // hide remove image label
         $('#ed-p-remove-image-3').css('display', 'none');
       }
