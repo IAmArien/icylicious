@@ -126,6 +126,7 @@
         unset($_SESSION['errors.message']);
         $stmt->close();
         $conn->close();
+        header('Location: ../products/');
       } else {
         $_SESSION['errors.type'] = 'product_error';
         $_SESSION['errors.title'] = 'Something went wrong';
