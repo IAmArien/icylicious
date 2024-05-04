@@ -32,6 +32,8 @@ SIDE BAR CSS
   position: fixed;
   display: flex;
   flex-direction: column;
+  left: 0px;
+  z-index: 999;
 }
 
 .navbar-fixed-top {
@@ -379,6 +381,62 @@ th {
   margin-top: 15px;
   cursor: pointer;
   display: none;
+}
+
+.overlay-content {
+  background-color: #080808;
+  opacity: 0.5;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 99;
+  visibility: hidden;
+}
+
+.overlay-content-expand {
+  display: block;
+  transition: .4s;
+}
+
+.overlay-content-collapsed {
+  display: none;
+  transition: .4s;
+}
+
+.slide-collapsed {
+  left: -275px;
+  transition: .4s;
+}
+
+.content-slide-collapsed {
+  padding-left: 0px;
+  transition: .4s;
+}
+
+.slide-expanded {
+  left: 0px !important;
+  transition: .4s;
+}
+
+.content-slide-expanded {
+  padding-left: 275px;
+  transition: .4s;
+}
+
+@media screen and (max-width: 770px) {
+  .sidebar-container {
+    left: -275px;
+    transition: .4s;
+  }
+  .content {
+    padding-left: 0px;
+    transition: .4s;
+  }
+  .overlay-content {
+   visibility: visible;
+  }
 }
 
 /**

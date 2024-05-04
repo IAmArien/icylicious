@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="./css/categories.css" />
   </head>
   <body>
-    <div class="sidebar-container">
+    <div id="nav-sidebar" class="sidebar-container slide-expanded">
       <div class="div-tm-title background-color-light-grey">
         <h4 class="h4-tm-title sans-700 color-dark-grey background-color-yellow">ICYLICIOUS&trade;</h4>
       </div>
@@ -146,11 +146,11 @@
         </button>
       </div>
     </div>
-    <div class="content">
+    <div id="content-body" class="content content-slide-expanded">
       <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand sans-regular color-dark-grey a-navbar-path" href="#" style="cursor: default;">
-            &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-bars" style="cursor: pointer"></i>
+            &nbsp;&nbsp;&nbsp;<i id="navbar-control" class="fa-solid fa-bars" style="cursor: pointer"></i>
             &nbsp;&nbsp;&nbsp;&nbsp;<b>Admin</b>&nbsp;
             <i class="fa-solid fa-chevron-right"></i>
             &nbsp;Product Categories
@@ -328,6 +328,7 @@
         </form>
       </div>
     </div>
+    <div id="div-overlay-content" class="overlay-content"></div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/b2e03e5a6f.js" crossorigin="anonymous"></script>
@@ -385,5 +386,36 @@
       $('#edit-cn').val(category_name);
       $('#edit-cd').val(category_description);
     }
-  </script>    
+  </script>
+  <script type="text/javascript">
+    let isCollapsed = false;
+    $('#navbar-control').click(() => {
+      if (isCollapsed) {
+        $('#content-body').removeClass('content-slide-collapsed');
+        $('#nav-sidebar').removeClass('slide-collapsed');
+        $('#content-body').addClass('content-slide-expanded');
+        $('#nav-sidebar').addClass('slide-expanded');
+        $('#div-overlay-content').removeClass('overlay-content-collapsed');
+        $('#div-overlay-content').addClass('overlay-content-expand');
+        isCollapsed = false;
+      } else {
+        $('#content-body').removeClass('content-slide-expanded');
+        $('#nav-sidebar').removeClass('slide-expanded');
+        $('#content-body').addClass('content-slide-collapsed');
+        $('#nav-sidebar').addClass('slide-collapsed');
+        $('#div-overlay-content').removeClass('overlay-content-expand');
+        $('#div-overlay-content').addClass('overlay-content-collapsed');
+        isCollapsed = true;
+      }
+    });
+    $('#div-overlay-content').click(() => {
+      $('#content-body').removeClass('content-slide-expanded');
+      $('#nav-sidebar').removeClass('slide-expanded');
+      $('#content-body').addClass('content-slide-collapsed');
+      $('#nav-sidebar').addClass('slide-collapsed');
+      $('#div-overlay-content').removeClass('overlay-content-expand');
+      $('#div-overlay-content').addClass('overlay-content-collapsed');
+      isCollapsed = true;
+    });
+  </script>
 </html>
