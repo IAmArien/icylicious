@@ -209,7 +209,43 @@
           </button>
         </div>
         <div id="reviews" style="margin-top: 70px;">
-          
+          <h2 class="color-dark-grey sans-bold" style="text-align: center;">Product Reviews</h2>
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top: 50px;">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <h4 class="sans-600 color-dark-grey">Francis Alex Verdan</h4>
+                <div style="height: 15px;"></div>
+                <p class="sans-italic color-super-light-grey">
+                  " Thank you for your gracious staff and wonderful spirit you bring to your customers.<br/>
+                  A business is remembered more for their kindness they share towards others than the products they sell sometimes. "
+                </p>
+              </div>
+              <div class="carousel-item">
+                <h4 class="sans-600 color-dark-grey">Aizel Domingo Torno</h4>
+                <div style="height: 15px;"></div>
+                <p class="sans-italic color-super-light-grey">
+                  " Sarap talaga lalo na ng Mango graham smootie sarap balik balikan lalo na kung malapit lang ako,<br/>
+                  bundok pa kase samin eh kaya bihira lang makabili. "
+                </p>
+              </div>
+              <div class="carousel-item">
+                <h4 class="sans-600 color-dark-grey">Yhen Selafar</h4>
+                <div style="height: 15px;"></div>
+                <p class="sans-italic color-super-light-grey">
+                  " Sarap mag refresh dito (icy), nakakapawi ng uhaw lalo na sa init ng panahon.<br/>
+                  Tara na't mag icy "
+                </p>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
