@@ -31,10 +31,10 @@
               <a class="nav-link sans-regular size-11" aria-current="page" href="./customer/menu/">Menu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link sans-regular size-11" aria-current="page" href="./customer/about/">Reviews</a>
+              <a class="nav-link sans-regular size-11" aria-current="page" href="#reviews">Reviews</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link sans-regular size-11" aria-current="page" href="./customer/contact/">Contact Us</a>
+              <a class="nav-link sans-regular size-11" aria-current="page" href="#contact-us">Contact Us</a>
             </li>
           </ul>
           <form class="d-flex">
@@ -53,8 +53,8 @@
           <button class="btn btn-lg btn-primary sans-600" type="button">Order Now!</button>
         </div>
       </div>
-      <div class="container" style="padding-block: 50px;">
-        <div id="menu">
+      <div id="menu" style="margin-top: 50px;">
+        <div class="container">
           <h2 class="color-dark-grey sans-bold" style="text-align: center;">Best Sellers</h2>
           <p class="color-light-grey sans-regular" style="text-align: center;">
             Experience the ultimate taste of summer with our 5.5 summer promo
@@ -135,7 +135,9 @@
             </div>
           </div>
         </div>
-        <div id="our-products" style="margin-top: 70px;">
+      </div>
+      <div id="our-products" class="div-our-products">
+        <div class="container">
           <h2 class="color-dark-grey sans-bold" style="text-align: center;">Our Products</h2>
           <p class="color-light-grey sans-regular" style="text-align: center;">
             Don't miss out! Grab yours today at your fave Icylicious Store.
@@ -208,7 +210,9 @@
             View More Products
           </button>
         </div>
-        <div id="reviews" style="margin-top: 100px;">
+      </div>
+      <div id="reviews" style="margin-top: 70px;">
+        <div class="container">
           <h2 class="color-dark-grey sans-bold" style="text-align: center;">Reviews</h2>
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top: 50px;">
             <div class="carousel-inner">
@@ -248,7 +252,7 @@
           </div>
         </div>
       </div>
-      <div id="#contact-us" class="div-contact-us">
+      <div id="contact-us" class="div-contact-us">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">

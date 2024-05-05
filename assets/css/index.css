@@ -178,9 +178,15 @@
 .div-contact-us {
   background-color: var(--light-white);
   padding-block: 40px;
-  margin-top: 30px;
+  margin-top: 70px;
 }
 
 .carousel-control-prev {
   color: var(--dark-grey) !important;
+}
+
+.div-our-products {
+  margin-top: 100px;
+  background-color: var(--light-white);
+  padding-block: 40px;
 }
