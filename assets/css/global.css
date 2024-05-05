@@ -154,6 +154,10 @@
   color: var(--light-blue);
 }
 
+.color-light-white {
+  color: var(--light-white);
+}
+
 .background-color-white {
   background-color: var(--white);
 }

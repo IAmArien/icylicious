@@ -331,6 +331,64 @@
         </div>
       </div>
     </div>
+    <div class="div-sub-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <h4 class="color-white sans-600 size-14">About Us</h4>
+            <p class="color-light-white sans-regular size-11">
+              Satisfying your palates since 2019. From Maranon St., San Narciso, Philippines, we offer in-store
+              pickup. Experience the ultimate taste of ICY.<br/>
+              Follow us on <a class="color-yellow" href="https://web.facebook.com/icyliciousph">Facebook</a>
+              for more exclusive updates.
+            </p>
+          </div>
+          <div class="col-lg-1"></div>
+          <div class="col-lg-2 col-md-4 col-sm-12">
+            <h4 class="color-white sans-600 size-14">Page Links</h4>
+            <ul class="navbar-nav">
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./">Home (Homepage)</a>
+              </li>
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./customer/menu/">Menu (Products)</a>
+              </li>
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="#reviews">Reviews (Testimonials)</a>
+              </li>
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="#contact-us">Contact Us (Reach out!)</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-1"></div>
+          <div class="col-lg-2 col-md-4 col-sm-12">
+            <h4 class="color-white sans-600 size-14">Social Links</h4>
+            <ul class="navbar-nav">
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./">Facebook</a>
+              </li>
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./">Instagram</a>
+              </li>
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./">Twitter (X)</a>
+              </li>
+              <li class="nav-item" style="padding-left: 0px !important;">
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="-./">Google E-mail</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-12 div-account-buttons">
+            <button class="btn btn-lg btn-primary sans-500" type="button">Login</button>
+            <button class="btn btn-lg btn-outline-primary sans-500" type="button">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-footer">
+      <h6 class="sans-regular" style="padding-top: 7px;">&#169; 2024 All rights reserved.</h6
+    </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/b2e03e5a6f.js" crossorigin="anonymous"></script>
