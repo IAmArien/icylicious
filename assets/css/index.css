@@ -4,6 +4,81 @@
 
 :root {
   --black: #080808;
+  --dark-grey: #1c1c1c;
+  --light-grey: #414141;
+  --super-light-grey: #5d5d5d;
+  --super-2-light-grey: #7c7b7b;
   --yellow: #ffca26;
+  --white: #ffffff;
+  --light-white: #ececec;
+  --disabled-color: #848383;
+  --light-blue: #2392f4;
+}
+
+.navbar-brand {
+  letter-spacing: 5px;
+}
+
+.nav-item {
+  padding-inline: 10px !important;
+}
+
+.nav-item > .nav-link.active {
+  color: var(--yellow) !important;
+}
+
+.nav-item > .nav-link {
+  color: var(--super-2-light-grey);
+}
+
+.nav-item > .nav-link:hover {
+  color: var(--white);
+}
+
+.navbar-toggler {
+  border-color: var(--white);
+}
+
+.navbar-toggler-icon {
+  color: var(--white) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark-grey) !important;
+}
+
+.btn-primary {
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--dark-grey);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.btn-primary:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.btn-outline-primary:hover {
+  border-color: var(--yellow);
+  background-color: var(--yellow);
+  color: var(--dark-grey);
+}
+
+.btn-outline-primary:active {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
 }
 
