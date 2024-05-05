@@ -150,6 +150,12 @@
   justify-self: flex-end;
 }
 
+.btn-reset {
+  background-color: transparent;
+  border-color: var(--dark-grey);
+  color: var(--dark-grey);
+}
+
 .img-product-deals {
   width: 100%;
   height: 400px;
@@ -157,14 +163,24 @@
   border-radius: 10px;
 }
 
-.img-about-us-logo {
+.img-about-us {
   width: 100%;
-  height: 550px;
-  object-fit: cover;
+  height: 500px;
+  object-fit: contain;
   border-radius: 10px;
 }
 
 .carousel-item {
   text-align: center;
   padding-inline: 100px;
+}
+
+.div-contact-us {
+  background-color: var(--light-white);
+  padding-block: 40px;
+  margin-top: 30px;
+}
+
+.carousel-control-prev {
+  color: var(--dark-grey) !important;
 }

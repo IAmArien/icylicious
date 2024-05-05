@@ -205,11 +205,11 @@
             </div>
           </div>
           <button class="btn btn-lg btn-primary sans-600" type="button" style="display: block; margin: auto; margin-top: 30px;">
-            <i class="fa-solid fa-gifts"></i>&nbsp;&nbsp;View More Products
+            View More Products
           </button>
         </div>
-        <div id="reviews" style="margin-top: 70px;">
-          <h2 class="color-dark-grey sans-bold" style="text-align: center;">Product Reviews</h2>
+        <div id="reviews" style="margin-top: 100px;">
+          <h2 class="color-dark-grey sans-bold" style="text-align: center;">Reviews</h2>
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top: 50px;">
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -245,6 +245,84 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
+          </div>
+        </div>
+      </div>
+      <div id="#contact-us" class="div-contact-us">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <h3 class="sans-600 color-dark-grey">Contact Us</h3>
+              <form action="./customer/actions/contact_us.php" method="POST">
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                  <div style="flex: 1">
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      name="first_name"
+                      required
+                      class="form-control sans-regular"
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      name="last_name"
+                      required
+                      class="form-control sans-regular"
+                    />
+                  </div>
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email Address (eg. myemail@gmail.com)"
+                  name="email"
+                  required
+                  class="form-control sans-regular"
+                  style="margin-top: 10px;"
+                />
+                <input
+                  type="number"
+                  placeholder="Mobile No. (eg. +639__)"
+                  name="phone"
+                  required
+                  class="form-control sans-regular"
+                  style="margin-top: 10px;"
+                />
+                <input
+                  type="text"
+                  placeholder="Subject"
+                  name="subject"
+                  required
+                  class="form-control sans-regular"
+                  style="margin-top: 10px;"
+                />
+                <label for="description" class="sans-600" style="margin-top: 10px;">Description (Intent)</label>
+                <textarea
+                  name="description" 
+                  class="form-control sans-regular" 
+                  rows="5" 
+                  required 
+                  style="margin-top: 7px;"></textarea>
+                <button
+                  class="btn btn-lg btn-primary sans-600"
+                  type="submit"
+                  style="margin-top: 30px;">
+                  Submit
+                </button>
+                &nbsp;
+                <button
+                  class="btn btn-lg btn-outline-primary btn-reset sans-600"
+                  type="reset"
+                  style="margin-top: 30px;">
+                  Reset
+                </button>
+              </form>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <img src="./assets/images/about_us_logo.png" class="img-about-us" />
+            </div>
           </div>
         </div>
       </div>
