@@ -38,8 +38,20 @@
             </li>
           </ul>
           <form class="d-flex">
-            <button class="btn btn-sm btn-primary sans-500" type="button">Login</button>&nbsp;&nbsp;
-            <button class="btn btn-sm btn-outline-primary sans-500" type="button">Sign Up</button>
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#staticLogin"
+              class="btn btn-sm btn-primary sans-500"
+              type="button">
+              Login
+            </button>&nbsp;&nbsp;
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#staticSignUp"
+              class="btn btn-sm btn-outline-primary sans-500"
+              type="button">
+              Sign Up
+            </button>
           </form>
         </div>
       </div>
@@ -380,14 +392,149 @@
             </ul>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-12 div-account-buttons">
-            <button class="btn btn-lg btn-primary sans-500" type="button">Login</button>
-            <button class="btn btn-lg btn-outline-primary sans-500" type="button">Sign Up</button>
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#staticLogin"
+              class="btn btn-lg btn-primary sans-500"
+              type="button">
+              Login
+            </button>
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#staticSignUp"
+              class="btn btn-lg btn-outline-primary sans-500"
+              type="button">
+              Sign Up
+            </button>
           </div>
         </div>
       </div>
     </div>
     <div class="div-footer">
-      <h6 class="sans-regular" style="padding-top: 7px;">&#169; 2024 All rights reserved.</h6
+      <h6 class="sans-regular" style="padding-top: 7px;">&#169; 2024 All rights reserved.</h6>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticLogin" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form action="./customer/actions/login.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Login</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="width: 400px; display: flex; flex-direction: column; gap: 10px">
+                <input
+                  type="email"
+                  placeholder="Email Address (eg. myemail@gmail.com)"
+                  name="email"
+                  required
+                  class="form-control sans-regular"
+                />
+                <input
+                  type="pasword"
+                  placeholder="Password"
+                  name="password"
+                  required
+                  class="form-control sans-regular"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary sans-600">Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticSignUp" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="./customer/actions/sign_up.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Sign Up</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="width: 600px; display: flex; flex-direction: column; gap: 10px;">
+                <p class="sans-regular">Fill up all the fields in this form to create an account.</p>
+                <div style="display: flex; gap: 10px">
+                  <div style="flex: 1">
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      name="first_name"
+                      required
+                      class="form-control sans-regular"
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      name="last_name"
+                      required
+                      class="form-control sans-regular"
+                    />
+                  </div>
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email Address (eg. myemail@gmail.com)"
+                  name="email"
+                  required
+                  class="form-control sans-regular"
+                />
+                <input
+                  type="number"
+                  placeholder="Mobile No. (eg. +639__)"
+                  name="phone"
+                  required
+                  class="form-control sans-regular"
+                />
+                <input
+                  type="text"
+                  placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                  name="address"
+                  required
+                  class="form-control sans-regular"
+                />
+                <div style="display: flex; gap: 10px; margin-top: 8px">
+                  <div style="flex: 1; display: flex; flex-direction: column">
+                    <label for="birth_date" class="sans-600">Select Gender</label>
+                    <select class="form-control form-select sans-regular gender-select" name="gender" style="flex: 1">
+                      <option value="Male" selected>Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                  <div style="flex: 1">
+                    <label for="birth_date" class="sans-600">Birth Date</label>
+                    <input type="date" placeholder="Birth Date" name="birth_date" required class="form-control sans-regular">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Sign Up</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
