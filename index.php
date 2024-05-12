@@ -1,3 +1,15 @@
+<?php
+  session_start();
+  include('../utils/connections.php');
+  if (
+    isset($_SESSION['user_credentials.username']) &&
+    isset($_SESSION['user_credentials.type'])
+  ) {
+    if ($_SESSION['user_credentials.type'] != "customer") {
+      header('Location: ./admin/');
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,20 +50,55 @@
             </li>
           </ul>
           <form class="d-flex">
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#staticLogin"
-              class="btn btn-sm btn-primary sans-500"
-              type="button">
-              Login
-            </button>&nbsp;&nbsp;
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#staticSignUp"
-              class="btn btn-sm btn-outline-primary sans-500"
-              type="button">
-              Sign Up
-            </button>
+            <?php
+              if (isset($_SESSION['user_credentials.type'])) {
+                $credentials = $_SESSION['user_credentials.type'];
+                if ($credentials === "customer") {
+                  echo '
+                    <button
+                      id="btn-shopping-cart"
+                      class="btn btn-sm btn-outline-primary sans-500"
+                      type="button">
+                      <i class="far fa-shopping-cart"></i>&nbsp;&nbsp;Shopping Cart
+                    </button>
+                  ';
+                } else {
+                  echo '
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticLogin"
+                      class="btn btn-sm btn-primary sans-500"
+                      type="button">
+                      Login
+                    </button>&nbsp;&nbsp;
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticSignUp"
+                      class="btn btn-sm btn-outline-primary sans-500"
+                      type="button">
+                      Sign Up
+                    </button>
+                  ';
+                }
+              } else {
+                echo '
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticLogin"
+                    class="btn btn-sm btn-primary sans-500"
+                    type="button">
+                    Login
+                  </button>&nbsp;&nbsp;
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticSignUp"
+                    class="btn btn-sm btn-outline-primary sans-500"
+                    type="button">
+                    Sign Up
+                  </button>
+                ';
+              }
+            ?>
           </form>
         </div>
       </div>
@@ -429,11 +476,12 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <input type="hidden" name="type" value="customer" />
               <div style="width: 400px; display: flex; flex-direction: column; gap: 10px">
                 <input
                   type="email"
                   placeholder="Email Address (eg. myemail@gmail.com)"
-                  name="email"
+                  name="username"
                   required
                   class="form-control sans-regular"
                 />
@@ -462,7 +510,7 @@
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
       <div class="modal-dialog modal-md modal-dialog-centered">
-        <form action="./customer/actions/sign_up.php" method="POST">
+        <form action="./customer/actions/signup.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Sign Up</h1>
@@ -526,6 +574,26 @@
                     <input type="date" placeholder="Birth Date" name="birth_date" required class="form-control sans-regular">
                   </div>
                 </div>
+                <div style="display: flex; gap: 10px">
+                  <div style="flex: 1">
+                    <input
+                      type="password"
+                      placeholder="New Password"
+                      name="new_password"
+                      required
+                      class="form-control sans-regular"
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      type="password"
+                      placeholder="Confirm Password"
+                      name="password"
+                      required
+                      class="form-control sans-regular"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -543,5 +611,28 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
+  </script>
+  <script type="text/javascript">
+    const alertError = (message) => {
+      window.alert(message);
+    };
+    <?php
+      if (
+        isset($_SESSION['errors.type']) &&
+        isset($_SESSION['errors.title']) &&
+        isset($_SESSION['errors.message'])
+      ) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertError("'.$_SESSION['errors.message'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['errors.type']);
+        unset($_SESSION['errors.title']);
+        unset($_SESSION['errors.message']);
+      }
+    ?>
   </script>
 </html>

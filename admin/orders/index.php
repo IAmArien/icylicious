@@ -6,6 +6,10 @@
     !isset($_SESSION['user_credentials.type'])
   ) {
     header('Location: ../');
+  } else if (isset($_SESSION['user_credentials.type'])) {
+    if ($_SESSION['user_credentials.type'] != "admin") {
+      header('Location: ../');
+    }
   }
 ?>
 <!DOCTYPE html>

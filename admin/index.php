@@ -5,7 +5,9 @@
     isset($_SESSION['user_credentials.username']) &&
     isset($_SESSION['user_credentials.type'])
   ) {
-    header('Location: ./dashboard');
+    if ($_SESSION['user_credentials.type'] == "admin") {
+      header('Location: ./dashboard');
+    }
   }
 ?>
 <!DOCTYPE html>
