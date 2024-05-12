@@ -1,12 +1,12 @@
 <?php
   session_start();
-  include('../utils/connections.php');
+  include('../../utils/connections.php');
   if (
     isset($_SESSION['user_credentials.username']) &&
     isset($_SESSION['user_credentials.type'])
   ) {
     if ($_SESSION['user_credentials.type'] != "customer") {
-      header('Location: ./admin/');
+      header('Location: ../../admin/');
     }
   }
 ?>
@@ -24,8 +24,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/global.css" />
-    <link rel="stylesheet" href="./assets/css/index.css" />
+    <link rel="stylesheet" href="../../assets/css/global.css" />
+    <link rel="stylesheet" href="./css/products.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg fixed-top bg-dark">
@@ -37,10 +37,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link sans-600 size-11 active" aria-current="page" href="./">Home</a>
+              <a class="nav-link sans-regular size-11" aria-current="page" href="../../">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link sans-regular size-11" aria-current="page" href="./customer/products/">Menu</a>
+              <a class="nav-link sans-600 size-11 active" aria-current="page" href="./customer/products/">Menu</a>
             </li>
             <li class="nav-item">
               <a class="nav-link sans-regular size-11" aria-current="page" href="#reviews">Reviews</a>
@@ -110,106 +110,71 @@
       </div>
     </nav>
     <div class="content-wrapper">
-      <div>
-        <img src="./assets/images/home_background.png" class="img-background" />
-        <div class="background-overlay">
-          <h2 id="sub-description" class="color-white sans-italic-600">" Satisfying your palates since 2019. "</h2>
-          <p class="color-white sans-italic">17 stores nationwide and counting!</p>
-          <button class="btn btn-lg btn-primary sans-600" type="button">Order Now!</button>
-        </div>
-      </div>
-      <div id="menu" style="margin-top: 50px;">
-        <div class="container">
-          <h2 class="color-dark-grey sans-bold" style="text-align: center;">Best Sellers</h2>
-          <p class="color-light-grey sans-regular" style="text-align: center;">
-            Experience the ultimate taste of summer with our 5.5 summer promo
-          </p>
-          <div class="row" style="margin-top: 60px;">
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_1.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                BUY 1 TAKE 1 - LARGE NUTTY-OREO NUTELLA SMOOTHIE WITH PEARLS
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱255.00</h3>
-                <h5 class="strike-price color-super-light-grey sans-regular">₱270.00</h5>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_2.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                1 LARGE BUBBLE MILK TEA
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱55.00</h3>
-                <h5 class="strike-price color-super-light-grey sans-regular">₱70.00</h5>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_3.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                P55 EACH (ANY FLAVOR OF YOUR CHOICE WHEN YOU BUY 2 REGULAR MILK TEAS)
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱55.00</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_4.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                BUY 1 TAKE 1 REGULAR CHOCO CHIP SMOOTHIE PEARLS
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱155.00</h3>
-                <h5 class="strike-price color-super-light-grey sans-regular">₱170.00</h5>
-              </div>
-              <!-- <button class="btn btn-md btn-outline-primary sans-600 btn-add-to-cart" type="button" style="width: 100%;">
-                <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to cart
-              </button> -->
-            </div>
-          </div>
-          <div class="row" style="margin-top: 80px;">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <img src="./assets/images/best_deals_1.png" class="img-product-deals" />
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <img src="./assets/images/best_deals_2.png" class="img-product-deals" />
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <img src="./assets/images/best_deals_3.png" class="img-product-deals" />
-            </div>
-          </div>
-        </div>
+      <div class="container" style="padding-top: 20px;">
+        <nav class="nav">
+          <?php
+            $selected_category_name = 'All';
+            if (isset($_GET['category_name'])) {
+              $selected_category_name = $_GET['category_name'];
+              if ($selected_category_name == 'All') {
+                echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
+              } else {
+                echo '<a class="nav-link color-light-grey sans-500" aria-current="page" href="./">All</a>';
+              }
+            } else {
+              echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
+            }
+            $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
+            $result = $conn->query($fetch_query);
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                $category_id = $row['id'];
+                $category_name = $row['category_name'];
+                $category_description = $row['category_description'];
+                $active_status = '';
+                if ($selected_category_name == $category_name) {
+                  $active_status = 'nav-link color-yellow sans-bold active';
+                } else {
+                  $active_status = 'nav-link color-light-grey sans-500';
+                }
+                echo '
+                  <a
+                    class="'.$active_status.'"
+                    aria-current="page"
+                    href="./?id='.$category_id.'&category_name='.$category_name.'&category_description='.$category_description.'">
+                    '.$category_name.'
+                  </a>
+                ';
+              }
+            }
+          ?>
+        </nav>
       </div>
       <div id="our-products" class="div-our-products">
         <div class="container">
-          <h2 class="color-dark-grey sans-bold" style="text-align: center;">Our Products</h2>
-          <p class="color-light-grey sans-regular" style="text-align: center;">
-            Don't miss out! Grab yours today at your fave Icylicious Store.
+          <h2 class="color-dark-grey sans-bold">
+            <?php
+              if (isset($_GET['category_name'])) {
+                $selected_category_name = $_GET['category_name'];
+                echo $selected_category_name;
+              } else {
+                echo 'Our Products';
+              }
+            ?>
+          </h2>
+          <p class="color-light-grey sans-regular">
+            <?php
+              if (isset($_GET['category_description'])) {
+                $selected_category_description = $_GET['category_description'];
+                echo $selected_category_description;
+              } else {
+                echo "Don't miss out! Grab yours today at your fave Icylicious Store.";
+              }
+            ?>
           </p>
           <div class="row" style="margin-top: 60px;">
             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_1.png" class="img-product" />
+              <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
               <div style="height: 20px;"></div>
               <h4 class="color-dark-grey size-13 sans-700">
                 BUY 1 TAKE 1 - LARGE NUTTY-OREO NUTELLA SMOOTHIE WITH PEARLS
@@ -224,7 +189,7 @@
               </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_2.png" class="img-product" />
+              <img src="../../assets/images/summer_promo_5_5_2.png" class="img-product" />
               <div style="height: 20px;"></div>
               <h4 class="color-dark-grey size-13 sans-700">
                 1 LARGE BUBBLE MILK TEA
@@ -239,7 +204,7 @@
               </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_3.png" class="img-product" />
+              <img src="../../assets/images/summer_promo_5_5_3.png" class="img-product" />
               <div style="height: 20px;"></div>
               <h4 class="color-dark-grey size-13 sans-700">
                 P55 EACH (ANY FLAVOR OF YOUR CHOICE WHEN YOU BUY 2 REGULAR MILK TEAS)
@@ -253,7 +218,7 @@
               </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_4.png" class="img-product" />
+              <img src="../../assets/images/summer_promo_5_5_4.png" class="img-product" />
               <div style="height: 20px;"></div>
               <h4 class="color-dark-grey size-13 sans-700">
                 BUY 1 TAKE 1 REGULAR CHOCO CHIP SMOOTHIE PEARLS
@@ -270,50 +235,6 @@
                 <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to cart
               </button> -->
             </div>
-          </div>
-          <button class="btn btn-lg btn-primary sans-600" type="button" style="display: block; margin: auto; margin-top: 30px;">
-            View More Products
-          </button>
-        </div>
-      </div>
-      <div id="reviews" style="margin-top: 70px;">
-        <div class="container">
-          <h2 class="color-dark-grey sans-bold" style="text-align: center;">Reviews</h2>
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top: 50px;">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <h4 class="sans-600 color-dark-grey">Francis Alex Verdan</h4>
-                <div style="height: 15px;"></div>
-                <p class="sans-italic color-super-light-grey">
-                  " Thank you for your gracious staff and wonderful spirit you bring to your customers.<br/>
-                  A business is remembered more for their kindness they share towards others than the products they sell sometimes. "
-                </p>
-              </div>
-              <div class="carousel-item">
-                <h4 class="sans-600 color-dark-grey">Aizel Domingo Torno</h4>
-                <div style="height: 15px;"></div>
-                <p class="sans-italic color-super-light-grey">
-                  " Sarap talaga lalo na ng Mango graham smootie sarap balik balikan lalo na kung malapit lang ako,<br/>
-                  bundok pa kase samin eh kaya bihira lang makabili. "
-                </p>
-              </div>
-              <div class="carousel-item">
-                <h4 class="sans-600 color-dark-grey">Yhen Selafar</h4>
-                <div style="height: 15px;"></div>
-                <p class="sans-italic color-super-light-grey">
-                  " Sarap mag refresh dito (icy), nakakapawi ng uhaw lalo na sa init ng panahon.<br/>
-                  Tara na't mag icy "
-                </p>
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
           </div>
         </div>
       </div>
@@ -322,7 +243,7 @@
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">
               <h3 class="sans-600 color-dark-grey">Contact Us</h3>
-              <form action="./customer/actions/contact_us.php" method="POST">
+              <form action="./actions/contact_us.php" method="POST">
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
                   <div style="flex: 1">
                     <input
@@ -390,7 +311,7 @@
               </form>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
-              <img src="./assets/images/about_us_logo.png" class="img-about-us" />
+              <img src="../../assets/images/about_us_logo.png" class="img-about-us" />
             </div>
           </div>
         </div>
@@ -416,7 +337,7 @@
                 <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./">Home (Homepage)</a>
               </li>
               <li class="nav-item" style="padding-left: 0px !important;">
-                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./customer/menu/">Menu (Products)</a>
+                <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="./customer/products/">Menu (Products)</a>
               </li>
               <li class="nav-item" style="padding-left: 0px !important;">
                 <a class="nav-link sans-regular size-11 footer-nav-link" aria-current="page" href="#reviews">Reviews (Testimonials)</a>
@@ -475,7 +396,7 @@
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
-        <form action="./customer/actions/login.php" method="POST">
+        <form action="../actions/login.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Login</h1>
@@ -516,7 +437,7 @@
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
       <div class="modal-dialog modal-md modal-dialog-centered">
-        <form action="./customer/actions/signup.php" method="POST">
+        <form action="../actions/signup.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Sign Up</h1>
