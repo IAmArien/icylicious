@@ -43,7 +43,7 @@
               <a class="nav-link sans-600 size-11 active" aria-current="page" href="./customer/products/">Menu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link sans-regular size-11" aria-current="page" href="#reviews">Reviews</a>
+              <a class="nav-link sans-regular size-11" aria-current="page" href="../../index.php#reviews">Reviews</a>
             </li>
             <li class="nav-item">
               <a class="nav-link sans-regular size-11" aria-current="page" href="#contact-us">Contact Us</a>
