@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/global.css" />
-    <link rel="stylesheet" href="./css/products.css" />
+    <link rel="stylesheet" href="./css/info.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg fixed-top bg-dark">
@@ -40,7 +40,7 @@
               <a class="nav-link sans-regular size-11" aria-current="page" href="../../">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link sans-600 size-11 active" aria-current="page" href="./">Menu</a>
+              <a class="nav-link sans-600 size-11 active" aria-current="page" href="../products/">Menu</a>
             </li>
             <li class="nav-item">
               <a class="nav-link sans-regular size-11" aria-current="page" href="../../index.php#reviews">Reviews</a>
@@ -110,47 +110,126 @@
       </div>
     </nav>
     <div class="content-wrapper">
-      <div class="container" style="padding-top: 20px;">
-        <nav class="nav">
-          <?php
-            $selected_category_name = 'All';
-            if (isset($_GET['category_name'])) {
-              $selected_category_name = $_GET['category_name'];
-              if ($selected_category_name == 'All') {
-                echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
-              } else {
-                echo '<a class="nav-link color-light-grey sans-500" aria-current="page" href="./">All</a>';
-              }
-            } else {
-              echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
-            }
-            $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
-            $result = $conn->query($fetch_query);
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                $category_id = $row['id'];
-                $category_name = $row['category_name'];
-                $category_description = $row['category_description'];
-                $active_status = '';
-                if ($selected_category_name == $category_name) {
-                  $active_status = 'nav-link color-yellow sans-bold active';
-                } else {
-                  $active_status = 'nav-link color-light-grey sans-500';
+      <div class="container" style="padding-top: 50px;">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-12">
+            <img src="../../assets/images/summer_promo_5_5_1.png" class="img-selected-product" />
+            <div class="div-img-product-selection">
+              <div class="div-img-select-product active">
+                <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product-selection" />
+              </div>
+              <div class="div-img-select-product">
+                <img src="../../assets/images/summer_promo_5_5_2.png" class="img-product-selection" />
+              </div>
+              <div class="div-img-select-product">
+                <img src="../../assets/images/summer_promo_5_5_3.png" class="img-product-selection" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 col-md-7 col-sm-12 div-product-content">
+            <h2 class="sans-700 color-dark-grey">
+              <?php
+                if (isset($_GET['id'])) {
+                  $product_id = $_GET['id'];
+                  $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id."";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $product_name = $row['product_name'];
+                    echo $product_name;
+                  }
                 }
-                echo '
-                  <a
-                    class="'.$active_status.'"
-                    aria-current="page"
-                    href="./?id='.$category_id.'&category_name='.$category_name.'&category_description='.$category_description.'">
-                    '.$category_name.'
-                  </a>
-                ';
+              ?>
+            </h2>
+            <p class="sans-regular color-super-light-grey">
+              <?php
+                if (isset($_GET['id'])) {
+                  $product_id = $_GET['id'];
+                  $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id."";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $product_description_no_rn = str_replace('\r\n', '<br/>', $row['product_description']);
+                    $product_description_no_sl = str_replace('\\', '', $product_description_no_rn);
+                    $product_description_no_sn = str_replace('\n', '<br/>', $product_description_no_sl);
+                    $product_description = $product_description_no_sn;
+                    echo $product_description;
+                  }
+                }
+              ?>
+            </p>
+            <?php
+              if (isset($_GET['id'])) {
+                $product_id = $_GET['id'];
+                $fetch_query = "SELECT 
+                  PP.variant_id, 
+                  PP.variant_price,
+                  VT.variant_type, 
+                  VT.variant_name  
+                  FROM products_prices AS PP 
+                  INNER JOIN variants AS VT 
+                  ON PP.variant_id = VT.id 
+                  WHERE product_id = ".$product_id."";
+                $result = $conn->query($fetch_query);
+                if ($result->num_rows > 0) {
+                  $row = $result->fetch_assoc();
+                  $variant_name = $row['variant_name'];
+                  $variant_type = $row['variant_type'];
+                  $variant_price = $row['variant_price'];
+                  $variant_label = '
+                    <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                      '.$variant_type.':&nbsp;&nbsp;
+                      <span class="badge-size color-light-grey sans-regular size-10">
+                        '.$variant_name.'
+                      </span>
+                    </div>
+                    <div style="height: 20px;"></div>
+                  ';
+                  echo $variant_label;
+                  $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id."";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $is_buy_x_take_x = $row['is_buy_x_take_x'];
+                    $buy_x_of = $row['buy_x_of'];
+                    $take_x_of = $row['take_x_of'];
+                    $promotional_price = $row['promotional_price'];
+                    if ($is_buy_x_take_x == 1) {
+                      echo '
+                        <div class="div-price-container">
+                          <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                        </div>
+                      ';
+                    } else {
+                      echo '
+                        <div class="div-price-container">
+                          <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                          <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                        </div>
+                      ';
+                    }
+                  }
+                }
               }
-            }
-          ?>
-        </nav>
+            ?>
+            <div style="padding-top: 20px;">
+              <button
+                class="btn btn-lg btn-primary sans-600"
+                type="button">
+                <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
+              </button>&nbsp;
+              <button
+                class="btn btn-lg btn-secondary sans-600"
+                type="button">
+                <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="our-products" class="div-our-products">
+      <div style="margin-top: 70px;"></div>
+      <hr/>
+      <div id="our-products" class="div-our-products" style="margin-top: 15px;">
         <div class="container">
           <h2 class="color-dark-grey sans-bold">
             <?php
@@ -158,7 +237,7 @@
                 $selected_category_name = $_GET['category_name'];
                 echo $selected_category_name;
               } else {
-                echo 'Our Products';
+                echo 'Related Products';
               }
             ?>
           </h2>
@@ -172,11 +251,11 @@
               }
             ?>
           </p>
-          <div class="row" style="margin-top: 60px;">
+          <div class="row" style="margin-top: 30px;">
             <?php
               $category_id = 0;
-              if (isset($_GET['id'])) {
-                $category_id = $_GET['id'];
+              if (isset($_GET['category_id'])) {
+                $category_id = $_GET['category_id'];
               }
               if ($category_id == 0) {
                 $fetch_query = "SELECT 
@@ -224,16 +303,7 @@
                     if ($is_buy_x_take_x == 1) {
                       echo '
                         <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                          <img
-                            src="../../assets/images/summer_promo_5_5_1.png"
-                            class="img-product"
-                            onClick="onProductClick(
-                              '."".$category_id.",".'
-                              '."'".$category_name."',".'
-                              '."'".$category_description."',".'
-                              '."".$product_id."".'
-                            )"
-                          />
+                          <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
                           <div style="height: 20px;"></div>
                           '.$variant_label.'
                           <h4 class="color-dark-grey size-13 sans-700">
@@ -250,16 +320,7 @@
                     } else {
                       echo '
                         <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                          <img
-                            src="../../assets/images/summer_promo_5_5_1.png"
-                            class="img-product"
-                            onClick="onProductClick(
-                              '."".$category_id.",".'
-                              '."'".$category_name."',".'
-                              '."'".$category_description."',".'
-                              '."".$product_id."".'
-                            )"
-                          />
+                          <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
                           <div style="height: 20px;"></div>
                           '.$variant_label.'
                           <h4 class="color-dark-grey size-13 sans-700">
@@ -329,16 +390,7 @@
                         if ($is_buy_x_take_x == 1) {
                           echo '
                             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                              <img
-                                src="../../assets/images/summer_promo_5_5_1.png"
-                                class="img-product"
-                                onClick="onProductClick(
-                                  '."".$category_id.",".'
-                                  '."'".$category_name."',".'
-                                  '."'".$category_description."',".'
-                                  '."".$product_id."".'
-                                )"
-                              />
+                              <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
                               <div style="height: 20px;"></div>
                               '.$variant_label.'
                               <h4 class="color-dark-grey size-13 sans-700">
@@ -355,16 +407,7 @@
                         } else {
                           echo '
                             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                              <img
-                                src="../../assets/images/summer_promo_5_5_1.png"
-                                class="img-product"
-                                onClick="onProductClick(
-                                  '."".$category_id.",".'
-                                  '."'".$category_name."',".'
-                                  '."'".$category_description."',".'
-                                  '."".$product_id."".'
-                                )"
-                              />
+                              <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
                               <div style="height: 20px;"></div>
                               '.$variant_label.'
                               <h4 class="color-dark-grey size-13 sans-700">
@@ -689,24 +732,6 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
-  </script>
-  <script type="text/javascript">
-    const onProductClick = (
-      category_id,
-      category_name,
-      category_description,
-      product_id
-    ) => {
-      if (
-        category_id === undefined ||
-        category_name === undefined ||
-        category_description === undefined
-      ) {
-        window.location.href = `../info/?id=${product_id}`;
-      } else {
-        window.location.href = `../info/?id=${product_id}&category_id=${category_id}&category_name=${category_name}&category_description=${category_description}`;
-      }
-    };
   </script>
   <script type="text/javascript">
     const alertError = (message) => {
