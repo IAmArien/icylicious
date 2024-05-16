@@ -113,16 +113,16 @@
       <div class="container" style="padding-top: 50px;">
         <div class="row">
           <div class="col-lg-5 col-md-5 col-sm-12">
-            <img src="../../assets/images/summer_promo_5_5_1.png" class="img-selected-product" />
+            <img id="img-selected-product" src="../../assets/images/summer_promo_5_5_1.png" class="img-selected-product" />
             <div class="div-img-product-selection">
-              <div class="div-img-select-product active">
-                <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product-selection" />
+              <div id="div-select-product-1" class="div-img-select-product active">
+                <img id="img-select-product-1" src="../../assets/images/summer_promo_5_5_1.png" class="img-product-selection" />
               </div>
-              <div class="div-img-select-product">
-                <img src="../../assets/images/summer_promo_5_5_2.png" class="img-product-selection" />
+              <div id="div-select-product-2" class="div-img-select-product">
+                <img id="img-select-product-2" src="../../assets/images/summer_promo_5_5_2.png" class="img-product-selection" />
               </div>
-              <div class="div-img-select-product">
-                <img src="../../assets/images/summer_promo_5_5_3.png" class="img-product-selection" />
+              <div id="div-select-product-3" class="div-img-select-product">
+                <img id="img-select-product-3" src="../../assets/images/summer_promo_5_5_3.png" class="img-product-selection" />
               </div>
             </div>
           </div>
@@ -732,6 +732,37 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $('#div-select-product-1').click(() => {
+        const img = $('#img-select-product-1').attr('src');
+        if (img !== undefined && img !== "") {
+          $('#div-select-product-1').addClass('active');
+          $('#div-select-product-2').removeClass('active');
+          $('#div-select-product-3').removeClass('active');
+          $('#img-selected-product').attr('src', img);
+        }
+      });
+      $('#div-select-product-2').click(() => {
+        const img = $('#img-select-product-2').attr('src');
+        if (img !== undefined && img !== "") {
+          $('#div-select-product-1').removeClass('active');
+          $('#div-select-product-2').addClass('active');
+          $('#div-select-product-3').removeClass('active');
+          $('#img-selected-product').attr('src', img);
+        }
+      });
+      $('#div-select-product-3').click(() => {
+        const img = $('#img-select-product-3').attr('src');
+        if (img !== undefined && img !== "") {
+          $('#div-select-product-1').removeClass('active');
+          $('#div-select-product-2').removeClass('active');
+          $('#div-select-product-3').addClass('active');
+          $('#img-selected-product').attr('src', img);
+        }
+      });
+    });
   </script>
   <script type="text/javascript">
     const alertError = (message) => {
