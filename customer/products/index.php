@@ -204,6 +204,7 @@
                     $variant_price = $row['variant_price'];
                     $is_buy_x_take_x = $row['is_buy_x_take_x'];
                     $promotional_price = $row['promotional_price'];
+                    // get product variants
                     $fetch_query = "SELECT variant_type, variant_name FROM variants WHERE id = ".$product_variant_id."";
                     $variant_result = $conn->query($fetch_query);
                     $variant_label = '';
@@ -221,11 +222,25 @@
                         <div style="height: 20px;"></div>
                       ';
                     }
+                    // get product images
+                    $products_images = array();
+                    $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                    $images_result = $conn->query($fetch_query);
+                    if ($images_result->num_rows > 0) {
+                      while ($images_row = $images_result->fetch_assoc()) {
+                        $product_image = $images_row['product_image'];
+                        array_push($products_images, $product_image);
+                      }
+                    }
+                    $first_image = '';
+                    if (count($products_images) > 0) {
+                      $first_image = array_values($products_images)[0];
+                    }
                     if ($is_buy_x_take_x == 1) {
                       echo '
                         <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
                           <img
-                            src="../../assets/images/summer_promo_5_5_1.png"
+                            src="../../admin/uploads/'.$first_image.'"
                             class="img-product"
                             onClick="onProductClick(
                               '."".$category_id.",".'
@@ -309,6 +324,7 @@
                         $variant_price = $row['variant_price'];
                         $is_buy_x_take_x = $row['is_buy_x_take_x'];
                         $promotional_price = $row['promotional_price'];
+                        // get product variants
                         $fetch_query = "SELECT variant_type, variant_name FROM variants WHERE id = ".$product_variant_id."";
                         $variant_result = $conn->query($fetch_query);
                         $variant_label = '';
@@ -326,11 +342,25 @@
                             <div style="height: 20px;"></div>
                           ';
                         }
+                        // get product images
+                        $products_images = array();
+                        $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                        $images_result = $conn->query($fetch_query);
+                        if ($images_result->num_rows > 0) {
+                          while ($images_row = $images_result->fetch_assoc()) {
+                            $product_image = $images_row['product_image'];
+                            array_push($products_images, $product_image);
+                          }
+                        }
+                        $first_image = '';
+                        if (count($products_images) > 0) {
+                          $first_image = array_values($products_images)[0];
+                        }
                         if ($is_buy_x_take_x == 1) {
                           echo '
                             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
                               <img
-                                src="../../assets/images/summer_promo_5_5_1.png"
+                                src="../../admin/uploads/'.$first_image.'"
                                 class="img-product"
                                 onClick="onProductClick(
                                   '."".$category_id.",".'

@@ -113,17 +113,92 @@
       <div class="container" style="padding-top: 50px;">
         <div class="row">
           <div class="col-lg-5 col-md-5 col-sm-12">
-            <img id="img-selected-product" src="../../assets/images/summer_promo_5_5_1.png" class="img-selected-product" />
+            <?php
+              $first_image = '';
+              $second_image = '';
+              $third_image = '';
+              if (isset($_GET['id'])) {
+                $product_id = $_GET['id'];
+                // get product images
+                $products_images = array();
+                $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                $images_result = $conn->query($fetch_query);
+                if ($images_result->num_rows > 0) {
+                  while ($images_row = $images_result->fetch_assoc()) {
+                    $product_image = $images_row['product_image'];
+                    array_push($products_images, $product_image);
+                  }
+                }
+                if (count($products_images) == 1) {
+                  $first_image = array_values($products_images)[0];
+                } else if (count($products_images) == 2) {
+                  $first_image = array_values($products_images)[0];
+                  $second_image = array_values($products_images)[1];
+                } else if (count($products_images) == 3) {
+                  $first_image = array_values($products_images)[0];
+                  $second_image = array_values($products_images)[1];
+                  $third_image = array_values($products_images)[2];
+                }
+                echo '
+                  <img 
+                    id="img-selected-product" 
+                    src="../../admin/uploads/'.$first_image.'" 
+                    class="img-selected-product"
+                  />
+                ';
+              }
+            ?>
             <div class="div-img-product-selection">
-              <div id="div-select-product-1" class="div-img-select-product active">
-                <img id="img-select-product-1" src="../../assets/images/summer_promo_5_5_1.png" class="img-product-selection" />
-              </div>
-              <div id="div-select-product-2" class="div-img-select-product">
-                <img id="img-select-product-2" src="../../assets/images/summer_promo_5_5_2.png" class="img-product-selection" />
-              </div>
-              <div id="div-select-product-3" class="div-img-select-product">
-                <img id="img-select-product-3" src="../../assets/images/summer_promo_5_5_3.png" class="img-product-selection" />
-              </div>
+              <?php
+                if ($first_image !== '') {
+                  echo '
+                    <div id="div-select-product-1" class="div-img-select-product active">
+                      <img
+                        id="img-select-product-1"
+                        src="../../admin/uploads/'.$first_image.'" 
+                        class="img-product-selection"
+                      />
+                    </div>
+                  ';
+                } else {
+                  echo '
+                    <div class="div-img-select-product-inactive">
+                    </div>
+                  ';
+                }
+                if ($second_image !== '') {
+                  echo '
+                    <div id="div-select-product-2" class="div-img-select-product">
+                      <img
+                        id="img-select-product-2" 
+                        src="../../admin/uploads/'.$second_image.'" 
+                        class="img-product-selection"
+                      />
+                    </div>
+                  ';
+                } else {
+                  echo '
+                    <div class="div-img-select-product-inactive">
+                    </div>
+                  ';
+                }
+                if ($third_image !== '') {
+                  echo '
+                    <div id="div-select-product-3" class="div-img-select-product">
+                      <img
+                        id="img-select-product-3"
+                        src="../../admin/uploads/'.$third_image.'" 
+                        class="img-product-selection"
+                      />
+                    </div>
+                  ';
+                } else {
+                  echo '
+                    <div class="div-img-select-product-inactive">
+                    </div>
+                  ';
+                }
+              ?>
             </div>
           </div>
           <div class="col-lg-7 col-md-7 col-sm-12 div-product-content">
