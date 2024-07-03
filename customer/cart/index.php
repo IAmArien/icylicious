@@ -127,6 +127,7 @@
               <div style="height: 30px"></div>
               <div class="div-cart-items">
                 <?php
+                  $total_checkout_price = 0.00;
                   if (isset($_SESSION['user_info.email'])) {
                     $fetch_query = "SELECT DISTINCT product_id FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
                     $result = $conn->query($fetch_query);
@@ -173,6 +174,7 @@
                               $promotional_price = $promotions_row['promotional_price'];
                               if ($promotional_price != '0') {
                                 $product_total_price = floatval($promotional_price) * $product_count;
+                                $total_checkout_price += $product_total_price;
                                 $product_price_place = '
                                   <div class="div-price-container">
                                     <h5 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h5>
@@ -181,6 +183,7 @@
                                 ';
                               } else {
                                 $product_total_price = floatval($variant_price) * $product_count;
+                                $total_checkout_price += $product_total_price;
                                 $product_price_place = '
                                   <div class="div-price-container">
                                     <h5 class="color-dark-grey sans-bold">₱'.$variant_price.'</h5>
@@ -189,6 +192,7 @@
                               }
                             } else {
                               $product_total_price = floatval($variant_price) * $product_count;
+                              $total_checkout_price += $product_total_price;
                               $product_price_place = '
                                 <div class="div-price-container">
                                   <h5 class="color-dark-grey sans-bold">₱'.$variant_price.'</h5>
@@ -244,6 +248,18 @@
                   </div>
                 </div> -->
               </div>
+            </div>
+            <div class="div-checkout-price">
+              <div class="div-checkout-action">
+                <button
+                  class="btn btn-md btn-secondary sans-600"
+                  type="submit"
+                  name="checkout_type"
+                  value="checkout">
+                  <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                </button>
+              </div>
+              <h5 class="sans-regular color-dark-grey">Total: <b>₱<?php echo $total_checkout_price; ?></b></h5>
             </div>
           </div>
           <div class="col-lg-2"></div>
