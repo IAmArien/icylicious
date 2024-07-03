@@ -53,6 +53,14 @@
             <?php
               if (isset($_SESSION['user_credentials.type'])) {
                 $credentials = $_SESSION['user_credentials.type'];
+                $cart_quantity = "";
+                if (isset($_SESSION['user_info.email'])) {
+                  $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    $cart_quantity = " (". strval($result->num_rows) . ") ";
+                  }
+                }
                 if ($credentials === "customer") {
                   echo '
                     <button
@@ -65,7 +73,7 @@
                       id="btn-shopping-cart"
                       class="btn btn-sm btn-outline-primary sans-500"
                       type="button">
-                      <i class="far fa-shopping-cart"></i>&nbsp;&nbsp;Shopping Cart
+                      <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Shopping Cart'.$cart_quantity.'
                     </button>
                   ';
                 } else {
@@ -110,198 +118,234 @@
       </div>
     </nav>
     <div class="content-wrapper">
-      <div class="container" style="padding-top: 50px;">
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-sm-12">
-            <?php
-              $first_image = '';
-              $second_image = '';
-              $third_image = '';
-              if (isset($_GET['id'])) {
-                $product_id = $_GET['id'];
-                // get product images
-                $products_images = array();
-                $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
-                $images_result = $conn->query($fetch_query);
-                if ($images_result->num_rows > 0) {
-                  while ($images_row = $images_result->fetch_assoc()) {
-                    $product_image = $images_row['product_image'];
-                    array_push($products_images, $product_image);
-                  }
-                }
-                if (count($products_images) == 1) {
-                  $first_image = array_values($products_images)[0];
-                } else if (count($products_images) == 2) {
-                  $first_image = array_values($products_images)[0];
-                  $second_image = array_values($products_images)[1];
-                } else if (count($products_images) == 3) {
-                  $first_image = array_values($products_images)[0];
-                  $second_image = array_values($products_images)[1];
-                  $third_image = array_values($products_images)[2];
-                }
-                echo '
-                  <img 
-                    id="img-selected-product" 
-                    src="../../admin/uploads/'.$first_image.'" 
-                    class="img-selected-product"
-                  />
-                ';
-              }
-            ?>
-            <div class="div-img-product-selection">
+      <form action="../actions/checkout.php" method="POST">
+        <input
+          type="hidden"
+          name="category_id"
+          value="<?php if (isset($_GET['category_id'])) echo $_GET['category_id']; ?>"
+        />
+        <input
+          type="hidden"
+          name="category_name"
+          value="<?php if (isset($_GET['category_name'])) echo $_GET['category_name']; ?>"
+        />
+        <input
+          type="hidden"
+          name="category_description"
+          value="<?php if (isset($_GET['category_description'])) echo $_GET['category_description']; ?>"
+        />
+        <input
+          type="hidden"
+          name="product_id"
+          value="<?php if (isset($_GET['id'])) echo $_GET['id']; else echo 0; ?>"
+        />
+        <input
+          type="hidden"
+          name="product_quantity"
+          value="1"
+        />
+        <input
+          type="hidden"
+          name="customer_email"
+          value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>"
+        />
+        <div class="container" style="padding-top: 50px;">
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-12">
               <?php
-                if ($first_image !== '') {
+                $first_image = '';
+                $second_image = '';
+                $third_image = '';
+                if (isset($_GET['id'])) {
+                  $product_id = $_GET['id'];
+                  // get product images
+                  $products_images = array();
+                  $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                  $images_result = $conn->query($fetch_query);
+                  if ($images_result->num_rows > 0) {
+                    while ($images_row = $images_result->fetch_assoc()) {
+                      $product_image = $images_row['product_image'];
+                      array_push($products_images, $product_image);
+                    }
+                  }
+                  if (count($products_images) == 1) {
+                    $first_image = array_values($products_images)[0];
+                  } else if (count($products_images) == 2) {
+                    $first_image = array_values($products_images)[0];
+                    $second_image = array_values($products_images)[1];
+                  } else if (count($products_images) == 3) {
+                    $first_image = array_values($products_images)[0];
+                    $second_image = array_values($products_images)[1];
+                    $third_image = array_values($products_images)[2];
+                  }
                   echo '
-                    <div id="div-select-product-1" class="div-img-select-product active">
-                      <img
-                        id="img-select-product-1"
-                        src="../../admin/uploads/'.$first_image.'" 
-                        class="img-product-selection"
-                      />
-                    </div>
-                  ';
-                } else {
-                  echo '
-                    <div class="div-img-select-product-inactive">
-                    </div>
-                  ';
-                }
-                if ($second_image !== '') {
-                  echo '
-                    <div id="div-select-product-2" class="div-img-select-product">
-                      <img
-                        id="img-select-product-2" 
-                        src="../../admin/uploads/'.$second_image.'" 
-                        class="img-product-selection"
-                      />
-                    </div>
-                  ';
-                } else {
-                  echo '
-                    <div class="div-img-select-product-inactive">
-                    </div>
-                  ';
-                }
-                if ($third_image !== '') {
-                  echo '
-                    <div id="div-select-product-3" class="div-img-select-product">
-                      <img
-                        id="img-select-product-3"
-                        src="../../admin/uploads/'.$third_image.'" 
-                        class="img-product-selection"
-                      />
-                    </div>
-                  ';
-                } else {
-                  echo '
-                    <div class="div-img-select-product-inactive">
-                    </div>
+                    <img 
+                      id="img-selected-product" 
+                      src="../../admin/uploads/'.$first_image.'" 
+                      class="img-selected-product"
+                    />
                   ';
                 }
               ?>
+              <div class="div-img-product-selection">
+                <?php
+                  if ($first_image !== '') {
+                    echo '
+                      <div id="div-select-product-1" class="div-img-select-product active">
+                        <img
+                          id="img-select-product-1"
+                          src="../../admin/uploads/'.$first_image.'" 
+                          class="img-product-selection"
+                        />
+                      </div>
+                    ';
+                  } else {
+                    echo '
+                      <div class="div-img-select-product-inactive">
+                      </div>
+                    ';
+                  }
+                  if ($second_image !== '') {
+                    echo '
+                      <div id="div-select-product-2" class="div-img-select-product">
+                        <img
+                          id="img-select-product-2" 
+                          src="../../admin/uploads/'.$second_image.'" 
+                          class="img-product-selection"
+                        />
+                      </div>
+                    ';
+                  } else {
+                    echo '
+                      <div class="div-img-select-product-inactive">
+                      </div>
+                    ';
+                  }
+                  if ($third_image !== '') {
+                    echo '
+                      <div id="div-select-product-3" class="div-img-select-product">
+                        <img
+                          id="img-select-product-3"
+                          src="../../admin/uploads/'.$third_image.'" 
+                          class="img-product-selection"
+                        />
+                      </div>
+                    ';
+                  } else {
+                    echo '
+                      <div class="div-img-select-product-inactive">
+                      </div>
+                    ';
+                  }
+                ?>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-7 col-md-7 col-sm-12 div-product-content">
-            <h2 class="sans-700 color-dark-grey">
+            <div class="col-lg-7 col-md-7 col-sm-12 div-product-content">
+              <h2 class="sans-700 color-dark-grey">
+                <?php
+                  if (isset($_GET['id'])) {
+                    $product_id = $_GET['id'];
+                    $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id."";
+                    $result = $conn->query($fetch_query);
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $product_name = $row['product_name'];
+                      echo $product_name;
+                    }
+                  }
+                ?>
+              </h2>
+              <p class="sans-regular color-super-light-grey">
+                <?php
+                  if (isset($_GET['id'])) {
+                    $product_id = $_GET['id'];
+                    $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id."";
+                    $result = $conn->query($fetch_query);
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $product_description_no_rn = str_replace('\r\n', '<br/>', $row['product_description']);
+                      $product_description_no_sl = str_replace('\\', '', $product_description_no_rn);
+                      $product_description_no_sn = str_replace('\n', '<br/>', $product_description_no_sl);
+                      $product_description = $product_description_no_sn;
+                      echo $product_description;
+                    }
+                  }
+                ?>
+              </p>
               <?php
                 if (isset($_GET['id'])) {
                   $product_id = $_GET['id'];
-                  $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id."";
+                  $fetch_query = "SELECT 
+                    PP.variant_id, 
+                    PP.variant_price,
+                    VT.variant_type, 
+                    VT.variant_name  
+                    FROM products_prices AS PP 
+                    INNER JOIN variants AS VT 
+                    ON PP.variant_id = VT.id 
+                    WHERE product_id = ".$product_id."";
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
-                    $product_name = $row['product_name'];
-                    echo $product_name;
-                  }
-                }
-              ?>
-            </h2>
-            <p class="sans-regular color-super-light-grey">
-              <?php
-                if (isset($_GET['id'])) {
-                  $product_id = $_GET['id'];
-                  $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id."";
-                  $result = $conn->query($fetch_query);
-                  if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                    $product_description_no_rn = str_replace('\r\n', '<br/>', $row['product_description']);
-                    $product_description_no_sl = str_replace('\\', '', $product_description_no_rn);
-                    $product_description_no_sn = str_replace('\n', '<br/>', $product_description_no_sl);
-                    $product_description = $product_description_no_sn;
-                    echo $product_description;
-                  }
-                }
-              ?>
-            </p>
-            <?php
-              if (isset($_GET['id'])) {
-                $product_id = $_GET['id'];
-                $fetch_query = "SELECT 
-                  PP.variant_id, 
-                  PP.variant_price,
-                  VT.variant_type, 
-                  VT.variant_name  
-                  FROM products_prices AS PP 
-                  INNER JOIN variants AS VT 
-                  ON PP.variant_id = VT.id 
-                  WHERE product_id = ".$product_id."";
-                $result = $conn->query($fetch_query);
-                if ($result->num_rows > 0) {
-                  $row = $result->fetch_assoc();
-                  $variant_name = $row['variant_name'];
-                  $variant_type = $row['variant_type'];
-                  $variant_price = $row['variant_price'];
-                  $variant_label = '
-                    <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                      '.$variant_type.':&nbsp;&nbsp;
-                      <span class="badge-size color-light-grey sans-regular size-10">
-                        '.$variant_name.'
-                      </span>
-                    </div>
-                    <div style="height: 20px;"></div>
-                  ';
-                  echo $variant_label;
-                  $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id."";
-                  $result = $conn->query($fetch_query);
-                  if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                    $is_buy_x_take_x = $row['is_buy_x_take_x'];
-                    $buy_x_of = $row['buy_x_of'];
-                    $take_x_of = $row['take_x_of'];
-                    $promotional_price = $row['promotional_price'];
-                    if ($is_buy_x_take_x == 1) {
-                      echo '
-                        <div class="div-price-container">
-                          <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
-                        </div>
-                      ';
-                    } else {
-                      echo '
-                        <div class="div-price-container">
-                          <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
-                          <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
-                        </div>
-                      ';
+                    $variant_name = $row['variant_name'];
+                    $variant_type = $row['variant_type'];
+                    $variant_price = $row['variant_price'];
+                    $variant_label = '
+                      <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                        '.$variant_type.':&nbsp;&nbsp;
+                        <span class="badge-size color-light-grey sans-regular size-10">
+                          '.$variant_name.'
+                        </span>
+                      </div>
+                      <div style="height: 20px;"></div>
+                    ';
+                    echo $variant_label;
+                    $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id."";
+                    $result = $conn->query($fetch_query);
+                    if ($result->num_rows > 0) {
+                      $row = $result->fetch_assoc();
+                      $is_buy_x_take_x = $row['is_buy_x_take_x'];
+                      $buy_x_of = $row['buy_x_of'];
+                      $take_x_of = $row['take_x_of'];
+                      $promotional_price = $row['promotional_price'];
+                      if ($is_buy_x_take_x == 1) {
+                        echo '
+                          <div class="div-price-container">
+                            <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                          </div>
+                        ';
+                      } else {
+                        echo '
+                          <div class="div-price-container">
+                            <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                            <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                          </div>
+                        ';
+                      }
                     }
                   }
                 }
-              }
-            ?>
-            <div style="padding-top: 20px;">
-              <button
-                class="btn btn-lg btn-primary sans-600"
-                type="button">
-                <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
-              </button>&nbsp;
-              <button
-                class="btn btn-lg btn-secondary sans-600"
-                type="button">
-                <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
-              </button>
+              ?>
+              <div style="padding-top: 20px;">
+                <button
+                  class="btn btn-lg btn-primary sans-600"
+                  type="submit"
+                  name="checkout_type"
+                  value="add_to_cart">
+                  <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
+                </button>&nbsp;
+                <button
+                  class="btn btn-lg btn-secondary sans-600"
+                  type="submit"
+                  name="checkout_type"
+                  value="checkout">
+                  <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
       <div style="margin-top: 70px;"></div>
       <hr/>
       <div id="our-products" class="div-our-products" style="margin-top: 15px;">
@@ -810,6 +854,13 @@
   </script>
   <script type="text/javascript">
     $(document).ready(() => {
+      $('#btn-shopping-cart').click(() => {
+        window.location.href = "../cart";
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
       $('#div-select-product-1').click(() => {
         const img = $('#img-select-product-1').attr('src');
         if (img !== undefined && img !== "") {
@@ -840,7 +891,7 @@
     });
   </script>
   <script type="text/javascript">
-    const alertError = (message) => {
+    const alertMessage = (message) => {
       window.alert(message);
     };
     <?php
@@ -852,13 +903,47 @@
         echo '
           window.onload = () => {
             setTimeout(() => {
-              alertError("'.$_SESSION['errors.message'].'");
+              alertMessage("'.$_SESSION['errors.message'].'");
             }, 500);
           };
         ';
         unset($_SESSION['errors.type']);
         unset($_SESSION['errors.title']);
         unset($_SESSION['errors.message']);
+      }
+      if (isset($_SESSION['contact_us'])) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['contact_us'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['contact_us']);
+      }
+      if (isset($_SESSION['sign_up'])) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['sign_up'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['sign_up']);
+      }
+      if (
+        isset($_SESSION['checkout.message']) &&
+        isset($_SESSION['checkout.quantity'])
+      ) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['checkout.message'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['checkout.message']);
+        unset($_SESSION['checkout.quantity']);
       }
     ?>
   </script>

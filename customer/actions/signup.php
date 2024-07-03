@@ -69,35 +69,41 @@
           );
           $result = $stmt->execute();
           if ($result == 1) {
+            $_SESSION['sign_up'] = "Registered successfully. Please try logging in.";
             unset($_SESSION['errors.type']);
             unset($_SESSION['errors.title']);
             unset($_SESSION['errors.message']);
             $stmt->close();
             $conn->close();
           } else {
+            unset($_SESSION['sign_up']);
             $_SESSION['errors.type'] = 'registration_error';
             $_SESSION['errors.title'] = 'Something went wrong';
             $_SESSION['errors.message'] = 'Unable to register, please check user info if email already exists.';
           }
         } else {
+          unset($_SESSION['sign_up']);
           $_SESSION['errors.type'] = 'registration_error';
           $_SESSION['errors.title'] = 'Something went wrong';
           $_SESSION['errors.message'] = 'Unable to register, please check user info if email already exists.';
         }
         header('Location: ../../');
       } else {
+        unset($_SESSION['sign_up']);
         $_SESSION['errors.type'] = 'registration_error';
         $_SESSION['errors.title'] = 'Something went wrong';
         $_SESSION['errors.message'] = 'Unable to register, might be missing some required parameters';
         header('Location: ../../');
       }
     } else {
+      unset($_SESSION['sign_up']);
       $_SESSION['errors.type'] = 'registration_error';
       $_SESSION['errors.title'] = 'Something went wrong';
       $_SESSION['errors.message'] = 'Unable to register, might be missing some required parameters';
       header('Location: ../../');
     }
   } catch (\Throwable $th) {
+    unset($_SESSION['sign_up']);
     echo $th;
   }
 ?>

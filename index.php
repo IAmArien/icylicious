@@ -1,6 +1,6 @@
 <?php
   session_start();
-  include('../utils/connections.php');
+  include('./utils/connections.php');
   if (
     isset($_SESSION['user_credentials.username']) &&
     isset($_SESSION['user_credentials.type'])
@@ -53,6 +53,14 @@
             <?php
               if (isset($_SESSION['user_credentials.type'])) {
                 $credentials = $_SESSION['user_credentials.type'];
+                $cart_quantity = "";
+                if (isset($_SESSION['user_info.email'])) {
+                  $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    $cart_quantity = " (". strval($result->num_rows) . ") ";
+                  }
+                }
                 if ($credentials === "customer") {
                   echo '
                     <button
@@ -65,7 +73,7 @@
                       id="btn-shopping-cart"
                       class="btn btn-sm btn-outline-primary sans-500"
                       type="button">
-                      <i class="far fa-shopping-cart"></i>&nbsp;&nbsp;Shopping Cart
+                      <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Shopping Cart'.$cart_quantity.'
                     </button>
                   ';
                 } else {
@@ -328,7 +336,7 @@
                     <input
                       type="text"
                       placeholder="First Name"
-                      name="first_name"
+                      name="firstname"
                       required
                       class="form-control sans-regular"
                     />
@@ -337,7 +345,7 @@
                     <input
                       type="text"
                       placeholder="Last Name"
-                      name="last_name"
+                      name="lastname"
                       required
                       class="form-control sans-regular"
                     />
@@ -354,7 +362,7 @@
                 <input
                   type="number"
                   placeholder="Mobile No. (eg. +639__)"
-                  name="phone"
+                  name="mobile"
                   required
                   class="form-control sans-regular"
                   style="margin-top: 10px;"
@@ -619,7 +627,7 @@
     crossorigin="anonymous">
   </script>
   <script type="text/javascript">
-    const alertError = (message) => {
+    const alertMessage = (message) => {
       window.alert(message);
     };
     <?php
@@ -631,13 +639,33 @@
         echo '
           window.onload = () => {
             setTimeout(() => {
-              alertError("'.$_SESSION['errors.message'].'");
+              alertMessage("'.$_SESSION['errors.message'].'");
             }, 500);
           };
         ';
         unset($_SESSION['errors.type']);
         unset($_SESSION['errors.title']);
         unset($_SESSION['errors.message']);
+      }
+      if (isset($_SESSION['contact_us'])) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['contact_us'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['contact_us']);
+      }
+      if (isset($_SESSION['sign_up'])) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['sign_up'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['sign_up']);
       }
     ?>
   </script>
