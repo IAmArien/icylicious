@@ -279,3 +279,22 @@
   flex-direction: row;
   flex: 1;
 }
+
+.div-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.div-checkout-payment-type {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.div-cc-details {
+  padding: 15px;
+  border: 1px solid var(--light-white);
+  border-radius: 7px;
+  background-color: var(--light-white);
+}

@@ -69,9 +69,15 @@
               unset($_SESSION['errors.type']);
               unset($_SESSION['errors.title']);
               unset($_SESSION['errors.message']);
-              $_SESSION['checkout.message'] = "Added to cart successfully!";
-              $_SESSION['checkout.quantity'] = $cart_quantity;
-              header('Location: ../info/?id='.$product_id.'&category_id='.$category_id."&category_name=".$category_name."&category_description=".$category_description);
+              if ($checkout_type == 'add_to_cart') {
+                $_SESSION['checkout.message'] = "Added to cart successfully!";
+                $_SESSION['checkout.quantity'] = $cart_quantity;
+                header('Location: ../info/?id='.$product_id.'&category_id='.$category_id."&category_name=".$category_name."&category_description=".$category_description);
+              } else {
+                unset($_SESSION['checkout.message']);
+                unset($_SESSION['checkout.quantity']);
+                header('Location: ../cart');
+              }
             } else {
               $_SESSION['errors.type'] = 'checkout';
               $_SESSION['errors.title'] = 'Unable to add to cart';

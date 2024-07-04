@@ -128,10 +128,12 @@
               <div class="div-cart-items">
                 <?php
                   $total_checkout_price = 0.00;
+                  $has_item = false;
                   if (isset($_SESSION['user_info.email'])) {
                     $fetch_query = "SELECT DISTINCT product_id FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
                     $result = $conn->query($fetch_query);
                     if ($result->num_rows > 0) {
+                      $has_item = true;
                       while ($row = $result->fetch_assoc()) {
                         $product_id = $row['product_id'];
                         $fetch_query = "SELECT *, count(*) FROM cart WHERE product_id = ".$product_id." AND user_email = '".$_SESSION['user_info.email']."'";
@@ -200,9 +202,33 @@
                               ';
                             }
                           }
+
+                          $first_image = '';
+                          $second_image = '';
+                          $third_image = '';
+                          $products_images = array();
+                          $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                          $images_result = $conn->query($fetch_query);
+                          if ($images_result->num_rows > 0) {
+                            while ($images_row = $images_result->fetch_assoc()) {
+                              $product_image = $images_row['product_image'];
+                              array_push($products_images, $product_image);
+                            }
+                          }
+                          if (count($products_images) == 1) {
+                            $first_image = array_values($products_images)[0];
+                          } else if (count($products_images) == 2) {
+                            $first_image = array_values($products_images)[0];
+                            $second_image = array_values($products_images)[1];
+                          } else if (count($products_images) == 3) {
+                            $first_image = array_values($products_images)[0];
+                            $second_image = array_values($products_images)[1];
+                            $third_image = array_values($products_images)[2];
+                          }
+
                           echo '
                             <div class="div-cart-item">
-                              <img src="../../assets/images/about_us_logo.png" class="img-cart-item" />
+                              <img src="../../admin/uploads/'.$first_image.'" class="img-cart-item" />
                               <div class="div-cart-item-info">
                                 <h5 class="sans-600 color-dark-grey">
                                   ('.$product_count.') SPECIAL MANGO GRAHAM B1T1
@@ -210,16 +236,22 @@
                                 '.$variant_place.'
                                 '.$product_price_place.'
                               </div>
-                              <div class="div-total-price-action">
-                                <h3 class="color-dark-grey sans-bold">₱'.$product_total_price.'</h3>
-                                <button class="btn btn-sm btn-danger sans-regular">
-                                  Remove
-                                </button>
-                              </div>
+                              <form action="../actions/delete_cart_item.php" method="POST">
+                                <input type="hidden" name="product_id" value="'.$product_id.'" />
+                                <input type="hidden" name="customer_email" value="'.$_SESSION['user_info.email'].'" />
+                                <div class="div-total-price-action">
+                                  <h3 class="color-dark-grey sans-bold">₱'.number_format($product_total_price).'</h3>
+                                  <button class="btn btn-sm btn-danger sans-regular" type="submit">
+                                    Remove
+                                  </button>
+                                </div>
+                              </form>
                             </div>
                           ';
                         }
                       }
+                    } else {
+                      echo '<p class="sans-regular color-dark-grey">No item in the cart.</p>';
                     }
                   }
                 ?>
@@ -251,15 +283,18 @@
             </div>
             <div class="div-checkout-price">
               <div class="div-checkout-action">
-                <button
-                  class="btn btn-md btn-secondary sans-600"
-                  type="submit"
-                  name="checkout_type"
-                  value="checkout">
-                  <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
-                </button>
+                <a href="../checkout">
+                  <button
+                    class="btn btn-md btn-secondary sans-600"
+                    type="submit"
+                    name="checkout_type"
+                    value="checkout"
+                    <?php if (!$has_item) echo "disabled"; ?>>
+                    <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                  </button>
+                </a>
               </div>
-              <h5 class="sans-regular color-dark-grey">Total: <b>₱<?php echo $total_checkout_price; ?></b></h5>
+              <h5 class="sans-regular color-dark-grey">Total: <b>₱<?php echo number_format($total_checkout_price); ?></b></h5>
             </div>
           </div>
           <div class="col-lg-2"></div>
@@ -421,5 +456,38 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
+  </script>
+  <script type="text/javascript">
+    const alertMessage = (message) => {
+      window.alert(message);
+    };
+    <?php
+      if (
+        isset($_SESSION['errors.type']) &&
+        isset($_SESSION['errors.title']) &&
+        isset($_SESSION['errors.message'])
+      ) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['errors.message'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['errors.type']);
+        unset($_SESSION['errors.title']);
+        unset($_SESSION['errors.message']);
+      }
+      if (isset($_SESSION['cart.message'])) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['cart.message'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['cart.message']);
+      }
+    ?>
   </script>
 </html>

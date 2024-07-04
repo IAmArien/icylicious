@@ -18,7 +18,7 @@
       $result = $conn->query($fetch_credentials);
       if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $user_id = $row["id"];
+        $user_id = $row["user_id"];
         $fetch_user_info = "
           SELECT * FROM user_info 
           WHERE id = ".$user_id." 
