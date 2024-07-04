@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 01, 2024 at 03:38 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 7.4.30
+-- Host: localhost
+-- Generation Time: Jul 04, 2024 at 06:07 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `cart` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `variant_size_id` int(11) DEFAULT NULL,
+  `variant_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `order_date` varchar(255) NOT NULL,
   `order_time` varchar(255) NOT NULL,
@@ -39,7 +39,32 @@ CREATE TABLE `cart` (
   `user_address` varchar(999) NOT NULL,
   `user_phone` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`) VALUES
+(1, 30, 6, 22, '2024/06/30', '03:56:08pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(2, 30, 6, 22, '2024/06/30', '04:00:36pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(3, 30, 6, 22, '2024/06/30', '04:01:49pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(4, 30, 6, 22, '2024/06/30', '04:01:52pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(5, 30, 6, 22, '2024/06/30', '04:02:48pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(6, 30, 6, 22, '2024/06/30', '04:02:50pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(7, 30, 6, 22, '2024/06/30', '04:03:15pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(8, 30, 6, 22, '2024/07/02', '03:40:19pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(9, 30, 6, 22, '2024/07/02', '03:40:21pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(10, 30, 6, 22, '2024/07/02', '03:44:59pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(11, 30, 6, 22, '2024/07/02', '03:45:06pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(12, 30, 6, 22, '2024/07/02', '03:55:20pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(13, 30, 6, 22, '2024/07/02', '03:56:46pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(14, 30, 6, 22, '2024/07/03', '04:26:21pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(15, 29, 3, 22, '2024/07/03', '04:55:09pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(16, 29, 3, 22, '2024/07/03', '04:57:40pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(17, 29, 3, 22, '2024/07/03', '04:57:43pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(18, 30, 6, 22, '2024/07/03', '05:13:47pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
+(19, 30, 6, 22, '2024/07/03', '05:13:49pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com');
 
 -- --------------------------------------------------------
 
@@ -51,7 +76,7 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `category_name` varchar(255) NOT NULL,
   `category_description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories`
@@ -61,10 +86,31 @@ INSERT INTO `categories` (`id`, `category_name`, `category_description`) VALUES
 (7, 'Drinks (Cold)', 'Drink-related category (eg. Softdrinks, Soda, Juice, Iced Tea, excluding Milk Tea)'),
 (8, 'Coffee', 'Coffee-related category either hot / cold'),
 (10, 'Milk Tea', 'Milk Tea-related drinks only (no cold drinks such as softdrinks)'),
-(11, 'Breakfast Meal', 'Meal-related category only for breakfast'),
-(12, 'Lunch Meal', 'Meal-related category only for lunch'),
-(13, 'Dinner Meal', 'Meal-related category only for dinner'),
-(14, 'Desserts', 'Dessert-related such as Ice Cream, Halo-halo, etc.');
+(14, 'Desserts', 'Dessert-related such as Ice Cream, Halo-halo, etc.'),
+(15, 'Smoothie', 'Smoothie-related drinks');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_us`
+--
+
+CREATE TABLE `contact_us` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `mobile` varchar(255) NOT NULL,
+  `contact_subject` varchar(255) NOT NULL,
+  `contact_description` varchar(999) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact_us`
+--
+
+INSERT INTO `contact_us` (`id`, `firstname`, `lastname`, `email`, `mobile`, `contact_subject`, `contact_description`) VALUES
+(1, 'Norman', 'Palisoc', 'norman.palisoc@gmail.com', '238402394234', 'Test', 'Test');
 
 -- --------------------------------------------------------
 
@@ -75,7 +121,7 @@ INSERT INTO `categories` (`id`, `category_name`, `category_description`) VALUES
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `variant_size_id` int(11) DEFAULT NULL,
+  `variant_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `order_date` varchar(255) NOT NULL,
   `order_time` varchar(255) NOT NULL,
@@ -84,7 +130,65 @@ CREATE TABLE `orders` (
   `user_address` varchar(999) NOT NULL,
   `user_phone` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`) VALUES
+(30, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(31, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(32, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(33, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(34, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(35, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(36, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(37, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(38, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(39, 30, 6, 36, '2024/07/04', '06:06:31am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
+(40, 30, 6, 36, '2024/07/04', '06:06:31am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders_billing`
+--
+
+CREATE TABLE `orders_billing` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `credit_card_no` varchar(255) NOT NULL,
+  `credit_card_exp` varchar(255) NOT NULL,
+  `credit_card_code` varchar(255) NOT NULL,
+  `billing_first_name` varchar(255) NOT NULL,
+  `billing_last_name` varchar(255) NOT NULL,
+  `billing_phone` varchar(255) NOT NULL,
+  `billing_address` varchar(999) NOT NULL,
+  `shipping_first_name` varchar(255) NOT NULL,
+  `shipping_last_name` varchar(255) NOT NULL,
+  `shipping_phone` varchar(255) NOT NULL,
+  `shipping_address` varchar(999) NOT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `customer_email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders_billing`
+--
+
+INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_exp`, `credit_card_code`, `billing_first_name`, `billing_last_name`, `billing_phone`, `billing_address`, `shipping_first_name`, `shipping_last_name`, `shipping_phone`, `shipping_address`, `payment_type`, `customer_email`) VALUES
+(10, 30, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(11, 31, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(12, 32, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(13, 33, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(14, 34, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(15, 35, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(16, 36, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(17, 37, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(18, 38, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
+(19, 39, '3456-8900-1244-4534', '12/29', '780', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'cc', 'norman.palisoc@gmail1.com'),
+(20, 40, '3456-8900-1244-4534', '12/29', '780', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'cc', 'norman.palisoc@gmail1.com');
 
 -- --------------------------------------------------------
 
@@ -96,16 +200,15 @@ CREATE TABLE `products_categories` (
   `id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products_categories`
 --
 
 INSERT INTO `products_categories` (`id`, `category_id`, `product_id`) VALUES
-(22, 8, 23),
-(23, 8, 24),
-(24, 8, 25);
+(29, 15, 29),
+(30, 15, 30);
 
 -- --------------------------------------------------------
 
@@ -117,18 +220,15 @@ CREATE TABLE `products_images` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_image` varchar(999) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products_images`
 --
 
 INSERT INTO `products_images` (`id`, `product_id`, `product_image`) VALUES
-(18, 23, '../uploads/b2eba702265ec6660c5b163415903874-296.jpg'),
-(19, 23, '../uploads/7a5fbe85a4c1746b5d99b762e9b33070-496.jpg'),
-(20, 24, '../uploads/7a5fbe85a4c1746b5d99b762e9b33070-246.jpg'),
-(21, 25, '../uploads/dc473895e63ab8a779b2903a06711464-461.png'),
-(22, 25, '../uploads/b2eba702265ec6660c5b163415903874-446.jpg');
+(10, 30, '../uploads/7a5fbe85a4c1746b5d99b762e9b33070-176.jpg'),
+(11, 30, '../uploads/dc473895e63ab8a779b2903a06711464-461.png');
 
 -- --------------------------------------------------------
 
@@ -140,16 +240,15 @@ CREATE TABLE `products_info` (
   `id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `product_description` varchar(999) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products_info`
 --
 
 INSERT INTO `products_info` (`id`, `product_name`, `product_description`) VALUES
-(23, 'Iced Caramel Macchiato', 'A classic and time-honored dark roast with notes of molasses and caramelized sugar that\\\'s perfect for making classic espresso drinks.'),
-(24, 'Iced Caramel Macchiato', 'A classic and time-honored dark roast with notes of molasses and caramelized sugar that\\\'s perfect for making classic espresso drinks.'),
-(25, 'Iced Caramel Macchiator', 'A classic and time-honored dark roast with notes of molasses and caramelized sugar that\\\'s perfect for making classic espresso drinks.');
+(29, 'SPECIAL MANGO GRAHAM B1T1', 'Cheers to the real superheroes in our lives!\\r\\nMOTHER\\\'S DAY SPECIAL\\r\\n\\r\\nCelebrate Mother\\\'s Day with us with our Super Sulit Promo only here at Icylicious!\\r\\nSPECIAL MANGO GRAHAM B1T1\\r\\n@199\\r\\n\\r\\nPromo runs: May 12-13, 2024 only\\r\\nAvailable at all Icylicious Stores.'),
+(30, 'SPECIAL MANGO GRAHAM B1T1', 'Cheers to the real superheroes in our lives!\\r\\nMOTHER\\\'S DAY SPECIAL\\r\\n\\r\\nCelebrate Mother\\\'s Day with us with our Super Sulit Promo only here at Icylicious!\\r\\nSPECIAL MANGO GRAHAM B1T1\\r\\n@199\\r\\n\\r\\nPromo runs: May 12-13, 2024 only\\r\\nAvailable at all Icylicious Stores.');
 
 -- --------------------------------------------------------
 
@@ -162,16 +261,15 @@ CREATE TABLE `products_prices` (
   `product_id` int(11) NOT NULL,
   `variant_id` int(11) NOT NULL,
   `variant_price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products_prices`
 --
 
 INSERT INTO `products_prices` (`id`, `product_id`, `variant_id`, `variant_price`) VALUES
-(20, 23, 6, 150),
-(21, 24, 4, 185),
-(22, 25, 3, 199);
+(29, 29, 3, 199),
+(30, 30, 6, 199);
 
 -- --------------------------------------------------------
 
@@ -185,7 +283,7 @@ CREATE TABLE `products_ratings` (
   `rating_user_id` int(11) NOT NULL,
   `rating` int(11) NOT NULL,
   `description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -200,15 +298,15 @@ CREATE TABLE `promotions` (
   `is_buy_x_take_x` int(11) NOT NULL,
   `buy_x_of` int(11) NOT NULL,
   `take_x_of` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `promotions`
 --
 
 INSERT INTO `promotions` (`id`, `product_id`, `promotional_price`, `is_buy_x_take_x`, `buy_x_of`, `take_x_of`) VALUES
-(20, 24, 169, 0, 0, 0),
-(21, 25, 0, 1, 1, 2);
+(16, 29, 0, 1, 1, 1),
+(17, 30, 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -222,7 +320,7 @@ CREATE TABLE `user_credentials` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_credentials`
@@ -238,7 +336,10 @@ INSERT INTO `user_credentials` (`id`, `user_id`, `username`, `password`, `type`)
 (12, 25, 'hanni.pham@newjeans.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
 (13, 26, 'haerin.kang@njeans.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
 (14, 28, 'gehlee.dangca@gmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(15, 29, 'maloi.robles@bini.com.ph', 'b3056b83855a3940398d0d3bf6decaf0', 'customer');
+(15, 29, 'maloi.robles@bini.com.ph', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
+(20, 34, 'norman.palisoc@novare.com.hk', 'bf4eebd67ee25c316692f4b8fab77f4a', 'customer'),
+(21, 35, 'test@norman.com', 'cc03e747a6afbbcbf8be7668acfebee5', 'customer'),
+(22, 36, 'norman.palisoc@gmail1.com', 'cc03e747a6afbbcbf8be7668acfebee5', 'customer');
 
 -- --------------------------------------------------------
 
@@ -255,14 +356,14 @@ CREATE TABLE `user_info` (
   `address` varchar(255) DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
   `birth_date` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_info`
 --
 
 INSERT INTO `user_info` (`id`, `first_name`, `last_name`, `email`, `phone`, `address`, `gender`, `birth_date`) VALUES
-(1, 'Norman', 'Palisoc', 'npalisoc@yondu.com', '+639273894063', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', 'Male', '2024-04-30'),
+(1, ' Norman', 'Palisoc', 'npalisoc@yondu.com', '+639273894063', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', 'Female', '2024-04-30'),
 (20, 'Jisoo', 'Kim', 'jisoo.kim@yopmail.com', '+6391234567809', 'Seoul South Korea', 'Male', '2024-02-20'),
 (21, 'Lalisa', 'Manoban', 'lalisa.manoban@yopmail.com', '+630987654321', 'Thailand, Earth, Milky Way, Universe', 'Female', '2024-06-13'),
 (22, 'Chaeyoung', 'Park', 'chaeyoung.park@yopmail.com', '+639273894040', 'Seoul South Korea and Australia', 'Male', '2023-06-14'),
@@ -271,7 +372,10 @@ INSERT INTO `user_info` (`id`, `first_name`, `last_name`, `email`, `phone`, `add
 (25, 'Hanni', 'Pham', 'hanni.pham@newjeans.com', '+6392783478932', 'Vietnam and Australia', 'Female', '2024-04-10'),
 (26, 'Haerin', 'Kang', 'haerin.kang@njeans.com', '+6392719273123', 'Metro Manila, Quezon City, Philippines', 'Others', '2024-04-02'),
 (28, 'Gehlee', 'Dangca', 'gehlee.dangca@gmail.com', '+639293819273', 'Pasig City, Metro Manila, Philippines', 'Female', '2024-02-14'),
-(29, 'Maloi', 'Robles', 'maloi.robles@bini.com.ph', '+6392783827133', 'Brgy BINI, Pantropiko Island Philippines', 'Others', '2024-04-03');
+(29, 'Maloi', 'Robles', 'maloi.robles@bini.com.ph', '+6392783827133', 'Brgy BINI, Pantropiko Island Philippines', 'Others', '2024-04-03'),
+(34, 'Norman', 'Palisoc', 'norman.palisoc@novare.com.hk', '639273894063', 'Ayala Makati, Metro Manila, Philippines', 'Male', '2024-05-01'),
+(35, 'Norman', 'Palisoc', 'test@norman.com', '283492034234', 'Ayala Makati Metro Manila Philippines', 'Female', '2024-06-18'),
+(36, 'Norman', 'Palisoc', 'norman.palisoc@gmail1.com', '4895738459345', 'dfsdfsdf', 'Female', '2024-06-17');
 
 -- --------------------------------------------------------
 
@@ -285,7 +389,7 @@ CREATE TABLE `variants` (
   `variant_name` varchar(255) NOT NULL,
   `variant_description` varchar(255) NOT NULL,
   `is_enabled` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `variants`
@@ -314,9 +418,21 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `contact_us`
+--
+ALTER TABLE `contact_us`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders_billing`
+--
+ALTER TABLE `orders_billing`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -383,43 +499,55 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `contact_us`
+--
+ALTER TABLE `contact_us`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `orders_billing`
+--
+ALTER TABLE `orders_billing`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
 --
 ALTER TABLE `products_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `products_images`
 --
 ALTER TABLE `products_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `products_info`
 --
 ALTER TABLE `products_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `products_prices`
 --
 ALTER TABLE `products_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `products_ratings`
@@ -431,19 +559,19 @@ ALTER TABLE `products_ratings`
 -- AUTO_INCREMENT for table `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `user_credentials`
 --
 ALTER TABLE `user_credentials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `variants`
