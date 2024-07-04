@@ -160,7 +160,7 @@
       unset($_SESSION['errors.type']);
       unset($_SESSION['errors.title']);
       unset($_SESSION['errors.message']);
-      header('Location: ../../');
+      header('Location: ../order/');
     } else {
       $_SESSION['errors.type'] = 'checkout';
       $_SESSION['errors.title'] = 'Unable to checkout';
