@@ -375,6 +375,30 @@ th {
   }
 }
 
+.badge-processing {
+  background-color: #0d6efd;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-serving {
+  background-color: #28a745;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-cancelled {
+  background-color: #dc3545;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
 /**
 ====================================================================================
 CONTENT WRAPPER CSS

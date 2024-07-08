@@ -177,15 +177,122 @@
             <table id="data" class="table table-striped" style="width:100%">
               <thead>
                 <tr>
-                  <th class="sans-bold">Product</th>
-                  <th class="sans-bold">Orders</th>
+                  <th class="sans-bold">Order</th>
+                  <th class="sans-bold">Date / Time</th>
                   <th class="sans-bold">Customer (Name)</th>
-                  <th class="sans-bold">Customer (Address)</th>
+                  <th class="sans-bold">Order Status</th>
+                  <th class="sans-bold">Price</th>
                   <th class="sans-bold">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
+                  $fetch_query = "SELECT * FROM orders ORDER BY id DESC";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      $order_id = $row["id"];
+                      $product_id = $row["product_id"];
+                      $variant_id = $row['variant_id'];
+                      $order_date = $row['order_date'];
+                      $order_time = $row['order_time'];
+                      $order_quantity = $row['order_quantity'];
+                      $order_status = $row['order_status'];
+                      $order_total = floatval($row['order_total']);
+                      $user_email = $row['user_email'];
+
+                      $row_product_name = "";
+                      $row_product_price = number_format($order_total);
+                      $row_variant = "";
+                      $row_customer_name = "";
+                      $row_status_type = "";
+                      $row_status_name = "";
+                      $row_action_status = "";
+
+                      if ($order_status == 'PROCESSING') {
+                        $row_status_type = "badge-processing";
+                        $row_status_name = $order_status;
+                      } else if ($order_status == 'SERVING') {
+                        $row_status_type = "badge-serving";
+                        $row_status_name = $order_status;
+                        $row_action_status = "disabled";
+                      } else if ($order_status == 'CANCELLED') {
+                        $row_status_type = "badge-cancelled";
+                        $row_status_name = $order_status;
+                        $row_action_status = "disabled";
+                      }
+
+                      $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+                      $product_result = $conn->query($fetch_query);
+                      if ($product_result->num_rows > 0) {
+                        $product_row = $product_result->fetch_assoc();
+                        $product_name = $product_row['product_name'];
+                        $row_product_name = $product_name;
+
+                        $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
+                        $variant_result = $conn->query($fetch_query);
+                        if ($variant_result->num_rows > 0) {
+                          $variant_row = $variant_result->fetch_assoc();
+                          $variant_type = $variant_row['variant_type'];
+                          $variant_name = $variant_row['variant_name'];
+                          $row_variant = '
+                            <div style="padding-top: 0px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                              '.$variant_type.':&nbsp;&nbsp;
+                              <span class="badge-size color-light-grey sans-regular size-10">
+                                '.$variant_name.'
+                              </span>
+                            </div>
+                          ';
+                        }
+
+                        $fetch_query = "SELECT * FROM user_info WHERE email = '".$user_email."'";
+                        $customer_result = $conn->query($fetch_query);
+                        if ($customer_result->num_rows > 0) {
+                          $customer_row = $customer_result->fetch_assoc();
+                          $first_name = $customer_row['first_name'];
+                          $last_name = $customer_row['last_name'];
+                          $row_customer_name = $first_name.' '.$last_name;
+                        }
+
+                        echo '
+                          <tr>
+                            <td class="sans-600">
+                              ('.$order_quantity.') '.$row_product_name.'
+                              '.$row_variant.'
+                            </td>
+                            <td class="sans-regular">
+                              '.$order_date.'<br/>'.$order_time.'
+                            </td>
+                            <td class="sans-600">
+                              '.$row_customer_name.'
+                            </td>
+                            <td class="sans-600">
+                              ₱'.$row_product_price.'
+                            </td>
+                            <td class="sans-regular" style="font-size: 9pt;">
+                              <span class="'.$row_status_type.'">'.$row_status_name.'</span>
+                            </td>
+                            <td>
+                              <button
+                                class="btn btn-outline-primary btn-sm 
+                                  sans-400 
+                                  color-white"
+                                type="button">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                              <button
+                                class="btn btn-outline-primary btn-sm 
+                                  sans-400 
+                                  color-white"
+                                type="button">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ';
+                      }
+                    }
+                  }
                 ?>
               </tbody>
             </table>

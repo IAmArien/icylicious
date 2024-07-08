@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/global.css" />
-    <link rel="stylesheet" href="./css/cart.css" />
+    <link rel="stylesheet" href="./css/account.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg fixed-top bg-dark">
@@ -122,187 +122,120 @@
       </div>
     </nav>
     <div class="content-wrapper">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2"></div>
-          <div class="col-lg-8 col-md-12 col-sm-12">
-            <div class="div-cart-container">
-              <h3 class="sans-700">Shopping Cart</h3>
-              <div style="height: 30px"></div>
-              <div class="div-cart-items">
-                <?php
-                  $total_checkout_price = 0.00;
-                  $has_item = false;
-                  if (isset($_SESSION['user_info.email'])) {
-                    $fetch_query = "SELECT DISTINCT product_id FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
-                    $result = $conn->query($fetch_query);
-                    if ($result->num_rows > 0) {
-                      $has_item = true;
-                      while ($row = $result->fetch_assoc()) {
-                        $product_id = $row['product_id'];
-                        $fetch_query = "SELECT *, count(*) FROM cart WHERE product_id = ".$product_id." AND user_email = '".$_SESSION['user_info.email']."'";
-                        $count_result = $conn->query($fetch_query);
-                        if ($count_result->num_rows > 0) {
-                          $count_result_row = $count_result->fetch_assoc();
-                          $product_count = $count_result_row['count(*)'];
-                          $variant_id = $count_result_row['variant_id'];
-                          $order_quantity = $count_result_row['order_quantity'];
-                          $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
-                          $variant_result = $conn->query($fetch_query);
-                          $variant_place = '';
-                          if ($variant_result->num_rows > 0) {
-                            $variant_row = $variant_result->fetch_assoc();
-                            $variant_type = $variant_row['variant_type'];
-                            $variant_name = $variant_row['variant_name'];
-                            $variant_place = '
-                              <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                                '.$variant_type.':&nbsp;&nbsp;
-                                <span class="badge-size color-light-grey sans-regular size-10">
-                                  '.$variant_name.'
-                                </span>
-                              </div>
-                            ';
-                          }
-                          $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." AND variant_id = ".$variant_id." LIMIT 1";
-                          $prices_result = $conn->query($fetch_query);
-
-                          $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
-                          $promotions_result = $conn->query($fetch_query);
-
-                          $product_price_place = '';
-                          $product_total_price = 0.00;
-
-                          if ($prices_result->num_rows > 0) {
-                            $prices_row = $prices_result->fetch_assoc();
-                            $variant_price = $prices_row['variant_price'];
-                            if ($promotions_result->num_rows > 0) {
-                              $promotions_row = $promotions_result->fetch_assoc();
-                              $promotional_price = $promotions_row['promotional_price'];
-                              if ($promotional_price != '0') {
-                                $product_total_price = floatval($promotional_price) * $order_quantity;
-                                $total_checkout_price += $product_total_price;
-                                $product_price_place = '
-                                  <div class="div-price-container">
-                                    <h5 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h5>
-                                    <h6 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h6>
-                                  </div>
-                                ';
-                              } else {
-                                $product_total_price = floatval($variant_price) * $order_quantity;
-                                $total_checkout_price += $product_total_price;
-                                $product_price_place = '
-                                  <div class="div-price-container">
-                                    <h5 class="color-dark-grey sans-bold">₱'.$variant_price.'</h5>
-                                  </div>
-                                ';
-                              }
-                            } else {
-                              $product_total_price = floatval($variant_price) * $order_quantity;
-                              $total_checkout_price += $product_total_price;
-                              $product_price_place = '
-                                <div class="div-price-container">
-                                  <h5 class="color-dark-grey sans-bold">₱'.$variant_price.'</h5>
-                                </div>
-                              ';
-                            }
-                          }
-
-                          $first_image = '';
-                          $second_image = '';
-                          $third_image = '';
-                          $products_images = array();
-                          $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
-                          $images_result = $conn->query($fetch_query);
-                          if ($images_result->num_rows > 0) {
-                            while ($images_row = $images_result->fetch_assoc()) {
-                              $product_image = $images_row['product_image'];
-                              array_push($products_images, $product_image);
-                            }
-                          }
-                          if (count($products_images) == 1) {
-                            $first_image = array_values($products_images)[0];
-                          } else if (count($products_images) == 2) {
-                            $first_image = array_values($products_images)[0];
-                            $second_image = array_values($products_images)[1];
-                          } else if (count($products_images) == 3) {
-                            $first_image = array_values($products_images)[0];
-                            $second_image = array_values($products_images)[1];
-                            $third_image = array_values($products_images)[2];
-                          }
-
-                          echo '
-                            <div class="div-cart-item">
-                              <img src="../../admin/uploads/'.$first_image.'" class="img-cart-item" />
-                              <div class="div-cart-item-info">
-                                <h5 class="sans-600 color-dark-grey">
-                                  ('.$order_quantity.') SPECIAL MANGO GRAHAM B1T1
-                                </h5>
-                                '.$variant_place.'
-                                '.$product_price_place.'
-                              </div>
-                              <form action="../actions/delete_cart_item.php" method="POST">
-                                <input type="hidden" name="product_id" value="'.$product_id.'" />
-                                <input type="hidden" name="customer_email" value="'.$_SESSION['user_info.email'].'" />
-                                <div class="div-total-price-action">
-                                  <h3 class="color-dark-grey sans-bold">₱'.number_format($product_total_price).'</h3>
-                                  <button class="btn btn-sm btn-danger sans-regular" type="submit">
-                                    Remove
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
-                          ';
-                        }
-                      }
-                    } else {
-                      echo '<p class="sans-regular color-dark-grey">No item in the cart.</p>';
-                    }
-                  }
-                ?>
-                <!-- <div class="div-cart-item">
-                  <img src="../../assets/images/about_us_logo.png" class="img-cart-item" />
-                  <div class="div-cart-item-info">
-                    <h5 class="sans-600 color-dark-grey">
-                      (4) SPECIAL MANGO GRAHAM B1T1
-                    </h5>
-                    <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                      Size:&nbsp;&nbsp;
-                      <span class="badge-size color-light-grey sans-regular size-10">
-                        REGULAR
-                      </span>
-                    </div>
-                    <div class="div-price-container">
-                      <h5 class="color-dark-grey sans-bold">₱199</h5>
-                      <h6 class="strike-price color-super-light-grey sans-regular">₱250</h6>
-                    </div>
-                  </div>
-                  <div class="div-total-price-action">
-                    <h3 class="color-dark-grey sans-bold">₱796</h3>
-                    <button class="btn btn-sm btn-danger sans-regular">
-                      Remove
-                    </button>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-            <div class="div-checkout-price">
-              <div class="div-checkout-action">
-                <a href="../checkout">
-                  <button
-                    class="btn btn-md btn-secondary sans-600"
-                    type="submit"
-                    name="checkout_type"
-                    value="checkout"
-                    <?php if (!$has_item) echo "disabled"; ?>>
-                    <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10 col-md-12 col-sm-12">
+          <div class="div-account-container">
+            <div class="row">
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="div-account-left">
+                  <!-- <i class="fas fa-user-circle" style="font-size: 20pt;"></i> -->
+                  <button id="btn-update-profile" class="btn btn-primary sans-600 btn-profile-actions">
+                    <i class="fas fa-user-circle"></i>&nbsp;&nbsp;Edit Profile
                   </button>
-                </a>
+                  <button id="btn-my-orders" class="btn btn-outline-primary sans-600 btn-profile-actions">
+                    <i class="fa-solid fa-chart-line"></i>&nbsp;&nbsp;My Orders
+                  </button>
+                  <button id="btn-logout" class="btn btn-outline-primary sans-600 btn-profile-actions">
+                    <i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout
+                  </button>
+                </div>
               </div>
-              <h5 class="sans-regular color-dark-grey">Total: <b>₱<?php echo number_format($total_checkout_price); ?></b></h5>
+              <div class="col-lg-9 col-md-8 col-sm-12">
+                <div id="div-edit-profile">
+                  <h3 class="sans-600 color-dark-grey">Edit Profile</h3>
+                  <form action="../actions/update_profile.php" method="POST">
+                    <input
+                      type="hidden"
+                      name="email"
+                      required
+                      value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>"
+                    />
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                      <p class="sans-regular">Fill up all the fields in this form to update or edit your account.</p>
+                      <div style="display: flex; gap: 10px">
+                        <div style="flex: 1">
+                          <input
+                            type="text"
+                            placeholder="First Name"
+                            name="first_name"
+                            required
+                            class="form-control sans-regular"
+                            value="<?php if (isset($_SESSION['user_info.first_name'])) echo $_SESSION['user_info.first_name']; ?>"
+                          />
+                        </div>
+                        <div style="flex: 1">
+                          <input
+                            type="text"
+                            placeholder="Last Name"
+                            name="last_name"
+                            required
+                            class="form-control sans-regular"
+                            value="<?php if (isset($_SESSION['user_info.last_name'])) echo $_SESSION['user_info.last_name']; ?>"
+                          />
+                        </div>
+                      </div>
+                      <input
+                        type="email"
+                        placeholder="Email Address (eg. myemail@gmail.com)"
+                        name="disabled_email"
+                        required
+                        disabled
+                        class="form-control sans-regular"
+                        value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>"
+                      />
+                      <input
+                        type="number"
+                        placeholder="Mobile No. (eg. +639__)"
+                        name="phone"
+                        required
+                        class="form-control sans-regular"
+                        value="<?php if (isset($_SESSION['user_info.phone'])) echo $_SESSION['user_info.phone']; ?>"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                        name="address"
+                        required
+                        class="form-control sans-regular"
+                        value="<?php if (isset($_SESSION['user_info.address'])) echo $_SESSION['user_info.address']; ?>"
+                      />
+                      <div style="display: flex; gap: 10px; margin-top: 8px">
+                        <div style="flex: 1; display: flex; flex-direction: column">
+                          <label for="birth_date" class="sans-600">Select Gender</label>
+                          <select class="form-control form-select sans-regular gender-select" name="gender" style="flex: 1">
+                            <option value="Male" <?php if (isset($_SESSION['user_info.gender'])) if ($_SESSION['user_info.gender'] == "Male") echo "selected"; ?>>Male</option>
+                            <option value="Female" <?php if (isset($_SESSION['user_info.gender'])) if ($_SESSION['user_info.gender'] == "Female") echo "selected"; ?>>Female</option>
+                            <option value="Others" <?php if (isset($_SESSION['user_info.gender'])) if ($_SESSION['user_info.gender'] == "Others") echo "selected"; ?>>Others</option>
+                          </select>
+                        </div>
+                        <div style="flex: 1">
+                          <label for="birth_date" class="sans-600">Birth Date</label>
+                          <input
+                            type="date"
+                            placeholder="Birth Date"
+                            name="birth_date"
+                            required
+                            class="form-control sans-regular"
+                            value="<?php if (isset($_SESSION['user_info.birthdate'])) echo $_SESSION['user_info.birthdate']; ?>"
+                          />
+                        </div>
+                      </div>
+                      <div style="display: flex; flex-direction: row; justify-content: flex-end;">
+                        <button type="submit" class="btn btn-success">
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col-lg-2"></div>
         </div>
+        <div class="col-lg-1"></div>
+      </div>
+      <div class="container">
       </div>
       <div id="contact-us" class="div-contact-us">
         <div class="container">
@@ -464,7 +397,19 @@
   <script type="text/javascript">
     $(document).ready(() => {
       $('#btn-profile').click(() => {
-        window.location.href = "../account";
+        window.location.href = "./";
+      });
+      $('#btn-shopping-cart').click(() => {
+        window.location.href = "../cart";
+      });
+      $('#btn-logout').click(() => {
+        window.location.href = "../actions/logout.php";
+      });
+      $('#btn-my-orders').click(() => {
+        window.location.href = "../account_orders";
+      });
+      $('#btn-update-profile').click(() => {
+        window.location.href = "./";
       });
     });
   </script>
@@ -498,6 +443,16 @@
           };
         ';
         unset($_SESSION['cart.message']);
+      }
+      if (isset($_SESSION['sign_up'])) {
+        echo '
+          window.onload = () => {
+            setTimeout(() => {
+              alertMessage("'.$_SESSION['sign_up'].'");
+            }, 500);
+          };
+        ';
+        unset($_SESSION['sign_up']);
       }
     ?>
   </script>

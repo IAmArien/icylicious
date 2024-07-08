@@ -274,3 +274,9 @@
   display: flex;
   flex-direction: column;
 }
+
+.div-quantity {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}

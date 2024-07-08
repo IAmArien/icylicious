@@ -58,7 +58,11 @@
                   $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
-                    $cart_quantity = " (". strval($result->num_rows) . ") ";
+                    $order_quantity = 0;
+                    while ($cart_row = $result->fetch_assoc()) {
+                      $order_quantity += intval($cart_row['order_quantity']);
+                    }
+                    $cart_quantity = " (". strval($order_quantity) . ") ";
                   }
                 }
                 if ($credentials === "customer") {
@@ -625,6 +629,16 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $('#btn-shopping-cart').click(() => {
+        window.location.href = "./customer/cart";
+      });
+      $("#btn-profile").click(() => {
+        window.location.href = "./customer/account";
+      });
+    });
   </script>
   <script type="text/javascript">
     const alertMessage = (message) => {

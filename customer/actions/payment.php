@@ -15,7 +15,8 @@
       isset($_POST['shipping_first_name']) &&
       isset($_POST['shipping_last_name']) &&
       isset($_POST['shipping_phone']) &&
-      isset($_POST['shipping_address'])
+      isset($_POST['shipping_address']) &&
+      isset($_POST['order_total'])
     ) {
       $payment_type = $conn->real_escape_string($_POST['payment_type']);
       $customer_email = $conn->real_escape_string($_POST['customer_email']);
@@ -30,10 +31,12 @@
       $shipping_last_name = $conn->real_escape_string($_POST['shipping_last_name']);
       $shipping_phone = $conn->real_escape_string($_POST['shipping_phone']);
       $shipping_address = $conn->real_escape_string($_POST['shipping_address']);
+      $order_total = $conn->real_escape_string($_POST['order_total']);
 
       $fetch_query = "SELECT * FROM cart WHERE user_email = '".$customer_email."'";
       $result = $conn->query($fetch_query);
       if ($result->num_rows > 0) {
+        $transaction_id = uniqid();
         while ($row = $result->fetch_assoc()) {
           $product_id = $row['product_id'];
           $variant_id = $row['variant_id'];
@@ -43,7 +46,9 @@
           $user_address = $row['user_address'];
           $user_phone = $row['user_phone'];
           $user_email = $row['user_email'];
+          $order_status = "PROCESSING";
           $insert_query = "INSERT INTO orders (
+              transaction_id,
               product_id,
               variant_id,
               user_id,
@@ -53,13 +58,16 @@
               is_pickup,
               user_address,
               user_phone,
-              user_email
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+              user_email,
+              order_status,
+              order_total
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
           $order_date = date("Y/m/d");
           $order_time = date("h:i:sa");
           $stmt = $conn->prepare($insert_query);
           $stmt->bind_param(
-            'ssssssssss',
+            'sssssssssssss',
+            $transaction_id,
             $product_id,
             $variant_id,
             $user_id,
@@ -69,7 +77,9 @@
             $is_pickup,
             $user_address,
             $user_phone,
-            $user_email
+            $user_email,
+            $order_status,
+            $order_total
           );
           $insert_result = $stmt->execute();
           if ($insert_result == 1) {

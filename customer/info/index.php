@@ -58,7 +58,11 @@
                   $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
-                    $cart_quantity = " (". strval($result->num_rows) . ") ";
+                    $order_quantity = 0;
+                    while ($cart_row = $result->fetch_assoc()) {
+                      $order_quantity += intval($cart_row['order_quantity']);
+                    }
+                    $cart_quantity = " (". strval($order_quantity) . ") ";
                   }
                 }
                 if ($credentials === "customer") {
@@ -138,11 +142,6 @@
           type="hidden"
           name="product_id"
           value="<?php if (isset($_GET['id'])) echo $_GET['id']; else echo 0; ?>"
-        />
-        <input
-          type="hidden"
-          name="product_quantity"
-          value="1"
         />
         <input
           type="hidden"
@@ -300,6 +299,27 @@
                       <div style="height: 20px;"></div>
                     ';
                     echo $variant_label;
+                    if (isset($_SESSION['user_credentials.username'])) {
+                      echo '
+                        <div class="div-quantity">
+                          <button id="quantity_add" type="button" class="btn btn-sm btn-success">
+                            &nbsp;<i class="fa-solid fa-plus"></i>&nbsp;
+                          </button>
+                          <input
+                            id="it_product_quantity"
+                            type="text"
+                            name="product_quantity"
+                            readonly
+                            value="1"
+                            class="form-control sans-600"
+                            style="width: 75px; text-align: center;"
+                          />
+                          <button id="quantity_minus" type="button" class="btn btn-sm btn-secondary">
+                            &nbsp;<i class="fa-solid fa-minus"></i>&nbsp;
+                          </button>
+                        </div>
+                      ';
+                    }
                     $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id."";
                     $result = $conn->query($fetch_query);
                     if ($result->num_rows > 0) {
@@ -326,22 +346,30 @@
                   }
                 }
               ?>
-              <div style="padding-top: 20px;">
-                <button
-                  class="btn btn-lg btn-primary sans-600"
-                  type="submit"
-                  name="checkout_type"
-                  value="add_to_cart">
-                  <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
-                </button>&nbsp;
-                <button
-                  class="btn btn-lg btn-secondary sans-600"
-                  type="submit"
-                  name="checkout_type"
-                  value="checkout">
-                  <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
-                </button>
-              </div>
+              <?php
+                if (isset($_SESSION['user_credentials.username'])) {
+                  echo '
+                    <div style="padding-top: 20px;">
+                      <button
+                        class="btn btn-lg btn-primary sans-600"
+                        type="submit"
+                        name="checkout_type"
+                        value="add_to_cart">
+                        <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
+                      </button>&nbsp;
+                      <button
+                        class="btn btn-lg btn-secondary sans-600"
+                        type="submit"
+                        name="checkout_type"
+                        value="checkout">
+                        <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                      </button>
+                    </div>
+                  ';
+                } else {
+                  echo '<p class="sans-regular color-dark-grey">Login to place an order for this product.</p>';
+                }
+              ?>
             </div>
           </div>
         </div>
@@ -854,8 +882,29 @@
   </script>
   <script type="text/javascript">
     $(document).ready(() => {
+      $('#btn-profile').click(() => {
+        window.location.href = "../account";
+      });
       $('#btn-shopping-cart').click(() => {
         window.location.href = "../cart";
+      });
+      $('#quantity_add').click(() => {
+        const quantity = $('#it_product_quantity').val();
+        if (quantity) {
+          const newQuantity = Number(quantity) + 1;
+          // $('#it_product_quantity').val(newQuantity.toString());
+          $('#it_product_quantity').attr('value', newQuantity.toString());
+        }
+      });
+      $('#quantity_minus').click(() => {
+        const quantity = $('#it_product_quantity').val();
+        if (quantity) {
+          const newQuantity = Number(quantity) - 1;
+          if (newQuantity >= 1) {
+            // $('#it_product_quantity').val(newQuantity.toString());
+            $('#it_product_quantity').attr('value', newQuantity.toString());
+          }
+        }
       });
     });
   </script>

@@ -70,14 +70,14 @@
                           $promotions_row = $promotions_result->fetch_assoc();
                           $promotional_price = $promotions_row['promotional_price'];
                           if ($promotional_price != '0') {
-                            $product_total_price = floatval($promotional_price) * $product_count;
+                            $product_total_price = floatval($promotional_price) * $order_quantity;
                             $total_checkout_price += $product_total_price;
                           } else {
-                            $product_total_price = floatval($variant_price) * $product_count;
+                            $product_total_price = floatval($variant_price) * $order_quantity;
                             $total_checkout_price += $product_total_price;
                           }
                         } else {
-                          $product_total_price = floatval($variant_price) * $product_count;
+                          $product_total_price = floatval($variant_price) * $order_quantity;
                           $total_checkout_price += $product_total_price;
                         }
                       }
@@ -240,6 +240,7 @@
                     <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Confirm Payment
                   </button>
                 </div>
+                <input type="hidden" name="order_total" value="<?php echo $total_checkout_price; ?>" />
                 <h5 class="sans-regular color-dark-grey">Total: <b>₱<?php echo number_format($total_checkout_price); ?></b></h5>
               </div>
             </div>

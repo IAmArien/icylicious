@@ -1,0 +1,323 @@
+* {
+    margin: 0;
+  }
+  
+  :root {
+    --black: #080808;
+    --dark-grey: #1c1c1c;
+    --light-grey: #414141;
+    --super-light-grey: #5d5d5d;
+    --super-2-light-grey: #7c7b7b;
+    --yellow: #ffca26;
+    --white: #ffffff;
+    --light-white: #ececec;
+    --disabled-color: #848383;
+    --light-blue: #2392f4;
+  }
+  
+  .navbar-brand {
+    letter-spacing: 5px;
+  }
+  
+  .navbar-brand:hover {
+    color: var(--yellow);
+  }
+  
+  .nav-item {
+    padding-inline: 10px !important;
+  }
+  
+  .nav-item > .nav-link.active {
+    color: var(--yellow) !important;
+  }
+  
+  .nav-item > .nav-link {
+    color: var(--super-2-light-grey);
+  }
+  
+  .nav-item > .nav-link:hover {
+    color: var(--white);
+  }
+  
+  .navbar-toggler {
+    border-color: var(--white);
+  }
+  
+  .navbar-toggler-icon {
+    color: var(--white) !important;
+  }
+  
+  .bg-dark {
+    background-color: var(--dark-grey) !important;
+  }
+  
+  .btn-primary {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--dark-grey);
+  }
+  
+  .btn-primary:hover {
+    background-color: transparent;
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+  
+  .btn-primary:active {
+    background-color: var(--yellow) !important;
+    border-color: var(--yellow) !important;
+    color: var(--dark-grey) !important;
+  }
+  
+  .btn-outline-primary {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+  
+  .btn-outline-primary:hover {
+    border-color: var(--yellow);
+    background-color: var(--yellow);
+    color: var(--dark-grey);
+  }
+  
+  .btn-outline-primary:active {
+    background-color: transparent !important;
+    border-color: var(--yellow) !important;
+    color: var(--yellow) !important;
+  }
+  
+  .content-wrapper {
+    margin-top: 56px;
+  }
+  
+  .img-background {
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+  }
+  
+  .background-overlay {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    height: 550px;
+    background-color: rgba(28, 28, 28, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 35px;
+  }
+  
+  .img-product {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .img-product:hover {
+    opacity: 0.5;
+  }
+  
+  .div-price-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  
+  .strike-price {
+    text-decoration: line-through;
+    margin-left: 10px;
+  }
+  
+  .div-product-info {
+    padding-bottom: 15px;
+    padding-inline: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btn-add-to-cart {
+    background-color: transparent;
+    border-color: var(--dark-grey);
+    color: var(--dark-grey);
+    align-self: flex-end;
+    justify-self: flex-end;
+  }
+  
+  .btn-reset {
+    background-color: transparent;
+    border-color: var(--dark-grey);
+    color: var(--dark-grey);
+  }
+  
+  .img-product-deals {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .img-about-us {
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+  
+  .carousel-item {
+    text-align: center;
+    padding-inline: 100px;
+  }
+  
+  .div-contact-us {
+    background-color: var(--light-white);
+    padding-block: 60px;
+    margin-top: 70px;
+  }
+  
+  .carousel-control-prev {
+    color: var(--dark-grey) !important;
+  }
+  
+  .div-our-products {
+    margin-top: 0px;
+    padding-block: 55px;
+  }
+  
+  .div-sub-footer {
+    background-color: var(--light-grey);
+    padding-block: 40px;
+  }
+  
+  .div-footer {
+    background-color: var(--dark-grey);
+    padding-block: 15px;
+    text-align: center;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .footer-nav-link {
+    color: var(--white) !important;
+  }
+  
+  .div-account-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .badge-size {
+    border: 1px solid var(--light-grey);
+    border-radius: 3px;
+    padding-inline: 10px;
+    padding-block: 0px;
+    padding-top: 1px;
+    text-transform: uppercase;
+  }
+  
+  .div-cart-container {
+    border: 1px solid var(--light-white);
+    border-radius: 10px;
+    margin-top: 20px;
+    padding-inline: 20px;
+    padding-block: 20px;
+  }
+  
+  .div-cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+  }
+  
+  .div-cart-item {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    border-bottom: 1px solid var(--light-white);
+    padding-bottom: 17px;
+    cursor: pointer;
+  }
+  
+  .img-cart-item {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+  
+  .div-cart-item-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .div-total-price-action {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+  }
+  
+  .div-checkout-price {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .div-checkout-action {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+  
+  .div-account-container {
+    border: 1px solid var(--light-white);
+    border-radius: 7px;
+    padding: 12px;
+    margin-top: 20px;
+  }
+
+  .div-account-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-profile-actions {
+    text-align: left;
+    padding-inline: 20px;
+  }
+
+  .badge-processing {
+    background-color: #0d6efd;
+    color: var(--white);
+    padding-inline: 7px;
+    padding-block: 3px;
+    border-radius: 5px;
+  }
+
+  .badge-serving {
+    background-color: #28a745;
+    color: var(--white);
+    padding-inline: 7px;
+    padding-block: 3px;
+    border-radius: 5px;
+  }
+  
+  .badge-cancelled {
+    background-color: #dc3545;
+    color: var(--white);
+    padding-inline: 7px;
+    padding-block: 3px;
+    border-radius: 5px;
+  }

@@ -38,7 +38,7 @@
             <h3 class="color-dark-grey sans-600">Payment Confirmed</h3>
             <p class="color-dark-grey sans-regular">
               Your order was successfully placed.<br/>
-              Keep track of your order in your <a style="color: #ffca26;" href="../../">My Account</a>.
+              Keep track of your order in your <a style="color: #ffca26;" href="../account">My Account</a>.
             </p>
           </div>
         </div>

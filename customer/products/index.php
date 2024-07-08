@@ -58,7 +58,11 @@
                   $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."'";
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
-                    $cart_quantity = " (". strval($result->num_rows) . ") ";
+                    $order_quantity = 0;
+                    while ($cart_row = $result->fetch_assoc()) {
+                      $order_quantity += intval($cart_row['order_quantity']);
+                    }
+                    $cart_quantity = " (". strval($order_quantity) . ") ";
                   }
                 }
                 if ($credentials === "customer") {
@@ -244,6 +248,14 @@
                     if (count($products_images) > 0) {
                       $first_image = array_values($products_images)[0];
                     }
+                    // get product category
+                    $fetch_query = "SELECT * FROM products_categories WHERE product_id = ".$product_id." LIMIT 1";
+                    $category_result = $conn->query($fetch_query);
+                    $local_category_id = 0;
+                    if ($category_result->num_rows > 0) {
+                      $category_row = $category_result->fetch_assoc();
+                      $local_category_id = $category_row['category_id'];
+                    }
                     if ($is_buy_x_take_x == 1) {
                       echo '
                         <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
@@ -251,7 +263,7 @@
                             src="../../admin/uploads/'.$first_image.'"
                             class="img-product"
                             onClick="onProductClick(
-                              '."".$category_id.",".'
+                              '."".$local_category_id.",".'
                               '."'".$category_name."',".'
                               '."'".$category_description."',".'
                               '."".$product_id."".'
@@ -730,6 +742,9 @@
   </script>
   <script type="text/javascript">
     $(document).ready(() => {
+      $('#btn-profile').click(() => {
+        window.location.href = "../account";
+      });
       $('#btn-shopping-cart').click(() => {
         window.location.href = "../cart";
       });
