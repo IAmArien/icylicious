@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jul 04, 2024 at 06:07 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: 127.0.0.1
+-- Generation Time: Jul 08, 2024 at 04:31 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,31 +40,6 @@ CREATE TABLE `cart` (
   `user_phone` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`) VALUES
-(1, 30, 6, 22, '2024/06/30', '03:56:08pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(2, 30, 6, 22, '2024/06/30', '04:00:36pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(3, 30, 6, 22, '2024/06/30', '04:01:49pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(4, 30, 6, 22, '2024/06/30', '04:01:52pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(5, 30, 6, 22, '2024/06/30', '04:02:48pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(6, 30, 6, 22, '2024/06/30', '04:02:50pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(7, 30, 6, 22, '2024/06/30', '04:03:15pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(8, 30, 6, 22, '2024/07/02', '03:40:19pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(9, 30, 6, 22, '2024/07/02', '03:40:21pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(10, 30, 6, 22, '2024/07/02', '03:44:59pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(11, 30, 6, 22, '2024/07/02', '03:45:06pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(12, 30, 6, 22, '2024/07/02', '03:55:20pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(13, 30, 6, 22, '2024/07/02', '03:56:46pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(14, 30, 6, 22, '2024/07/03', '04:26:21pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(15, 29, 3, 22, '2024/07/03', '04:55:09pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(16, 29, 3, 22, '2024/07/03', '04:57:40pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(17, 29, 3, 22, '2024/07/03', '04:57:43pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(18, 30, 6, 22, '2024/07/03', '05:13:47pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com'),
-(19, 30, 6, 22, '2024/07/03', '05:13:49pm', 1, 1, 'Seoul South Korea and Australia', '+639273894040', 'chaeyoung.park@yopmail.com');
 
 -- --------------------------------------------------------
 
@@ -120,6 +95,7 @@ INSERT INTO `contact_us` (`id`, `firstname`, `lastname`, `email`, `mobile`, `con
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `product_id` int(11) NOT NULL,
   `variant_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
@@ -129,25 +105,19 @@ CREATE TABLE `orders` (
   `is_pickup` int(11) NOT NULL,
   `user_address` varchar(999) NOT NULL,
   `user_phone` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL
+  `user_email` varchar(255) NOT NULL,
+  `order_status` varchar(255) NOT NULL,
+  `order_total` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`) VALUES
-(30, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(31, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(32, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(33, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(34, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(35, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(36, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(37, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(38, 30, 6, 36, '2024/07/04', '05:56:56am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(39, 30, 6, 36, '2024/07/04', '06:06:31am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com'),
-(40, 30, 6, 36, '2024/07/04', '06:06:31am', 1, 1, 'dfsdfsdf', '4895738459345', 'norman.palisoc@gmail1.com');
+INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`) VALUES
+(56, '668beeb22215c', 30, 6, 36, '2024/07/08', '03:50:42pm', 3, 1, 'dfsdfsdf', '489573845934535345345', 'norman.palisoc@gmail1.com', 'PROCESSING', '1393'),
+(57, '668beeb22215c', 29, 3, 36, '2024/07/08', '03:50:42pm', 4, 1, 'dfsdfsdf', '489573845934535345345', 'norman.palisoc@gmail1.com', 'PROCESSING', '1393'),
+(58, '668bf7c7be3db', 30, 6, 36, '2024/07/08', '04:29:27pm', 6, 1, 'dfsdfsdf', '489573845934535345345', 'norman.palisoc@gmail1.com', 'PROCESSING', '1194');
 
 -- --------------------------------------------------------
 
@@ -178,17 +148,9 @@ CREATE TABLE `orders_billing` (
 --
 
 INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_exp`, `credit_card_code`, `billing_first_name`, `billing_last_name`, `billing_phone`, `billing_address`, `shipping_first_name`, `shipping_last_name`, `shipping_phone`, `shipping_address`, `payment_type`, `customer_email`) VALUES
-(10, 30, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(11, 31, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(12, 32, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(13, 33, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(14, 34, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(15, 35, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(16, 36, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(17, 37, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(18, 38, '3745-3455-1236-8990', '12/29', '808', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'Norman', 'Palisoc', '639273894062', 'Cablong Santa Barbara Pangasinan', 'cc', 'norman.palisoc@gmail1.com'),
-(19, 39, '3456-8900-1244-4534', '12/29', '780', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'cc', 'norman.palisoc@gmail1.com'),
-(20, 40, '3456-8900-1244-4534', '12/29', '780', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila Philippines 2419', 'cc', 'norman.palisoc@gmail1.com');
+(36, 56, 'asdasd', '36456', '2345345', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'cc', 'norman.palisoc@gmail1.com'),
+(37, 57, 'asdasd', '36456', '2345345', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'cc', 'norman.palisoc@gmail1.com'),
+(38, 58, 'asdasd', 'asdasd', '234234', 'sdfgdfg', 'dfgdfg', '809890890', 'hjkashdjkahsd', 'sdfgdfg', 'dfgdfg', '809890890', 'hjkashdjkahsd', 'cc', 'norman.palisoc@gmail1.com');
 
 -- --------------------------------------------------------
 
@@ -375,7 +337,7 @@ INSERT INTO `user_info` (`id`, `first_name`, `last_name`, `email`, `phone`, `add
 (29, 'Maloi', 'Robles', 'maloi.robles@bini.com.ph', '+6392783827133', 'Brgy BINI, Pantropiko Island Philippines', 'Others', '2024-04-03'),
 (34, 'Norman', 'Palisoc', 'norman.palisoc@novare.com.hk', '639273894063', 'Ayala Makati, Metro Manila, Philippines', 'Male', '2024-05-01'),
 (35, 'Norman', 'Palisoc', 'test@norman.com', '283492034234', 'Ayala Makati Metro Manila Philippines', 'Female', '2024-06-18'),
-(36, 'Norman', 'Palisoc', 'norman.palisoc@gmail1.com', '4895738459345', 'dfsdfsdf', 'Female', '2024-06-17');
+(36, 'Norman', 'Palisoc', 'norman.palisoc@gmail1.com', '489573845934535345345', 'dfsdfsdf', 'Female', '2024-07-18');
 
 -- --------------------------------------------------------
 
@@ -499,7 +461,7 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -517,13 +479,13 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `orders_billing`
 --
 ALTER TABLE `orders_billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
