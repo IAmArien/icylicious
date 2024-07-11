@@ -190,6 +190,10 @@
                                 $row_status_type = "badge-cancelled";
                                 $row_status_name = $order_status;
                                 $row_action_status = "disabled";
+                              } else if ($order_status == 'FULFILLED') {
+                                $row_status_type = "badge-fulfilled";
+                                $row_status_name = $order_status;
+                                $row_action_status = "disabled";
                               }
 
                               $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";

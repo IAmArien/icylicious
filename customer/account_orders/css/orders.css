@@ -307,7 +307,7 @@
   }
 
   .badge-serving {
-    background-color: #28a745;
+    background-color: #ffca26;
     color: var(--white);
     padding-inline: 7px;
     padding-block: 3px;
@@ -316,6 +316,14 @@
   
   .badge-cancelled {
     background-color: #dc3545;
+    color: var(--white);
+    padding-inline: 7px;
+    padding-block: 3px;
+    border-radius: 5px;
+  }
+
+  .badge-fulfilled {
+    background-color: #28a745;
     color: var(--white);
     padding-inline: 7px;
     padding-block: 3px;

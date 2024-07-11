@@ -330,13 +330,13 @@
                       $promotional_price = $row['promotional_price'];
                       if ($is_buy_x_take_x == 1) {
                         echo '
-                          <div class="div-price-container">
+                          <div class="div-price-container" style="margin-top: 20px;">
                             <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
                           </div>
                         ';
                       } else {
                         echo '
-                          <div class="div-price-container">
+                          <div class="div-price-container" style="margin-top: 20px;">
                             <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
                             <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
                           </div>
@@ -447,10 +447,24 @@
                         <div style="height: 20px;"></div>
                       ';
                     }
+                    // get product images
+                    $products_images = array();
+                    $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                    $image_result = $conn->query($fetch_query);
+                    if ($image_result->num_rows > 0) {
+                      while ($images_row = $image_result->fetch_assoc()) {
+                        $product_image = $images_row['product_image'];
+                        array_push($products_images, $product_image);
+                      }
+                    }
+                    $first_image = "";
+                    if (count($products_images) > 0) {
+                      $first_image = array_values($products_images)[0];
+                    }
                     if ($is_buy_x_take_x == 1) {
                       echo '
                         <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                          <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
+                          <img src="../../admin/uploads/'.$first_image.'" class="img-product" />
                           <div style="height: 20px;"></div>
                           '.$variant_label.'
                           <h4 class="color-dark-grey size-13 sans-700">
@@ -467,7 +481,7 @@
                     } else {
                       echo '
                         <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                          <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
+                          <img src="../../admin/uploads/'.$first_image.'" class="img-product" />
                           <div style="height: 20px;"></div>
                           '.$variant_label.'
                           <h4 class="color-dark-grey size-13 sans-700">
@@ -534,10 +548,24 @@
                             <div style="height: 20px;"></div>
                           ';
                         }
+                        // get product images
+                        $products_images = array();
+                        $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                        $image_result = $conn->query($fetch_query);
+                        if ($image_result->num_rows > 0) {
+                          while ($images_row = $image_result->fetch_assoc()) {
+                            $product_image = $images_row['product_image'];
+                            array_push($products_images, $product_image);
+                          }
+                        }
+                        $first_image = "";
+                        if (count($products_images) > 0) {
+                          $first_image = array_values($products_images)[0];
+                        }
                         if ($is_buy_x_take_x == 1) {
                           echo '
                             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                              <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
+                              <img src="../../admin/uploads/'.$first_image.'" class="img-product" />
                               <div style="height: 20px;"></div>
                               '.$variant_label.'
                               <h4 class="color-dark-grey size-13 sans-700">
@@ -554,7 +582,7 @@
                         } else {
                           echo '
                             <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                              <img src="../../assets/images/summer_promo_5_5_1.png" class="img-product" />
+                              <img src="../../admin/uploads/'.$first_image.'" class="img-product" />
                               <div style="height: 20px;"></div>
                               '.$variant_label.'
                               <h4 class="color-dark-grey size-13 sans-700">

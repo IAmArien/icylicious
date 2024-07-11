@@ -204,6 +204,8 @@
                       $row_product_name = "";
                       $row_product_price = number_format($order_total);
                       $row_variant = "";
+                      $row_variant_type = "";
+                      $row_variant_name = "";
                       $row_customer_name = "";
                       $row_status_type = "";
                       $row_status_name = "";
@@ -218,6 +220,10 @@
                         $row_action_status = "disabled";
                       } else if ($order_status == 'CANCELLED') {
                         $row_status_type = "badge-cancelled";
+                        $row_status_name = $order_status;
+                        $row_action_status = "disabled";
+                      } else if ($order_status == 'FULFILLED') {
+                        $row_status_type = "badge-fulfilled";
                         $row_status_name = $order_status;
                         $row_action_status = "disabled";
                       }
@@ -235,6 +241,8 @@
                           $variant_row = $variant_result->fetch_assoc();
                           $variant_type = $variant_row['variant_type'];
                           $variant_name = $variant_row['variant_name'];
+                          $row_variant_type = $variant_type;
+                          $row_variant_name = $variant_name;
                           $row_variant = '
                             <div style="padding-top: 0px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
                               '.$variant_type.':&nbsp;&nbsp;
@@ -246,12 +254,41 @@
                         }
 
                         $fetch_query = "SELECT * FROM user_info WHERE email = '".$user_email."'";
+                        $first_name = "";
+                        $last_name = "";
+                        $email = "";
+                        $phone = "";
+                        $address = "";
                         $customer_result = $conn->query($fetch_query);
                         if ($customer_result->num_rows > 0) {
                           $customer_row = $customer_result->fetch_assoc();
                           $first_name = $customer_row['first_name'];
                           $last_name = $customer_row['last_name'];
+                          $email = $customer_row['email'];
+                          $phone = $customer_row['phone'];
+                          $address = $customer_row['address'];
                           $row_customer_name = $first_name.' '.$last_name;
+                        }
+
+                        $is_cancelled = "";
+                        $shipping_name = "";
+                        $shipping_phone = "";
+                        $shipping_address = "";
+                        $payment_type = "";
+                        if ($order_status == "CANCELLED") {
+                          $is_cancelled = 'disabled="disabled"';
+                        }
+
+                        $fetch_query = "SELECT * FROM orders_billing WHERE order_id = ".$order_id." LIMIT 1";
+                        $billing_result = $conn->query($fetch_query);
+                        if ($billing_result->num_rows > 0) {
+                          $billing_row = $billing_result->fetch_assoc();
+                          $shipping_first_name = $billing_row['shipping_first_name'];
+                          $shipping_last_name = $billing_row['shipping_last_name'];
+                          $shipping_phone = $billing_row['shipping_phone'];
+                          $shipping_address = $billing_row['shipping_address'];
+                          $payment_type = $billing_row['payment_type'];
+                          $shipping_name = $shipping_first_name.' '.$shipping_last_name;
                         }
 
                         echo '
@@ -274,6 +311,28 @@
                             </td>
                             <td>
                               <button
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticViewOrder"
+                                onclick="onViewOrder(
+                                  '."'".$order_id."'".',
+                                  '."'".$first_name."'".',
+                                  '."'".$last_name."'".',
+                                  '."'".$email."'".',
+                                  '."'".$phone."'".',
+                                  '."'".$address."'".',
+                                  '."'".$order_date."'".',
+                                  '."'".$order_time."'".',
+                                  '."'".$order_quantity."'".',
+                                  '."'".$row_product_name."'".',
+                                  '."'".$row_variant_type."'".',
+                                  '."'".$row_variant_name."'".',
+                                  '."'".$row_product_price."'".',
+                                  '."'".$shipping_name."'".',
+                                  '."'".$shipping_phone."'".',
+                                  '."'".$shipping_address."'".',
+                                  '."'".$payment_type."'".',
+                                  '."'".$order_status."'".'
+                                )"
                                 class="btn btn-outline-primary btn-sm 
                                   sans-400 
                                   color-white"
@@ -281,6 +340,8 @@
                                 <i class="fas fa-eye"></i>
                               </button>
                               <button
+                                onclick="onCancelOrder('."'".$order_id."'".')"
+                                '.$is_cancelled.'
                                 class="btn btn-outline-primary btn-sm 
                                   sans-400 
                                   color-white"
@@ -301,6 +362,132 @@
       </div>
     </div>
     <div id="div-overlay-content" class="overlay-content"></div>
+    <div
+      class="modal fade" 
+      id="staticCancelOrder" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="../actions/cancel_order.php" method="POST">
+          <input id="cancel_order" type="hidden" name="order_id" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Cancel This Order?</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular size-14">Are you sure you want to cancel this order?. It cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+              <button type="submit" class="btn btn-primary sans-600">Cancel Order</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticViewOrder" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form action="../actions/update_order.php" method="POST">
+          <input type="hidden" name="order_id" id="order_id" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Information</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="display: flex; flex-direction: column; width: 800px;">
+                <p class="sans-600">Customer Information</p>
+                <div style="display: flex; gap: 10px; margin-top: -10px;">
+                  <div style="flex: 1">
+                    <input
+                      id="order_fn"
+                      type="text"
+                      placeholder="First Name"
+                      name="first_name"
+                      required
+                      class="sans-regular form-control"
+                      readonly
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      id="order_ln"
+                      type="text"
+                      placeholder="Last Name"
+                      name="last_name"
+                      required
+                      class="sans-regular form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                  <div style="flex: 1">
+                    <input
+                      id="order_email"
+                      readonly
+                      type="email"
+                      placeholder="Email Address (eg. myemail@gmail.com)"
+                      name="email"
+                      required
+                      class="sans-regular form-control"
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      id="order_phone"
+                      readonly
+                      type="text"
+                      placeholder="Mobile No. (eg. +639__)"
+                      name="phone"
+                      required
+                      class="sans-regular form-control"
+                    />
+                  </div>
+                </div>
+                <input
+                  id="order_address"
+                  readonly
+                  type="text"
+                  placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                  name="address"
+                  required
+                  class="sans-regular form-control"
+                />
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px">
+                  <p class="sans-600">Order Details</p>
+                  <textarea id="order_details" class="sans-regular form-control" rows="7" readonly style="margin-top: -17px;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 17px;">
+                  <h4 id="order_total" class="sans-600">Total: ₱1064</h4>
+                  <select name="order_status" class="form-select" style="width: 300px;">
+                    <option value="PROCESSING" selected>PROCESSING</option>
+                    <option value="SERVING">SERVING</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                    <option value="FULFILLED">FULFILLED</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Update Order</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/b2e03e5a6f.js" crossorigin="anonymous"></script>
@@ -342,6 +529,51 @@
         'searching': false
       });
     });
+  </script>
+  <script type="text/javascript">
+    const onViewOrder = (
+      order_id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      address,
+      order_date,
+      order_time,
+      order_quantity,
+      product_name,
+      product_variant_type,
+      product_variant_name,
+      price,
+      shipping_name,
+      shipping_number,
+      shipping_address,
+      payment_type,
+      order_status,
+    ) => {
+      $('#order_id').val(order_id);
+      $('#order_fn').val(first_name);
+      $('#order_ln').val(last_name);
+      $('#order_email').val(email);
+      $('#order_phone').val(phone);
+      $('#order_address').val(address);
+      $('#order_details').val(
+        'Order Details\n' +
+        '- Date Time: ' + order_date + ' ' + order_time + '\n' +
+        '- ( ' + order_quantity + ' ) ' + product_name + ', ' + product_variant_name + '\n' +
+        '- Total price: ₱' + price + '\n\n' +
+        'Shipping Details: \n' +
+        '- ' + shipping_name + '\n' +
+        '- ' + shipping_number + '\n' +
+        '- ' + shipping_address + '\n' +
+        '- Payment type: ' + payment_type
+      );
+      $('#order_total').text('₱' + price);
+    }
+    const onCancelOrder = (order_id) => {
+      $('#staticCancelOrder').modal('show');
+      $('#cancel_order').val(order_id);
+    }
   </script>
   <script type="text/javascript">
     let isCollapsed = false;

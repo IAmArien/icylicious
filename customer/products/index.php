@@ -283,32 +283,60 @@
                         </div>
                       ';
                     } else {
-                      echo '
-                        <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                          <img
-                            src="../../assets/images/summer_promo_5_5_1.png"
-                            class="img-product"
-                            onClick="onProductClick(
-                              '."".$category_id.",".'
-                              '."'".$category_name."',".'
-                              '."'".$category_description."',".'
-                              '."".$product_id."".'
-                            )"
-                          />
-                          <div style="height: 20px;"></div>
-                          '.$variant_label.'
-                          <h4 class="color-dark-grey size-13 sans-700">
-                            '.$product_name.'
-                          </h4>
-                          <p class="color-light-grey size-10 sans-regular">
-                            '.$product_description.'
-                          </p>
-                          <div class="div-price-container">
-                            <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
-                            <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                      if ($promotional_price == "") {
+                        echo '
+                          <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                            <img
+                              src="../../admin/uploads/'.$first_image.'"
+                              class="img-product"
+                              onClick="onProductClick(
+                                '."".$category_id.",".'
+                                '."'".$category_name."',".'
+                                '."'".$category_description."',".'
+                                '."".$product_id."".'
+                              )"
+                            />
+                            <div style="height: 20px;"></div>
+                            '.$variant_label.'
+                            <h4 class="color-dark-grey size-13 sans-700">
+                              '.$product_name.'
+                            </h4>
+                            <p class="color-light-grey size-10 sans-regular">
+                              '.$product_description.'
+                            </p>
+                            <div class="div-price-container">
+                              <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                            </div>
                           </div>
-                        </div>
-                      ';
+                        ';
+                      } else {
+                        echo '
+                          <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                            <img
+                              src="../../admin/uploads/'.$first_image.'"
+                              class="img-product"
+                              onClick="onProductClick(
+                                '."".$category_id.",".'
+                                '."'".$category_name."',".'
+                                '."'".$category_description."',".'
+                                '."".$product_id."".'
+                              )"
+                            />
+                            <div style="height: 20px;"></div>
+                            '.$variant_label.'
+                            <h4 class="color-dark-grey size-13 sans-700">
+                              '.$product_name.'
+                            </h4>
+                            <p class="color-light-grey size-10 sans-regular">
+                              '.$product_description.'
+                            </p>
+                            <div class="div-price-container">
+                              <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                              <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                            </div>
+                          </div>
+                        ';
+                      }
                     }
                   }
                 }
@@ -403,32 +431,60 @@
                             </div>
                           ';
                         } else {
-                          echo '
-                            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                              <img
-                                src="../../assets/images/summer_promo_5_5_1.png"
-                                class="img-product"
-                                onClick="onProductClick(
-                                  '."".$category_id.",".'
-                                  '."'".$category_name."',".'
-                                  '."'".$category_description."',".'
-                                  '."".$product_id."".'
-                                )"
-                              />
-                              <div style="height: 20px;"></div>
-                              '.$variant_label.'
-                              <h4 class="color-dark-grey size-13 sans-700">
-                                '.$product_name.'
-                              </h4>
-                              <p class="color-light-grey size-10 sans-regular">
-                                '.$product_description.'
-                              </p>
-                              <div class="div-price-container">
-                                <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
-                                <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                          if ($promotional_price == "") {
+                            echo '
+                              <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                                <img
+                                  src="../../admin/uploads/'.$first_image.'"
+                                  class="img-product"
+                                  onClick="onProductClick(
+                                    '."".$category_id.",".'
+                                    '."'".$category_name."',".'
+                                    '."'".$category_description."',".'
+                                    '."".$product_id."".'
+                                  )"
+                                />
+                                <div style="height: 20px;"></div>
+                                '.$variant_label.'
+                                <h4 class="color-dark-grey size-13 sans-700">
+                                  '.$product_name.'
+                                </h4>
+                                <p class="color-light-grey size-10 sans-regular">
+                                  '.$product_description.'
+                                </p>
+                                <div class="div-price-container">
+                                  <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                                </div>
                               </div>
-                            </div>
-                          ';
+                            ';
+                          } else {
+                            echo '
+                              <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                                <img
+                                  src="../../admin/uploads/'.$first_image.'"
+                                  class="img-product"
+                                  onClick="onProductClick(
+                                    '."".$category_id.",".'
+                                    '."'".$category_name."',".'
+                                    '."'".$category_description."',".'
+                                    '."".$product_id."".'
+                                  )"
+                                />
+                                <div style="height: 20px;"></div>
+                                '.$variant_label.'
+                                <h4 class="color-dark-grey size-13 sans-700">
+                                  '.$product_name.'
+                                </h4>
+                                <p class="color-light-grey size-10 sans-regular">
+                                  '.$product_description.'
+                                </p>
+                                <div class="div-price-container">
+                                  <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                                  <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                                </div>
+                              </div>
+                            ';
+                          }
                         }
                       }
                     }
