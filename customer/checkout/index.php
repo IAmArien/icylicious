@@ -90,146 +90,408 @@
             }
           ?>
           <form action="../actions/payment.php" method="POST">
-            <input type="hidden" name="payment_type" value="cc" required />
+            <input type="hidden" name="payment_type" value="<?php if (isset($_GET['payment_type'])) if ($_GET['payment_type'] == 'GCASH') echo 'GCASH'; else echo 'CCDB'; else echo 'CCDB'; ?>" required id="payment_type" />
             <input type="hidden" name="customer_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" required />
             <div class="div-cart-container">
               <h3 class="sans-700">Express Checkout</h3>
               <div style="height: 15px"></div>
               <div class="div-checkout-payment-type">
-                <button type="button" class="btn btn-md btn-primary sans-600" id="btn-cc" style="flex: 1;">
+                <button
+                  type="button"
+                  class="btn btn-md <?php if (isset($_GET['payment_type'])) if ($_GET['payment_type'] == 'GCASH') echo 'btn-secondary'; else echo 'btn-primary'; else echo 'btn-primary'; ?> sans-600"
+                  id="btn-cc"
+                  style="flex: 1;">
                   Credit / Debit Card Payment
                 </button>
-                <button type="button" class="btn btn-md btn-secondary sans-600" id="btn-gc" style="flex: 1;">
-                  Pay thru GCash / COD
+                <button
+                  type="button"
+                  class="btn btn-md <?php if (isset($_GET['payment_type'])) if ($_GET['payment_type'] == 'GCASH') echo 'btn-primary'; else echo 'btn-secondary'; else echo 'btn-secondary'; ?> sans-600"
+                  id="btn-gc"
+                  style="flex: 1;">
+                  Pay thru GCash
                 </button>
               </div>
               <div style="height: 15px;"></div>
-              <div class="div-cc-details" id="div-cc-details">
-                <h6 class="sans-600 color-dark-grey">Credit / Debit Card details:</h6>
-                <div class="div-form-container">
-                  <input
-                    type="text"
-                    placeholder="Credit / Debit Card No. (eg. 4183-8657-9088-0099)"
-                    name="credit_card_no"
-                    required
-                    class="form-control sans-regular"
-                  />
-                  <div style="display: flex; gap: 10px;">
-                    <div style="flex: 1">
-                      <input
-                        type="text"
-                        placeholder="Expiration Date (eg. MM/YY)"
-                        name="credit_card_exp"
-                        required
-                        class="form-control sans-regular"
-                      />
-                    </div>
-                    <div style="flex: 1">
-                      <input
-                        type="number"
-                        placeholder="CVV Security Code (eg. 808)"
-                        name="credit_card_code"
-                        required
-                        class="form-control sans-regular"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div style="height: 35px;"></div>
-                <h6 class="sans-600 color-dark-grey">Billing / Payment details:</h6>
-                <div class="div-form-container">
-                  <div style="display: flex; gap: 10px;">
-                    <div style="flex: 1">
-                      <input
-                        type="text"
-                        placeholder="First Name"
-                        name="billing_first_name"
-                        required
-                        class="form-control sans-regular"
-                      />
-                    </div>
-                    <div style="flex: 1">
-                      <input
-                        type="text"
-                        placeholder="Last Name"
-                        name="billing_last_name"
-                        required
-                        class="form-control sans-regular"
-                      />
-                    </div>
-                  </div>
-                  <input
-                    type="email"
-                    placeholder="Email Address (eg. myemail@gmail.com)"
-                    name="billing_email"
-                    required
-                    class="form-control sans-regular"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Mobile No. (eg. +639__)"
-                    name="billing_phone"
-                    required
-                    class="form-control sans-regular"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
-                    name="billing_address"
-                    required
-                    class="form-control sans-regular"
-                  />
-                  <div>
-                    <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" checked name="same_as_shipping_address">
-                    <label class="form-check-label" for="flexCheckChecked">
-                      Same as shipping address
-                    </label>
-                  </div>
-                </div>
-                <div id="div-shipping-details" style="display: none;">
-                  <div style="height: 35px;"></div>
-                  <h6 class="sans-600 color-dark-grey">Shipping address details:</h6>
-                  <div class="div-form-container">
-                    <div style="display: flex; gap: 10px;">
-                      <div style="flex: 1">
+              <?php
+                if (isset($_GET['payment_type'])) {
+                  if ($_GET['payment_type'] == 'GCASH') {
+                    echo '
+                      <div class="div-gc-details" id="div-gc-details">
+                        <h6 class="sans-600 color-dark-grey">Pay thru GCash:</h6>
+                        <div class="div-form-container">
+                          <input
+                            type="text"
+                            placeholder="GCash reference number. (eg. 21343729349312)"
+                            name="credit_card_no"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <div style="display: flex; gap: 10px; margin-top: -10px;">
+                            <div style="flex: 1">
+                              <input
+                                type="hidden"
+                                placeholder="Expiration Date (eg. MM/YY)"
+                                name="credit_card_exp"
+                                required
+                                class="form-control sans-regular"
+                                value="-"
+                              />
+                            </div>
+                            <div style="flex: 1">
+                              <input
+                                type="hidden"
+                                placeholder="CVV Security Code (eg. 808)"
+                                name="credit_card_code"
+                                required
+                                class="form-control sans-regular"
+                                value="0"
+                              />
+                            </div>
+                          </div>
+                          <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="First Name"
+                                name="billing_first_name"
+                                required
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="Last Name"
+                                name="billing_last_name"
+                                required
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            type="email"
+                            placeholder="Email Address (eg. myemail@gmail.com)"
+                            name="billing_email"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="number"
+                            placeholder="Mobile No. (eg. +639__)"
+                            name="billing_phone"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="hidden"
+                            placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                            name="billing_address"
+                            required
+                            class="form-control sans-regular"
+                            value="-"
+                          />
+                        </div>
+                        <div style="height: 35px;"></div>
+                        <h6 class="sans-600 color-dark-grey">Shipping address details:</h6>
+                        <div class="div-form-container">
+                          <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="First Name"
+                                name="shipping_first_name"
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="Last Name"
+                                name="shipping_last_name"
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            type="email"
+                            placeholder="Email Address (eg. myemail@gmail.com)"
+                            name="shipping_email"
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="number"
+                            placeholder="Mobile No. (eg. +639__)"
+                            name="shipping_phone"
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="text"
+                            placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                            name="shipping_address"
+                            class="form-control sans-regular"
+                          />
+                        </div>
+                      </div>
+                    ';
+                  } else {
+                    echo '
+                      <div class="div-cc-details" id="div-cc-details">
+                        <h6 class="sans-600 color-dark-grey">Credit / Debit Card details:</h6>
+                        <div class="div-form-container">
+                          <input
+                            type="text"
+                            placeholder="Credit / Debit Card No. (eg. 4183-8657-9088-0099)"
+                            name="credit_card_no"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="Expiration Date (eg. MM/YY)"
+                                name="credit_card_exp"
+                                required
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                            <div style="flex: 1">
+                              <input
+                                type="number"
+                                placeholder="CVV Security Code (eg. 808)"
+                                name="credit_card_code"
+                                required
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div style="height: 35px;"></div>
+                        <h6 class="sans-600 color-dark-grey">Billing / Payment details:</h6>
+                        <div class="div-form-container">
+                          <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="First Name"
+                                name="billing_first_name"
+                                required
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="Last Name"
+                                name="billing_last_name"
+                                required
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            type="email"
+                            placeholder="Email Address (eg. myemail@gmail.com)"
+                            name="billing_email"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="number"
+                            placeholder="Mobile No. (eg. +639__)"
+                            name="billing_phone"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="text"
+                            placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                            name="billing_address"
+                            required
+                            class="form-control sans-regular"
+                          />
+                          <div>
+                            <input id="same-as-shipping" class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" checked name="same_as_shipping_address">
+                            <label class="form-check-label" for="flexCheckChecked">
+                              Same as shipping address
+                            </label>
+                          </div>
+                        </div>
+                        <div id="div-shipping-details" style="display: none;">
+                          <div style="height: 35px;"></div>
+                          <h6 class="sans-600 color-dark-grey">Shipping address details:</h6>
+                          <div class="div-form-container">
+                            <div style="display: flex; gap: 10px;">
+                              <div style="flex: 1">
+                                <input
+                                  type="text"
+                                  placeholder="First Name"
+                                  name="shipping_first_name"
+                                  class="form-control sans-regular"
+                                />
+                              </div>
+                              <div style="flex: 1">
+                                <input
+                                  type="text"
+                                  placeholder="Last Name"
+                                  name="shipping_last_name"
+                                  class="form-control sans-regular"
+                                />
+                              </div>
+                            </div>
+                            <input
+                              type="email"
+                              placeholder="Email Address (eg. myemail@gmail.com)"
+                              name="shipping_email"
+                              class="form-control sans-regular"
+                            />
+                            <input
+                              type="number"
+                              placeholder="Mobile No. (eg. +639__)"
+                              name="shipping_phone"
+                              class="form-control sans-regular"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                              name="shipping_address"
+                              class="form-control sans-regular"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ';
+                  }
+                } else {
+                  echo '
+                    <div class="div-cc-details" id="div-cc-details">
+                      <h6 class="sans-600 color-dark-grey">Credit / Debit Card details:</h6>
+                      <div class="div-form-container">
                         <input
                           type="text"
-                          placeholder="First Name"
-                          name="shipping_first_name"
+                          placeholder="Credit / Debit Card No. (eg. 4183-8657-9088-0099)"
+                          name="credit_card_no"
+                          required
                           class="form-control sans-regular"
                         />
+                        <div style="display: flex; gap: 10px;">
+                          <div style="flex: 1">
+                            <input
+                              type="text"
+                              placeholder="Expiration Date (eg. MM/YY)"
+                              name="credit_card_exp"
+                              required
+                              class="form-control sans-regular"
+                            />
+                          </div>
+                          <div style="flex: 1">
+                            <input
+                              type="number"
+                              placeholder="CVV Security Code (eg. 808)"
+                              name="credit_card_code"
+                              required
+                              class="form-control sans-regular"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div style="flex: 1">
+                      <div style="height: 35px;"></div>
+                      <h6 class="sans-600 color-dark-grey">Billing / Payment details:</h6>
+                      <div class="div-form-container">
+                        <div style="display: flex; gap: 10px;">
+                          <div style="flex: 1">
+                            <input
+                              type="text"
+                              placeholder="First Name"
+                              name="billing_first_name"
+                              required
+                              class="form-control sans-regular"
+                            />
+                          </div>
+                          <div style="flex: 1">
+                            <input
+                              type="text"
+                              placeholder="Last Name"
+                              name="billing_last_name"
+                              required
+                              class="form-control sans-regular"
+                            />
+                          </div>
+                        </div>
+                        <input
+                          type="email"
+                          placeholder="Email Address (eg. myemail@gmail.com)"
+                          name="billing_email"
+                          required
+                          class="form-control sans-regular"
+                        />
+                        <input
+                          type="number"
+                          placeholder="Mobile No. (eg. +639__)"
+                          name="billing_phone"
+                          required
+                          class="form-control sans-regular"
+                        />
                         <input
                           type="text"
-                          placeholder="Last Name"
-                          name="shipping_last_name"
+                          placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                          name="billing_address"
+                          required
                           class="form-control sans-regular"
                         />
+                        <div>
+                          <input id="same-as-shipping" class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" checked name="same_as_shipping_address">
+                          <label class="form-check-label" for="flexCheckChecked">
+                            Same as shipping address
+                          </label>
+                        </div>
+                      </div>
+                      <div id="div-shipping-details" style="display: none;">
+                        <div style="height: 35px;"></div>
+                        <h6 class="sans-600 color-dark-grey">Shipping address details:</h6>
+                        <div class="div-form-container">
+                          <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="First Name"
+                                name="shipping_first_name"
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                            <div style="flex: 1">
+                              <input
+                                type="text"
+                                placeholder="Last Name"
+                                name="shipping_last_name"
+                                class="form-control sans-regular"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            type="email"
+                            placeholder="Email Address (eg. myemail@gmail.com)"
+                            name="shipping_email"
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="number"
+                            placeholder="Mobile No. (eg. +639__)"
+                            name="shipping_phone"
+                            class="form-control sans-regular"
+                          />
+                          <input
+                            type="text"
+                            placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                            name="shipping_address"
+                            class="form-control sans-regular"
+                          />
+                        </div>
                       </div>
                     </div>
-                    <input
-                      type="email"
-                      placeholder="Email Address (eg. myemail@gmail.com)"
-                      name="shipping_email"
-                      class="form-control sans-regular"
-                    />
-                    <input
-                      type="number"
-                      placeholder="Mobile No. (eg. +639__)"
-                      name="shipping_phone"
-                      class="form-control sans-regular"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Address Address (eg. Ayala Makati, Metro Manila, Philippines)"
-                      name="shipping_address"
-                      class="form-control sans-regular"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="div-gc-details" id="div-gc-details" style="display: none;"></div>
+                  ';
+                }
+              ?>
               <div class="div-checkout-price">
                 <div class="div-checkout-action">
                   <button
@@ -256,6 +518,40 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      let isSameAsShipping = false;
+      $('#same-as-shipping').change(() => {
+        if (isSameAsShipping) {
+          $('#div-shipping-details').css('display', 'none');
+          isSameAsShipping = false;
+        } else {
+          $('#div-shipping-details').css('display', 'block');
+          isSameAsShipping = true;
+        }
+      });
+      $('#btn-cc').click(() => {
+        window.location.href = "./?payment_type=CCDB";
+        // $('#btn-gc').removeClass("btn-primary");
+        // $('#btn-gc').addClass("btn-secondary");
+        // $('#btn-cc').removeClass("btn-secondary");
+        // $('#btn-cc').addClass("btn-primary");
+        // $('#div-cc-details').css('display', 'block');
+        // $('#div-gc-details').css('display', 'none');
+        // $('#payment_type').val('CC DB');
+      });
+      $('#btn-gc').click(() => {
+        window.location.href = "./?payment_type=GCASH";
+        // $('#btn-gc').removeClass("btn-secondary");
+        // $('#btn-gc').addClass("btn-primary");
+        // $('#btn-cc').removeClass("btn-primary");
+        // $('#btn-cc').addClass("btn-secondary");
+        // $('#div-cc-details').css('display', 'none');
+        // $('#div-gc-details').css('display', 'block');
+        // $('#payment_type').val('GCASH');
+      });
+    })
   </script>
   <script type="text/javascript">
     const alertMessage = (message) => {

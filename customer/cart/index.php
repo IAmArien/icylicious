@@ -287,7 +287,7 @@
             </div>
             <div class="div-checkout-price">
               <div class="div-checkout-action">
-                <a href="../checkout">
+                <a href="../checkout/?payment_type=CCDB">
                   <button
                     class="btn btn-md btn-secondary sans-600"
                     type="submit"
