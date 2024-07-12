@@ -174,6 +174,80 @@
             </div>
           </div>
           <div style="margin-top: 20px;">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #28a745;">
+                      <i class="fa-solid fa-money-bill-trend-up"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                      <?php
+                          $fetch_query = "SELECT order_total FROM orders";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $total = 0.00;
+                            while ($row = $result->fetch_assoc()) {
+                              $order_total = floatval($row['order_total']);
+                              $total += $order_total;
+                            }
+                            echo '₱'.number_format($total);
+                          }
+                        ?>
+                      </h3>
+                      <p class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Total Sales
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #0d6efd;">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $fetch_query = "SELECT count(*) FROM orders";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <p class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Total Orders
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #dc3545;">
+                      <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $fetch_query = "SELECT count(*) FROM user_credentials AS UC WHERE UC.type = 'customer'";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <p class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Total Customers
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
