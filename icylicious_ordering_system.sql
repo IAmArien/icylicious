@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 08, 2024 at 04:31 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jul 12, 2024 at 07:30 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `icylicious_ordering_system`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `best_sellers`
+--
+
+CREATE TABLE `best_sellers` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -80,13 +91,6 @@ CREATE TABLE `contact_us` (
   `contact_description` varchar(999) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `contact_us`
---
-
-INSERT INTO `contact_us` (`id`, `firstname`, `lastname`, `email`, `mobile`, `contact_subject`, `contact_description`) VALUES
-(1, 'Norman', 'Palisoc', 'norman.palisoc@gmail.com', '238402394234', 'Test', 'Test');
-
 -- --------------------------------------------------------
 
 --
@@ -115,9 +119,13 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`) VALUES
-(56, '668beeb22215c', 30, 6, 36, '2024/07/08', '03:50:42pm', 3, 1, 'dfsdfsdf', '489573845934535345345', 'norman.palisoc@gmail1.com', 'PROCESSING', '1393'),
-(57, '668beeb22215c', 29, 3, 36, '2024/07/08', '03:50:42pm', 4, 1, 'dfsdfsdf', '489573845934535345345', 'norman.palisoc@gmail1.com', 'PROCESSING', '1393'),
-(58, '668bf7c7be3db', 30, 6, 36, '2024/07/08', '04:29:27pm', 6, 1, 'dfsdfsdf', '489573845934535345345', 'norman.palisoc@gmail1.com', 'PROCESSING', '1194');
+(59, '668ff965b8389', 36, 3, 37, '2024/07/11', '05:25:25pm', 4, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '1064'),
+(60, '6690071c2171d', 36, 3, 37, '2024/07/11', '06:23:56pm', 4, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '1295'),
+(61, '6690071c2171d', 32, 6, 37, '2024/07/11', '06:23:56pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '1295'),
+(62, '669017366b037', 31, 6, 38, '2024/07/11', '07:32:38pm', 2, 1, 'Dagupan City, Pangasinan, Philippines', '639273894063', 'jennie.kim@yopmail.com', 'FULFILLED', '154'),
+(63, '669022154162f', 32, 6, 37, '2024/07/11', '08:19:01pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '563'),
+(64, '669022154162f', 37, 3, 37, '2024/07/11', '08:19:01pm', 2, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '563'),
+(67, '66907384be09a', 31, 6, 37, '2024/07/12', '02:06:28am', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '231');
 
 -- --------------------------------------------------------
 
@@ -148,9 +156,13 @@ CREATE TABLE `orders_billing` (
 --
 
 INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_exp`, `credit_card_code`, `billing_first_name`, `billing_last_name`, `billing_phone`, `billing_address`, `shipping_first_name`, `shipping_last_name`, `shipping_phone`, `shipping_address`, `payment_type`, `customer_email`) VALUES
-(36, 56, 'asdasd', '36456', '2345345', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'cc', 'norman.palisoc@gmail1.com'),
-(37, 57, 'asdasd', '36456', '2345345', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'fgdfg', 'dfgdfg', '83904589345345', 'yuiyui', 'cc', 'norman.palisoc@gmail1.com'),
-(38, 58, 'asdasd', 'asdasd', '234234', 'sdfgdfg', 'dfgdfg', '809890890', 'hjkashdjkahsd', 'sdfgdfg', 'dfgdfg', '809890890', 'hjkashdjkahsd', 'cc', 'norman.palisoc@gmail1.com');
+(39, 59, '4183-8657-9088-0099', '12/29', '808', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila City Philippines', '', '', '', '', 'cc', 'norman.consultant@platform-11.com'),
+(40, 60, '4183-8657-9088-0099', '12/28', '880', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'cc', 'norman.consultant@platform-11.com'),
+(41, 61, '4183-8657-9088-0099', '12/28', '880', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'cc', 'norman.consultant@platform-11.com'),
+(42, 62, '4183-8657-9088-0099', '08/30', '088', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila NCR Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila NCR Philippines 2419', 'cc', 'jennie.kim@yopmail.com'),
+(43, 63, '4183-8657-9088-0099', '09/29', '789', 'Norman', 'Palisoc', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines', 'Jennie', 'Kim', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines 2419', 'cc', 'norman.consultant@platform-11.com'),
+(44, 64, '4183-8657-9088-0099', '09/29', '789', 'Norman', 'Palisoc', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines', 'Jennie', 'Kim', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines 2419', 'cc', 'norman.consultant@platform-11.com'),
+(47, 67, '710938190238912', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Aiah', 'Arceta', '639273894063', 'Ayala Makati Metro Manila Philippines', 'GCASH', 'norman.consultant@platform-11.com');
 
 -- --------------------------------------------------------
 
@@ -169,8 +181,14 @@ CREATE TABLE `products_categories` (
 --
 
 INSERT INTO `products_categories` (`id`, `category_id`, `product_id`) VALUES
-(29, 15, 29),
-(30, 15, 30);
+(31, 10, 31),
+(32, 15, 32),
+(33, 7, 33),
+(34, 15, 34),
+(35, 10, 35),
+(36, 7, 36),
+(37, 15, 37),
+(38, 15, 38);
 
 -- --------------------------------------------------------
 
@@ -189,8 +207,14 @@ CREATE TABLE `products_images` (
 --
 
 INSERT INTO `products_images` (`id`, `product_id`, `product_image`) VALUES
-(10, 30, '../uploads/7a5fbe85a4c1746b5d99b762e9b33070-176.jpg'),
-(11, 30, '../uploads/dc473895e63ab8a779b2903a06711464-461.png');
+(12, 31, '../uploads/449833622_890889206388208_5186544043050434752_n.jpg'),
+(13, 32, '../uploads/449963047_890893469721115_8037731534914943621_n.jpg'),
+(14, 33, '../uploads/448512011_890893443054451_1472447363313712759_n.jpg'),
+(15, 34, '../uploads/449930361_890893483054447_5029787391027050045_n.jpg'),
+(16, 35, '../uploads/447685776_871620354981760_7214760882104809249_n.jpg'),
+(18, 36, '../uploads/448021526_871620374981758_8464208450218718430_n.jpg'),
+(19, 37, '../uploads/447833255_871620384981757_6695675582191510910_n.jpg'),
+(20, 38, '../uploads/447728295_871620361648426_4025483537535039279_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -209,8 +233,14 @@ CREATE TABLE `products_info` (
 --
 
 INSERT INTO `products_info` (`id`, `product_name`, `product_description`) VALUES
-(29, 'SPECIAL MANGO GRAHAM B1T1', 'Cheers to the real superheroes in our lives!\\r\\nMOTHER\\\'S DAY SPECIAL\\r\\n\\r\\nCelebrate Mother\\\'s Day with us with our Super Sulit Promo only here at Icylicious!\\r\\nSPECIAL MANGO GRAHAM B1T1\\r\\n@199\\r\\n\\r\\nPromo runs: May 12-13, 2024 only\\r\\nAvailable at all Icylicious Stores.'),
-(30, 'SPECIAL MANGO GRAHAM B1T1', 'Cheers to the real superheroes in our lives!\\r\\nMOTHER\\\'S DAY SPECIAL\\r\\n\\r\\nCelebrate Mother\\\'s Day with us with our Super Sulit Promo only here at Icylicious!\\r\\nSPECIAL MANGO GRAHAM B1T1\\r\\n@199\\r\\n\\r\\nPromo runs: May 12-13, 2024 only\\r\\nAvailable at all Icylicious Stores.');
+(31, 'MILK TEA AND 3 BUDDIES', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(33, 'TIGER BOBA (NO TEA DRINK)', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(34, 'MANGO GRAHAM SMOOTHIE', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(35, 'BUBBLE MILK TEA', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(36, '3 TIGER BOBA (NO TEA DRINK)', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(37, 'STRAWBERRY NUTELLA SMOOTHIE', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
+(38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ');
 
 -- --------------------------------------------------------
 
@@ -230,8 +260,14 @@ CREATE TABLE `products_prices` (
 --
 
 INSERT INTO `products_prices` (`id`, `product_id`, `variant_id`, `variant_price`) VALUES
-(29, 29, 3, 199),
-(30, 30, 6, 199);
+(31, 31, 6, 149),
+(32, 32, 6, 149),
+(33, 33, 3, 249),
+(34, 34, 1, 249),
+(35, 35, 3, 69),
+(36, 36, 3, 266),
+(37, 37, 3, 166),
+(38, 38, 3, 266);
 
 -- --------------------------------------------------------
 
@@ -267,8 +303,10 @@ CREATE TABLE `promotions` (
 --
 
 INSERT INTO `promotions` (`id`, `product_id`, `promotional_price`, `is_buy_x_take_x`, `buy_x_of`, `take_x_of`) VALUES
-(16, 29, 0, 1, 1, 1),
-(17, 30, 0, 1, 1, 1);
+(18, 31, 77, 0, 0, 0),
+(19, 32, 77, 0, 0, 0),
+(20, 33, 177, 0, 0, 0),
+(21, 34, 177, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -290,18 +328,8 @@ CREATE TABLE `user_credentials` (
 
 INSERT INTO `user_credentials` (`id`, `user_id`, `username`, `password`, `type`) VALUES
 (1, 1, 'npalisoc@yondu.com', 'bf4eebd67ee25c316692f4b8fab77f4a', 'admin'),
-(7, 20, 'jisoo.kim@yopmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(8, 21, 'lalisa.manoban@yopmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(9, 22, 'chaeyoung.park@yopmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(10, 23, 'nicollete.vegara@chimpmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(11, 24, 'jennie.kim@yopmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(12, 25, 'hanni.pham@newjeans.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(13, 26, 'haerin.kang@njeans.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(14, 28, 'gehlee.dangca@gmail.com', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(15, 29, 'maloi.robles@bini.com.ph', 'b3056b83855a3940398d0d3bf6decaf0', 'customer'),
-(20, 34, 'norman.palisoc@novare.com.hk', 'bf4eebd67ee25c316692f4b8fab77f4a', 'customer'),
-(21, 35, 'test@norman.com', 'cc03e747a6afbbcbf8be7668acfebee5', 'customer'),
-(22, 36, 'norman.palisoc@gmail1.com', 'cc03e747a6afbbcbf8be7668acfebee5', 'customer');
+(23, 37, 'norman.consultant@platform-11.com', 'cc03e747a6afbbcbf8be7668acfebee5', 'customer'),
+(24, 38, 'jennie.kim@yopmail.com', 'cc03e747a6afbbcbf8be7668acfebee5', 'customer');
 
 -- --------------------------------------------------------
 
@@ -326,18 +354,8 @@ CREATE TABLE `user_info` (
 
 INSERT INTO `user_info` (`id`, `first_name`, `last_name`, `email`, `phone`, `address`, `gender`, `birth_date`) VALUES
 (1, ' Norman', 'Palisoc', 'npalisoc@yondu.com', '+639273894063', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', 'Female', '2024-04-30'),
-(20, 'Jisoo', 'Kim', 'jisoo.kim@yopmail.com', '+6391234567809', 'Seoul South Korea', 'Male', '2024-02-20'),
-(21, 'Lalisa', 'Manoban', 'lalisa.manoban@yopmail.com', '+630987654321', 'Thailand, Earth, Milky Way, Universe', 'Female', '2024-06-13'),
-(22, 'Chaeyoung', 'Park', 'chaeyoung.park@yopmail.com', '+639273894040', 'Seoul South Korea and Australia', 'Male', '2023-06-14'),
-(23, 'Nicolette', 'Vergara', 'nicollete.vegara@chimpmail.com', '+6392790874823', 'Taguig, Metro Manila, Philippines 2419', 'Female', '2024-01-18'),
-(24, 'Jennie', 'Kim', 'jennie.kim@yopmail.com', '+639273894063', 'Santa Barbara, Pangasinan, Philippines', 'Female', '2024-04-26'),
-(25, 'Hanni', 'Pham', 'hanni.pham@newjeans.com', '+6392783478932', 'Vietnam and Australia', 'Female', '2024-04-10'),
-(26, 'Haerin', 'Kang', 'haerin.kang@njeans.com', '+6392719273123', 'Metro Manila, Quezon City, Philippines', 'Others', '2024-04-02'),
-(28, 'Gehlee', 'Dangca', 'gehlee.dangca@gmail.com', '+639293819273', 'Pasig City, Metro Manila, Philippines', 'Female', '2024-02-14'),
-(29, 'Maloi', 'Robles', 'maloi.robles@bini.com.ph', '+6392783827133', 'Brgy BINI, Pantropiko Island Philippines', 'Others', '2024-04-03'),
-(34, 'Norman', 'Palisoc', 'norman.palisoc@novare.com.hk', '639273894063', 'Ayala Makati, Metro Manila, Philippines', 'Male', '2024-05-01'),
-(35, 'Norman', 'Palisoc', 'test@norman.com', '283492034234', 'Ayala Makati Metro Manila Philippines', 'Female', '2024-06-18'),
-(36, 'Norman', 'Palisoc', 'norman.palisoc@gmail1.com', '489573845934535345345', 'dfsdfsdf', 'Female', '2024-07-18');
+(37, 'Norman', 'Palisoc', 'norman.consultant@platform-11.com', '639273894063', 'Ayala Makati, Metro Manila, Philippines', 'Male', '2024-07-31'),
+(38, 'Jenni', 'Kim', 'jennie.kim@yopmail.com', '639273894063', 'Dagupan City, Pangasinan, Philippines', 'Female', '2024-07-31');
 
 -- --------------------------------------------------------
 
@@ -361,11 +379,17 @@ INSERT INTO `variants` (`id`, `variant_type`, `variant_name`, `variant_descripti
 (1, 'Size', 'Extra Large', 'Size Variant of XL for Drinks', 1),
 (3, 'Size', 'Large', 'Size Variant of L for Drinks', 1),
 (4, 'Size', 'Medium', 'Size Variant of M for Drinks', 1),
-(6, 'Size', 'Regular', 'Default variant for any possible products', 1);
+(6, 'Size', 'Regular', 'Default variant for any products related', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `best_sellers`
+--
+ALTER TABLE `best_sellers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cart`
@@ -458,10 +482,16 @@ ALTER TABLE `variants`
 --
 
 --
+-- AUTO_INCREMENT for table `best_sellers`
+--
+ALTER TABLE `best_sellers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -479,37 +509,37 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `orders_billing`
 --
 ALTER TABLE `orders_billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
 --
 ALTER TABLE `products_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `products_images`
 --
 ALTER TABLE `products_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `products_info`
 --
 ALTER TABLE `products_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `products_prices`
 --
 ALTER TABLE `products_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `products_ratings`
@@ -521,19 +551,19 @@ ALTER TABLE `products_ratings`
 -- AUTO_INCREMENT for table `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user_credentials`
 --
 ALTER TABLE `user_credentials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `variants`
