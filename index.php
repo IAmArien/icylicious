@@ -147,68 +147,173 @@
             Experience the ultimate taste of summer with our 5.5 summer promo
           </p>
           <div class="row" style="margin-top: 60px;">
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_1.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                BUY 1 TAKE 1 - LARGE NUTTY-OREO NUTELLA SMOOTHIE WITH PEARLS
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱255.00</h3>
-                <h5 class="strike-price color-super-light-grey sans-regular">₱270.00</h5>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_2.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                1 LARGE BUBBLE MILK TEA
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱55.00</h3>
-                <h5 class="strike-price color-super-light-grey sans-regular">₱70.00</h5>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_3.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                P55 EACH (ANY FLAVOR OF YOUR CHOICE WHEN YOU BUY 2 REGULAR MILK TEAS)
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱55.00</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-              <img src="./assets/images/summer_promo_5_5_4.png" class="img-product" />
-              <div style="height: 20px;"></div>
-              <h4 class="color-dark-grey size-13 sans-700">
-                BUY 1 TAKE 1 REGULAR CHOCO CHIP SMOOTHIE PEARLS
-              </h4>
-              <p class="color-light-grey size-10 sans-regular">
-                Experience the ultimate taste of summer with our 5.5 Summer Promo!
-                Available at all Icylicious Stores.
-              </p>
-              <div class="div-price-container">
-                <h3 class="color-dark-grey sans-bold">₱155.00</h3>
-                <h5 class="strike-price color-super-light-grey sans-regular">₱170.00</h5>
-              </div>
-              <!-- <button class="btn btn-md btn-outline-primary sans-600 btn-add-to-cart" type="button" style="width: 100%;">
-                <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to cart
-              </button> -->
-            </div>
+            <?php
+              $fetch_query = "SELECT * FROM best_sellers LIMIT 4";
+              $best_sellers_result = $conn->query($fetch_query);
+              if ($best_sellers_result->num_rows > 0) {
+                while ($best_sellers_row = $best_sellers_result->fetch_assoc()) {
+                  $product_id = $best_sellers_row['product_id'];
+                  $fetch_query = "SELECT 
+                    PI.id, 
+                    PI.product_name, 
+                    PI.product_description,
+                    PP.variant_price,
+                    PP.variant_id, 
+                    PM.promotional_price,
+                    PM.is_buy_x_take_x,
+                    PM.buy_x_of,
+                    PM.take_x_of 
+                    FROM products_info AS PI INNER JOIN products_prices AS PP ON PI.id = PP.product_id
+                    LEFT JOIN promotions AS PM ON PI.id = PM.product_id WHERE PI.id = ".$product_id." LIMIT 1";
+                  $result = $conn->query($fetch_query);
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      $product_id = $row['id'];
+                      $product_name = $row['product_name'];
+                      $product_variant_id = $row['variant_id'];
+                      $product_description_no_rn = str_replace('\r\n', '<br/>', $row['product_description']);
+                      $product_description_no_sl = str_replace('\\', '', $product_description_no_rn);
+                      $product_description_no_sn = str_replace('\n', '<br/>', $product_description_no_sl);
+                      $product_description = $product_description_no_sn;
+                      $variant_price = $row['variant_price'];
+                      $is_buy_x_take_x = $row['is_buy_x_take_x'];
+                      $promotional_price = $row['promotional_price'];
+                      // get product variants
+                      $fetch_query = "SELECT variant_type, variant_name FROM variants WHERE id = ".$product_variant_id."";
+                      $variant_result = $conn->query($fetch_query);
+                      $variant_label = '';
+                      if ($variant_result->num_rows > 0) {
+                        $variant_row = $variant_result->fetch_assoc();
+                        $variant_name = $variant_row['variant_name'];
+                        $variant_type = $variant_row['variant_type'];
+                        $variant_label = '
+                          <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                            '.$variant_type.':&nbsp;&nbsp;
+                            <span class="badge-size color-light-grey sans-regular size-10">
+                              '.$variant_name.'
+                            </span>
+                          </div>
+                          <div style="height: 20px;"></div>
+                        ';
+                      }
+                      // get product images
+                      $products_images = array();
+                      $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                      $images_result = $conn->query($fetch_query);
+                      if ($images_result->num_rows > 0) {
+                        while ($images_row = $images_result->fetch_assoc()) {
+                          $product_image = $images_row['product_image'];
+                          array_push($products_images, $product_image);
+                        }
+                      }
+                      $first_image = '';
+                      if (count($products_images) > 0) {
+                        $first_image = array_values($products_images)[0];
+                      }
+                      // get product category
+                      $fetch_query = "SELECT * FROM products_categories WHERE product_id = ".$product_id." LIMIT 1";
+                      $category_result = $conn->query($fetch_query);
+                      $local_category_id = 0;
+                      $local_category_name = "";
+                      $local_category_description = "";
+                      if ($category_result->num_rows > 0) {
+                        $category_row = $category_result->fetch_assoc();
+                        $local_category_id = $category_row['category_id'];
+                        $fetch_query = "SELECT * FROM categories WHERE id = ".$local_category_id." LIMIT 1";
+                        $category_details_result = $conn->query($fetch_query);
+                        if ($category_details_result->num_rows > 0) {
+                          $category_details_row = $category_details_result->fetch_assoc();
+                          $local_category_name = $category_details_row['category_name'];
+                          $local_category_description = $category_details_row['category_description'];
+                        }
+                      }
+                      if ($is_buy_x_take_x == 1) {
+                        echo '
+                          <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                            <img
+                              src="./admin/uploads/'.$first_image.'"
+                              class="img-product"
+                              onClick="onProductClick(
+                                '."".$local_category_id.",".'
+                                '."'".$local_category_name."',".'
+                                '."'".$local_category_description."',".'
+                                '."".$product_id."".'
+                              )"
+                            />
+                            <div style="height: 20px;"></div>
+                            '.$variant_label.'
+                            <h4 class="color-dark-grey size-13 sans-700">
+                              '.$product_name.'
+                            </h4>
+                            <p class="color-light-grey size-10 sans-regular">
+                              '.$product_description.'
+                            </p>
+                            <div class="div-price-container">
+                              <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                            </div>
+                          </div>
+                        ';
+                      } else {
+                        if ($promotional_price == "") {
+                          echo '
+                            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                              <img
+                                src="./admin/uploads/'.$first_image.'"
+                                class="img-product"
+                                onClick="onProductClick(
+                                  '."".$local_category_id.",".'
+                                  '."'".$local_category_name."',".'
+                                  '."'".$local_category_description."',".'
+                                  '."".$product_id."".'
+                                )"
+                              />
+                              <div style="height: 20px;"></div>
+                              '.$variant_label.'
+                              <h4 class="color-dark-grey size-13 sans-700">
+                                '.$product_name.'
+                              </h4>
+                              <p class="color-light-grey size-10 sans-regular">
+                                '.$product_description.'
+                              </p>
+                              <div class="div-price-container">
+                                <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                              </div>
+                            </div>
+                          ';
+                        } else {
+                          echo '
+                            <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                              <img
+                                src="./admin/uploads/'.$first_image.'"
+                                class="img-product"
+                                onClick="onProductClick(
+                                  '."".$local_category_id.",".'
+                                  '."'".$local_category_name."',".'
+                                  '."'".$local_category_description."',".'
+                                  '."".$product_id."".'
+                                )"
+                              />
+                              <div style="height: 20px;"></div>
+                              '.$variant_label.'
+                              <h4 class="color-dark-grey size-13 sans-700">
+                                '.$product_name.'
+                              </h4>
+                              <p class="color-light-grey size-10 sans-regular">
+                                '.$product_description.'
+                              </p>
+                              <div class="div-price-container">
+                                <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                                <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                              </div>
+                            </div>
+                          ';
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ?>
           </div>
           <div class="row" style="margin-top: 80px;">
             <div class="col-lg-4 col-md-6 col-sm-12">
@@ -238,107 +343,80 @@
           <div class="row" style="margin-top: 60px;">
             <?php
               $fetch_query = "SELECT 
-              PI.id, 
-              PI.product_name, 
-              PI.product_description,
-              PP.variant_price,
-              PP.variant_id, 
-              PM.promotional_price,
-              PM.is_buy_x_take_x,
-              PM.buy_x_of,
-              PM.take_x_of 
-              FROM products_info AS PI INNER JOIN products_prices AS PP ON PI.id = PP.product_id
-              LEFT JOIN promotions AS PM ON PI.id = PM.product_id LIMIT 4";
+                PI.id, 
+                PI.product_name, 
+                PI.product_description,
+                PP.variant_price,
+                PP.variant_id, 
+                PM.promotional_price,
+                PM.is_buy_x_take_x,
+                PM.buy_x_of,
+                PM.take_x_of 
+                FROM products_info AS PI INNER JOIN products_prices AS PP ON PI.id = PP.product_id
+                LEFT JOIN promotions AS PM ON PI.id = PM.product_id LIMIT 4";
               $result = $conn->query($fetch_query);
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                $product_id = $row['id'];
-                $product_name = $row['product_name'];
-                $product_variant_id = $row['variant_id'];
-                $product_description_no_rn = str_replace('\r\n', '<br/>', $row['product_description']);
-                $product_description_no_sl = str_replace('\\', '', $product_description_no_rn);
-                $product_description_no_sn = str_replace('\n', '<br/>', $product_description_no_sl);
-                $product_description = $product_description_no_sn;
-                $variant_price = $row['variant_price'];
-                $is_buy_x_take_x = $row['is_buy_x_take_x'];
-                $promotional_price = $row['promotional_price'];
-                // get product variants
-                $fetch_query = "SELECT variant_type, variant_name FROM variants WHERE id = ".$product_variant_id."";
-                $variant_result = $conn->query($fetch_query);
-                $variant_label = '';
-                if ($variant_result->num_rows > 0) {
-                  $variant_row = $variant_result->fetch_assoc();
-                  $variant_name = $variant_row['variant_name'];
-                  $variant_type = $variant_row['variant_type'];
-                  $variant_label = '
-                    <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                      '.$variant_type.':&nbsp;&nbsp;
-                      <span class="badge-size color-light-grey sans-regular size-10">
-                        '.$variant_name.'
-                      </span>
-                    </div>
-                    <div style="height: 20px;"></div>
-                  ';
-                }
-                // get product images
-                $products_images = array();
-                $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
-                $images_result = $conn->query($fetch_query);
-                if ($images_result->num_rows > 0) {
-                  while ($images_row = $images_result->fetch_assoc()) {
-                    $product_image = $images_row['product_image'];
-                    array_push($products_images, $product_image);
-                  }
-                }
-                $first_image = '';
-                if (count($products_images) > 0) {
-                  $first_image = array_values($products_images)[0];
-                }
-                // get product category
-                $fetch_query = "SELECT * FROM products_categories WHERE product_id = ".$product_id." LIMIT 1";
-                $category_result = $conn->query($fetch_query);
-                $local_category_id = 0;
-                $local_category_name = "";
-                $local_category_description = "";
-                if ($category_result->num_rows > 0) {
-                  $category_row = $category_result->fetch_assoc();
-                  $local_category_id = $category_row['category_id'];
-                  $fetch_query = "SELECT * FROM categories WHERE id = ".$local_category_id." LIMIT 1";
-                  $category_details_result = $conn->query($fetch_query);
-                  if ($category_details_result->num_rows > 0) {
-                    $category_details_row = $category_details_result->fetch_assoc();
-                    $local_category_name = $category_details_row['category_name'];
-                    $local_category_description = $category_details_row['category_description'];
-                  }
-                }
-                if ($is_buy_x_take_x == 1) {
-                  echo '
-                    <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                      <img
-                        src="./admin/uploads/'.$first_image.'"
-                        class="img-product"
-                        onClick="onProductClick(
-                          '."".$local_category_id.",".'
-                          '."'".$local_category_name."',".'
-                          '."'".$local_category_description."',".'
-                          '."".$product_id."".'
-                        )"
-                      />
-                      <div style="height: 20px;"></div>
-                      '.$variant_label.'
-                      <h4 class="color-dark-grey size-13 sans-700">
-                        '.$product_name.'
-                      </h4>
-                      <p class="color-light-grey size-10 sans-regular">
-                        '.$product_description.'
-                      </p>
-                      <div class="div-price-container">
-                        <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  $product_id = $row['id'];
+                  $product_name = $row['product_name'];
+                  $product_variant_id = $row['variant_id'];
+                  $product_description_no_rn = str_replace('\r\n', '<br/>', $row['product_description']);
+                  $product_description_no_sl = str_replace('\\', '', $product_description_no_rn);
+                  $product_description_no_sn = str_replace('\n', '<br/>', $product_description_no_sl);
+                  $product_description = $product_description_no_sn;
+                  $variant_price = $row['variant_price'];
+                  $is_buy_x_take_x = $row['is_buy_x_take_x'];
+                  $promotional_price = $row['promotional_price'];
+                  // get product variants
+                  $fetch_query = "SELECT variant_type, variant_name FROM variants WHERE id = ".$product_variant_id."";
+                  $variant_result = $conn->query($fetch_query);
+                  $variant_label = '';
+                  if ($variant_result->num_rows > 0) {
+                    $variant_row = $variant_result->fetch_assoc();
+                    $variant_name = $variant_row['variant_name'];
+                    $variant_type = $variant_row['variant_type'];
+                    $variant_label = '
+                      <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                        '.$variant_type.':&nbsp;&nbsp;
+                        <span class="badge-size color-light-grey sans-regular size-10">
+                          '.$variant_name.'
+                        </span>
                       </div>
-                    </div>
-                  ';
-                } else {
-                  if ($promotional_price == "") {
+                      <div style="height: 20px;"></div>
+                    ';
+                  }
+                  // get product images
+                  $products_images = array();
+                  $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                  $images_result = $conn->query($fetch_query);
+                  if ($images_result->num_rows > 0) {
+                    while ($images_row = $images_result->fetch_assoc()) {
+                      $product_image = $images_row['product_image'];
+                      array_push($products_images, $product_image);
+                    }
+                  }
+                  $first_image = '';
+                  if (count($products_images) > 0) {
+                    $first_image = array_values($products_images)[0];
+                  }
+                  // get product category
+                  $fetch_query = "SELECT * FROM products_categories WHERE product_id = ".$product_id." LIMIT 1";
+                  $category_result = $conn->query($fetch_query);
+                  $local_category_id = 0;
+                  $local_category_name = "";
+                  $local_category_description = "";
+                  if ($category_result->num_rows > 0) {
+                    $category_row = $category_result->fetch_assoc();
+                    $local_category_id = $category_row['category_id'];
+                    $fetch_query = "SELECT * FROM categories WHERE id = ".$local_category_id." LIMIT 1";
+                    $category_details_result = $conn->query($fetch_query);
+                    if ($category_details_result->num_rows > 0) {
+                      $category_details_row = $category_details_result->fetch_assoc();
+                      $local_category_name = $category_details_row['category_name'];
+                      $local_category_description = $category_details_row['category_description'];
+                    }
+                  }
+                  if ($is_buy_x_take_x == 1) {
                     echo '
                       <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
                         <img
@@ -365,36 +443,63 @@
                       </div>
                     ';
                   } else {
-                    echo '
-                      <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
-                        <img
-                          src="./admin/uploads/'.$first_image.'"
-                          class="img-product"
-                          onClick="onProductClick(
-                            '."".$local_category_id.",".'
-                            '."'".$local_category_name."',".'
-                            '."'".$local_category_description."',".'
-                            '."".$product_id."".'
-                          )"
-                        />
-                        <div style="height: 20px;"></div>
-                        '.$variant_label.'
-                        <h4 class="color-dark-grey size-13 sans-700">
-                          '.$product_name.'
-                        </h4>
-                        <p class="color-light-grey size-10 sans-regular">
-                          '.$product_description.'
-                        </p>
-                        <div class="div-price-container">
-                          <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
-                          <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                    if ($promotional_price == "") {
+                      echo '
+                        <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                          <img
+                            src="./admin/uploads/'.$first_image.'"
+                            class="img-product"
+                            onClick="onProductClick(
+                              '."".$local_category_id.",".'
+                              '."'".$local_category_name."',".'
+                              '."'".$local_category_description."',".'
+                              '."".$product_id."".'
+                            )"
+                          />
+                          <div style="height: 20px;"></div>
+                          '.$variant_label.'
+                          <h4 class="color-dark-grey size-13 sans-700">
+                            '.$product_name.'
+                          </h4>
+                          <p class="color-light-grey size-10 sans-regular">
+                            '.$product_description.'
+                          </p>
+                          <div class="div-price-container">
+                            <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                          </div>
                         </div>
-                      </div>
-                    ';
+                      ';
+                    } else {
+                      echo '
+                        <div class="col-lg-3 col-md-4 col-sm-12 div-product-info">
+                          <img
+                            src="./admin/uploads/'.$first_image.'"
+                            class="img-product"
+                            onClick="onProductClick(
+                              '."".$local_category_id.",".'
+                              '."'".$local_category_name."',".'
+                              '."'".$local_category_description."',".'
+                              '."".$product_id."".'
+                            )"
+                          />
+                          <div style="height: 20px;"></div>
+                          '.$variant_label.'
+                          <h4 class="color-dark-grey size-13 sans-700">
+                            '.$product_name.'
+                          </h4>
+                          <p class="color-light-grey size-10 sans-regular">
+                            '.$product_description.'
+                          </p>
+                          <div class="div-price-container">
+                            <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                            <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                          </div>
+                        </div>
+                      ';
+                    }
                   }
                 }
               }
-            }
             ?>
           </div>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 30px;">
