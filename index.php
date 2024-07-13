@@ -212,13 +212,19 @@
           </div>
           <div class="row" style="margin-top: 80px;">
             <div class="col-lg-4 col-md-6 col-sm-12">
-              <img src="./assets/images/best_deals_1.png" class="img-product-deals" />
+              <a href="https://web.facebook.com/photo/?fbid=870942155049580&set=a.561026276041171&_rdc=1&_rdr" target="_blank">
+                <img src="./admin/uploads/447499471_870942151716247_4633608610290246237_n.jpg" class="img-product-deals" />
+              </a>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">
-              <img src="./assets/images/best_deals_2.png" class="img-product-deals" />
+              <a href="https://web.facebook.com/photo/?fbid=893342806142848&set=a.561026276041171" target="_blank">
+                <img src="./admin/uploads/450094224_892550539555408_1373547862024909865_n.jpg" class="img-product-deals" />
+              </a>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">
-              <img src="./assets/images/best_deals_3.png" class="img-product-deals" />
+              <a href="https://web.facebook.com/photo/?fbid=853057170171412&set=a.561026272707838&_rdc=1&_rdr" target="_blank">
+                <img src="./admin/uploads/442372498_853031390173990_2800767280777839313_n.jpg" class="img-product-deals" />
+              </a>
             </div>
           </div>
         </div>
