@@ -290,7 +290,7 @@
                               src="../../admin/uploads/'.$first_image.'"
                               class="img-product"
                               onClick="onProductClick(
-                                '."".$category_id.",".'
+                                '."".$local_category_id.",".'
                                 '."'".$category_name."',".'
                                 '."'".$category_description."',".'
                                 '."".$product_id."".'
@@ -316,7 +316,7 @@
                               src="../../admin/uploads/'.$first_image.'"
                               class="img-product"
                               onClick="onProductClick(
-                                '."".$category_id.",".'
+                                '."".$local_category_id.",".'
                                 '."'".$category_name."',".'
                                 '."'".$category_description."',".'
                                 '."".$product_id."".'
