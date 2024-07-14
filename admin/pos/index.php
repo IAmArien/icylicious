@@ -568,7 +568,13 @@
       aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <form action="../actions/checkout.php" method="POST">
-        <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+          <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+          <input type="hidden" name="credit_card_exp" value="-" />
+          <input type="hidden" name="credit_card_code" value="0" />
+          <input type="hidden" name="shipping_first_name" value="-" />
+          <input type="hidden" name="shipping_last_name" value="-" />
+          <input type="hidden" name="shipping_phone" value="-" />
+          <input type="hidden" name="shipping_address" value="-" />
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Information</h1>
@@ -584,7 +590,7 @@
                       id="order_fn"
                       type="text"
                       placeholder="First Name"
-                      name="first_name"
+                      name="billing_first_name"
                       class="sans-regular form-control"
                     />
                   </div>
@@ -593,7 +599,7 @@
                       id="order_ln"
                       type="text"
                       placeholder="Last Name"
-                      name="last_name"
+                      name="billing_last_name"
                       class="sans-regular form-control"
                     />
                   </div>
@@ -613,7 +619,7 @@
                       id="order_phone"
                       type="text"
                       placeholder="Mobile No. (eg. +639__)"
-                      name="phone"
+                      name="billing_phone"
                       class="sans-regular form-control"
                     />
                   </div>
@@ -622,7 +628,7 @@
                   id="order_address"
                   type="text"
                   placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
-                  name="address"
+                  name="billing_address"
                   class="sans-regular form-control"
                 />
                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px">
@@ -634,7 +640,7 @@
                         id="total_amount"
                         type="text"
                         placeholder="₱0.00"
-                        name="total_amount"
+                        name="order_total"
                         required
                         class="sans-regular form-control"
                         value="<?php echo $total_order; ?>"

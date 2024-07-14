@@ -106,11 +106,13 @@
                     shipping_phone,
                     shipping_address,
                     payment_type,
+                    amount_paid,
+                    payment,
                     customer_email
-                  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                   $stmt = $conn->prepare($insert_query);
                   $stmt->bind_param(
-                    'ssssssssssssss',
+                    'ssssssssssssssss',
                     $order_id,
                     $credit_card_no,
                     $credit_card_exp,
@@ -124,6 +126,8 @@
                     $billing_phone,
                     $billing_address,
                     $payment_type,
+                    $order_total,
+                    $order_total
                     $customer_email
                   );
                   $stmt->execute();
@@ -142,11 +146,13 @@
                   shipping_phone,
                   shipping_address,
                   payment_type,
+                  amount_paid,
+                  payment,
                   customer_email
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($insert_query);
                 $stmt->bind_param(
-                  'ssssssssssssss',
+                  'ssssssssssssssss',
                   $order_id,
                   $credit_card_no,
                   $credit_card_exp,
@@ -160,6 +166,8 @@
                   $shipping_phone,
                   $shipping_address,
                   $payment_type,
+                  $order_total,
+                  $order_total
                   $customer_email
                 );
                 $stmt->execute();
