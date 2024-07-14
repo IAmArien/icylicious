@@ -480,7 +480,12 @@
                       </form>
                     </div>
                     <div style="display: flex; flex-direction: row; flex: 1;">
-                      <button class="btn btn-primary btn-checkout-order sans-600" style="flex: 1;" type="button" onclick="onCheckout()">
+                      <button
+                        class="btn btn-primary btn-checkout-order sans-600"
+                        style="flex: 1;"
+                        type="button"
+                        onclick="onCheckout()"
+                        <?php if ($total_order <= 0.00) echo 'disabled="disabled"'; ?>>
                         <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
                       </button>
                     </div>

@@ -12,6 +12,10 @@
         $product_quantity = intval($conn->real_escape_string($_POST['product_quantity']));
         $customer_email = $conn->real_escape_string($_POST['user_email']);
 
+        if ($product_quantity == 0) {
+          $product_quantity = 1;
+        }
+
         $fetch_query = "SELECT * FROM user_info WHERE email = '".$customer_email."' LIMIT 1";
         $result = $conn->query($fetch_query);
         if ($result->num_rows > 0) {

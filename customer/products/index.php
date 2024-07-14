@@ -670,7 +670,7 @@
                   class="form-control sans-regular"
                 />
                 <input
-                  type="pasword"
+                  type="password"
                   placeholder="Password"
                   name="password"
                   required
