@@ -495,29 +495,34 @@
     <div id="div-overlay-content" class="overlay-content"></div>
     <div
       class="modal fade" 
-      id="staticCancelOrder" 
+      id="staticOrderPlaced" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
       tabindex="-1" 
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
       <div class="modal-dialog modal-md modal-dialog-centered">
-        <form action="../actions/cancel_order.php" method="POST">
-          <input id="cancel_order" type="hidden" name="order_id" />
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Cancel This Order?</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p class="sans-regular size-14">Are you sure you want to cancel this order?. It cannot be undone.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
-              <button type="submit" class="btn btn-primary sans-600">Cancel Order</button>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Placed Successfully!</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="sans-regular size-11">Copy this <b>Transaction Number</b> for faster order tracking.</p>
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+              <input
+                type="text"
+                name="tracking_number"
+                readonly
+                id="tracking_number"
+                class="sans-600 form-control"
+              />
             </div>
           </div>
-        </form>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -875,6 +880,24 @@
       $('#div-overlay-content').removeClass('overlay-content-expand');
       $('#div-overlay-content').addClass('overlay-content-collapsed');
       isCollapsed = true;
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      const onOrderPlaced = (transaction_id) => {
+        $('#staticOrderPlaced').modal('show');
+        $('#tracking_number').val(transaction_id);
+      }
+      <?php
+        if (isset($_SESSION['checkout.transaction_id'])) {
+          echo '
+            setTimeout(() => {
+              onOrderPlaced('."'".$_SESSION['checkout.transaction_id']."'".');
+            }, 500);
+          ';
+          unset($_SESSION['checkout.transaction_id']);
+        }
+      ?>
     });
   </script>
 </html>

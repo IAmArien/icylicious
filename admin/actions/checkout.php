@@ -39,8 +39,8 @@
 
       $fetch_query = "SELECT * FROM cart WHERE user_email = '".$customer_email."'";
       $result = $conn->query($fetch_query);
+      $transaction_id = uniqid();
       if ($result->num_rows > 0) {
-        $transaction_id = uniqid();
         while ($row = $result->fetch_assoc()) {
           $product_id = $row['product_id'];
           $variant_id = $row['variant_id'];
@@ -142,6 +142,7 @@
       unset($_SESSION['errors.type']);
       unset($_SESSION['errors.title']);
       unset($_SESSION['errors.message']);
+      $_SESSION['checkout.transaction_id'] = $transaction_id;
       header('Location: ../pos/');
     }
   } catch (\Throwable $th) {
