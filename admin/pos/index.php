@@ -356,118 +356,130 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="div-checkout-container-form">
-                  <form action="../actions/checkout.php" method="POST">
-                    <h3 class="sans-600 size-15 h3-cart-item-title">
-                      <i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart Items
-                    </h3>
-                    <div class="div-cart-item-container-pos">
-                      <?php
-                        $subtotal_order = 0.00;
-                        $total_order = 0.00;
-                        $vat = 0.00;
-                        if (isset($_SESSION['user_info.email'])) {
-                          $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."' ORDER BY id DESC";
-                          $result = $conn->query($fetch_query);
-                          if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                              $product_id = $row['product_id'];
-                              $variant_id = $row['variant_id'];
-                              $order_quantity = intval($row['order_quantity']);
+                  <h3 class="sans-600 size-15 h3-cart-item-title">
+                    <i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart Items
+                  </h3>
+                  <div class="div-cart-item-container-pos">
+                    <?php
+                      $subtotal_order = 0.00;
+                      $total_order = 0.00;
+                      $vat = 0.00;
+                      if (isset($_SESSION['user_info.email'])) {
+                        $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."' ORDER BY id DESC";
+                        $result = $conn->query($fetch_query);
+                        if ($result->num_rows > 0) {
+                          while ($row = $result->fetch_assoc()) {
+                            $product_id = $row['product_id'];
+                            $variant_id = $row['variant_id'];
+                            $order_quantity = intval($row['order_quantity']);
 
-                              $product_name = "";
-                              $product_price = 0.00;
-                              $variant_type = "";
-                              $variant_name = "";
+                            $product_name = "";
+                            $product_price = 0.00;
+                            $variant_type = "";
+                            $variant_name = "";
 
-                              $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
-                              $product_result = $conn->query($fetch_query);
-                              if ($product_result->num_rows > 0) {
-                                $product_row = $product_result->fetch_assoc();
-                                $product_name = $product_row['product_name'];
-                              }
+                            $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+                            $product_result = $conn->query($fetch_query);
+                            if ($product_result->num_rows > 0) {
+                              $product_row = $product_result->fetch_assoc();
+                              $product_name = $product_row['product_name'];
+                            }
 
-                              $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." AND variant_id = ".$variant_id." LIMIT 1";
-                              $price_result = $conn->query($fetch_query);
-                              if ($price_result->num_rows > 0) {
-                                $price_row = $price_result->fetch_assoc();
-                                $product_price = (floatval($price_row['variant_price']) * $order_quantity);
+                            $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." AND variant_id = ".$variant_id." LIMIT 1";
+                            $price_result = $conn->query($fetch_query);
+                            if ($price_result->num_rows > 0) {
+                              $price_row = $price_result->fetch_assoc();
+                              $product_price = (floatval($price_row['variant_price']) * $order_quantity);
 
-                                $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
-                                $promotions_result = $conn->query($fetch_query);
-                                if ($promotions_result->num_rows > 0) {
-                                  $promotions_row = $promotions_result->fetch_assoc();
-                                  $promotional_price = $promotions_row['promotional_price'];
-                                  if ($promotional_price != "") {
-                                    if ($promotional_price != 0) {
-                                      $product_price = (floatval($promotional_price) * $order_quantity);
-                                    }
+                              $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
+                              $promotions_result = $conn->query($fetch_query);
+                              if ($promotions_result->num_rows > 0) {
+                                $promotions_row = $promotions_result->fetch_assoc();
+                                $promotional_price = $promotions_row['promotional_price'];
+                                if ($promotional_price != "") {
+                                  if ($promotional_price != 0) {
+                                    $product_price = (floatval($promotional_price) * $order_quantity);
                                   }
                                 }
                               }
-
-                              $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
-                              $variant_result = $conn->query($fetch_query);
-                              if ($variant_result->num_rows > 0) {
-                                $variant_row = $variant_result->fetch_assoc();
-                                $variant_type = $variant_row['variant_type'];
-                                $variant_name = strtoupper($variant_row['variant_name']);
-                              }
-
-                              $subtotal_order += $product_price;
-
-                              echo '
-                                <div class="div-cart-item-pos">
-                                  <div class="div-cart-item-content-pos">
-                                    <span style="cursor: pointer;">
-                                      <i class="fa-solid fa-circle-xmark"></i>
-                                    </span>
-                                    <div>
-                                      <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
-                                        ('.$order_quantity.') '.$product_name.'
-                                      </h4>
-                                      <p class="size-10" style="margin-bottom: 0px !important;">
-                                        <b>'.$variant_type.'</b>: '.$variant_name.'
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <h4 class="sans-600 size-10">₱'.number_format($product_price).'</h4>
-                                </div>
-                              ';
                             }
+
+                            $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
+                            $variant_result = $conn->query($fetch_query);
+                            if ($variant_result->num_rows > 0) {
+                              $variant_row = $variant_result->fetch_assoc();
+                              $variant_type = $variant_row['variant_type'];
+                              $variant_name = strtoupper($variant_row['variant_name']);
+                            }
+
+                            $subtotal_order += $product_price;
+
+                            echo '
+                              <div class="div-cart-item-pos">
+                                <div class="div-cart-item-content-pos">
+                                  <span style="cursor: pointer;" onclick="onDeleteOrder(
+                                    '."'".$product_id."'".',
+                                    '."'".$_SESSION['user_info.email']."'".'
+                                  )">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                  </span>
+                                  <div>
+                                    <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                                      ('.$order_quantity.') '.$product_name.'
+                                    </h4>
+                                    <p class="size-10" style="margin-bottom: 0px !important;">
+                                      <b>'.$variant_type.'</b>: '.$variant_name.'
+                                    </p>
+                                  </div>
+                                </div>
+                                <h4 class="sans-600 size-10">₱'.number_format($product_price).'</h4>
+                              </div>
+                            ';
                           }
                         }
-                        $total_order += ($subtotal_order + $vat);
-                      ?>
+                      }
+
+                      $total_order += ($subtotal_order + $vat);
+                    ?>
+                  </div>
+                  <div class="div-cart-total-container-pos">
+                    <div class="div-cart-total-container-item-pos">
+                      <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">Subtotal</h4>
+                      <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                        ₱<?php echo number_format($subtotal_order) ?>
+                      </h4>
                     </div>
-                    <div class="div-cart-total-container-pos">
-                      <div class="div-cart-total-container-item-pos">
-                        <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">Subtotal</h4>
-                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
-                          ₱<?php echo number_format($subtotal_order) ?>
-                        </h4>
-                      </div>
-                      <div class="div-cart-total-container-item-pos">
-                        <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">VAT</h4>
-                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
-                          ₱<?php echo number_format($vat) ?>
-                        </h4>
-                      </div>
-                      <div class="div-cart-total-container-item-pos">
-                        <h4 class="sans-600 size-13" style="flex: 1; margin-bottom: 0px !important;">Total</h4>
-                        <h4 class="sans-600 size-13" style="margin-bottom: 0px !important;">
-                          ₱<?php echo number_format($total_order) ?>
-                        </h4>
-                      </div>
+                    <div class="div-cart-total-container-item-pos">
+                      <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">VAT</h4>
+                      <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                        ₱<?php echo number_format($vat) ?>
+                      </h4>
                     </div>
-                    <div style="display: flex; flex-direction: row; gap: 12px; margin-top: 15px;">
-                      <button class="btn btn-danger btn-reset-order sans-600" style="flex: 1;">
-                        <i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;Reset
-                      </button>
-                      <button class="btn btn-primary btn-checkout-order sans-600" style="flex: 1;">
-                        <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
-                      </button>
+                    <div class="div-cart-total-container-item-pos">
+                      <h4 class="sans-600 size-13" style="flex: 1; margin-bottom: 0px !important;">Total</h4>
+                      <h4 class="sans-600 size-13" style="margin-bottom: 0px !important;">
+                        ₱<?php echo number_format($total_order) ?>
+                      </h4>
                     </div>
-                  </form>
+                  </div>
+                  <div style="display: flex; flex-direction: row; gap: 12px; margin-top: 15px;">
+                    <div style="display: flex; flex-direction: row; flex: 1;">
+                      <form action="../actions/delete_orders.php" method="POST" style="display: flex; flex-direction: row; flex: 1;">
+                        <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+                        <button class="btn btn-danger btn-reset-order sans-600" style="flex: 1;" type="submit">
+                          <i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;Reset
+                        </button>
+                      </form>
+                    </div>
+                    <div style="display: flex; flex-direction: row; flex: 1;">
+                      <form action="../actions/checkout.php" method="POST" style="display: flex; flex-direction: row; flex: 1;">
+                        <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+                        <button class="btn btn-primary btn-checkout-order sans-600" style="flex: 1;" type="submit">
+                          <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                        </button>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               </div>
             <div>
@@ -590,6 +602,9 @@
     const onAddQuantity = (product_id) => {
       $('#staticAddQuantity').modal('show');
       $('#product_id').val(product_id);
+    };
+    const onDeleteOrder = (product_id, user_email) => {
+      window.location.href = `../actions/delete_order.php?product_id=${product_id}&user_email=${user_email}`
     };
   </script>
   <script type="text/javascript">
