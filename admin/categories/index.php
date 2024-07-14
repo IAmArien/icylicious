@@ -123,6 +123,18 @@
           type="button">
           <i class="fa-solid fa-cart-shopping"></i><span style="padding-left: 16px">Orders</span>
         </button>
+        <button
+          id="btn-pos"
+          class="btn btn-outline-success btn-sm
+            sans-regular 
+            background-color-super-light-grey 
+            border-color-super-light-grey 
+            color-white 
+            btn-menu 
+            btn-menu-unselected"
+          type="button">
+          <i class="fa-solid fa-money-bill-trend-up"></i><span style="padding-left: 19px">POS Panel</span>
+        </button>
         <button 
           id="btn-settings" 
           class="btn btn-outline-success btn-sm
@@ -362,6 +374,9 @@
       });
       $('#btn-orders').click(() => {
         window.location.href = "../orders";
+      });
+      $('#btn-pos').click(() => {
+        window.location.href = "../pos";
       });
       $('#btn-settings').click(() => {
         window.location.href = "../settings";
