@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jul 12, 2024 at 07:30 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: 127.0.0.1
+-- Generation Time: Jul 14, 2024 at 06:38 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,6 +32,16 @@ CREATE TABLE `best_sellers` (
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `best_sellers`
+--
+
+INSERT INTO `best_sellers` (`id`, `product_id`) VALUES
+(1, 35),
+(2, 36),
+(3, 37),
+(4, 38);
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +61,13 @@ CREATE TABLE `cart` (
   `user_phone` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`) VALUES
+(95, 32, 6, 37, '2024/07/14', '04:50:46pm', 2, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com');
 
 -- --------------------------------------------------------
 
@@ -111,21 +128,40 @@ CREATE TABLE `orders` (
   `user_phone` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `order_status` varchar(255) NOT NULL,
-  `order_total` varchar(255) NOT NULL
+  `order_total` varchar(255) NOT NULL,
+  `order_type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`) VALUES
-(59, '668ff965b8389', 36, 3, 37, '2024/07/11', '05:25:25pm', 4, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '1064'),
-(60, '6690071c2171d', 36, 3, 37, '2024/07/11', '06:23:56pm', 4, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '1295'),
-(61, '6690071c2171d', 32, 6, 37, '2024/07/11', '06:23:56pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '1295'),
-(62, '669017366b037', 31, 6, 38, '2024/07/11', '07:32:38pm', 2, 1, 'Dagupan City, Pangasinan, Philippines', '639273894063', 'jennie.kim@yopmail.com', 'FULFILLED', '154'),
-(63, '669022154162f', 32, 6, 37, '2024/07/11', '08:19:01pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '563'),
-(64, '669022154162f', 37, 3, 37, '2024/07/11', '08:19:01pm', 2, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '563'),
-(67, '66907384be09a', 31, 6, 37, '2024/07/12', '02:06:28am', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '231');
+INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `variant_id`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`, `order_type`) VALUES
+(59, '668ff965b8389', 36, 3, 37, '2024/07/11', '05:25:25pm', 4, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '1064', 'ONLINE'),
+(60, '6690071c2171d', 36, 3, 37, '2024/07/11', '06:23:56pm', 4, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '1295', 'ONLINE'),
+(61, '6690071c2171d', 32, 6, 37, '2024/07/11', '06:23:56pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '1295', 'ONLINE'),
+(62, '669017366b037', 31, 6, 38, '2024/07/11', '07:32:38pm', 2, 1, 'Dagupan City, Pangasinan, Philippines', '639273894063', 'jennie.kim@yopmail.com', 'FULFILLED', '154', 'ONLINE'),
+(63, '669022154162f', 32, 6, 37, '2024/07/11', '08:19:01pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '563', 'ONLINE'),
+(64, '669022154162f', 37, 3, 37, '2024/07/11', '08:19:01pm', 2, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '563', 'ONLINE'),
+(67, '66907384be09a', 31, 6, 37, '2024/07/12', '02:06:28am', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'SERVING', '231', 'ONLINE'),
+(68, '6693a7aa15e5d', 34, 1, 37, '2024/07/14', '12:25:46pm', 7, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '1470', 'ONLINE'),
+(69, '6693a7aa15e5d', 32, 6, 37, '2024/07/14', '12:25:46pm', 3, 1, 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '1470', 'ONLINE'),
+(78, '6693f91bbc0a3', 38, 3, 1, '2024/07/14', '06:13:15pm', 5, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '2181', 'POS'),
+(79, '6693f91bbc0a3', 32, 6, 1, '2024/07/14', '06:13:15pm', 2, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '2181', 'POS'),
+(80, '6693f91bbc0a3', 37, 3, 1, '2024/07/14', '06:13:16pm', 1, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '2181', 'POS'),
+(81, '6693f91bbc0a3', 34, 1, 1, '2024/07/14', '06:13:16pm', 3, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '2181', 'POS'),
+(82, '6693f9a0de165', 38, 3, 1, '2024/07/14', '06:15:28pm', 8, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'SERVING', '2659', 'POS'),
+(83, '6693f9a0de165', 33, 3, 1, '2024/07/14', '06:15:28pm', 3, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'SERVING', '2659', 'POS'),
+(84, '6693fab42d6be', 38, 3, 1, '2024/07/14', '06:20:04pm', 3, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '1614', 'POS'),
+(85, '6693fab42d6be', 33, 3, 1, '2024/07/14', '06:20:04pm', 2, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '1614', 'POS'),
+(86, '6693fab42d6be', 32, 6, 1, '2024/07/14', '06:20:04pm', 6, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '1614', 'POS'),
+(87, '6693fd8f23d5d', 38, 3, 1, '2024/07/14', '06:32:15pm', 4, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1418', 'POS'),
+(88, '6693fd8f23d5d', 33, 3, 1, '2024/07/14', '06:32:15pm', 2, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1418', 'POS'),
+(89, '6693fdf8e4d9c', 38, 3, 1, '2024/07/14', '06:34:00pm', 4, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '1484', 'POS'),
+(90, '6693fdf8e4d9c', 32, 6, 1, '2024/07/14', '06:34:01pm', 2, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '1484', 'POS'),
+(91, '6693fdf8e4d9c', 36, 3, 1, '2024/07/14', '06:34:01pm', 1, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '1484', 'POS'),
+(92, '6693fe7977625', 37, 3, 1, '2024/07/14', '06:36:09pm', 2, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '2460', 'POS'),
+(93, '6693fe7977625', 38, 3, 1, '2024/07/14', '06:36:09pm', 8, 1, 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '2460', 'POS');
 
 -- --------------------------------------------------------
 
@@ -148,6 +184,8 @@ CREATE TABLE `orders_billing` (
   `shipping_phone` varchar(255) NOT NULL,
   `shipping_address` varchar(999) NOT NULL,
   `payment_type` varchar(255) NOT NULL,
+  `amount_paid` varchar(255) NOT NULL,
+  `payment` varchar(255) NOT NULL,
   `customer_email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -155,14 +193,32 @@ CREATE TABLE `orders_billing` (
 -- Dumping data for table `orders_billing`
 --
 
-INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_exp`, `credit_card_code`, `billing_first_name`, `billing_last_name`, `billing_phone`, `billing_address`, `shipping_first_name`, `shipping_last_name`, `shipping_phone`, `shipping_address`, `payment_type`, `customer_email`) VALUES
-(39, 59, '4183-8657-9088-0099', '12/29', '808', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila City Philippines', '', '', '', '', 'cc', 'norman.consultant@platform-11.com'),
-(40, 60, '4183-8657-9088-0099', '12/28', '880', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'cc', 'norman.consultant@platform-11.com'),
-(41, 61, '4183-8657-9088-0099', '12/28', '880', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'cc', 'norman.consultant@platform-11.com'),
-(42, 62, '4183-8657-9088-0099', '08/30', '088', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila NCR Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila NCR Philippines 2419', 'cc', 'jennie.kim@yopmail.com'),
-(43, 63, '4183-8657-9088-0099', '09/29', '789', 'Norman', 'Palisoc', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines', 'Jennie', 'Kim', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines 2419', 'cc', 'norman.consultant@platform-11.com'),
-(44, 64, '4183-8657-9088-0099', '09/29', '789', 'Norman', 'Palisoc', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines', 'Jennie', 'Kim', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines 2419', 'cc', 'norman.consultant@platform-11.com'),
-(47, 67, '710938190238912', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Aiah', 'Arceta', '639273894063', 'Ayala Makati Metro Manila Philippines', 'GCASH', 'norman.consultant@platform-11.com');
+INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_exp`, `credit_card_code`, `billing_first_name`, `billing_last_name`, `billing_phone`, `billing_address`, `shipping_first_name`, `shipping_last_name`, `shipping_phone`, `shipping_address`, `payment_type`, `amount_paid`, `payment`, `customer_email`) VALUES
+(39, 59, '4183-8657-9088-0099', '12/29', '808', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila City Philippines', '', '', '', '', 'cc', '1064', '1064', 'norman.consultant@platform-11.com'),
+(40, 60, '4183-8657-9088-0099', '12/28', '880', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'cc', '1295', '1295', 'norman.consultant@platform-11.com'),
+(41, 61, '4183-8657-9088-0099', '12/28', '880', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'cc', '1295', '1295', 'norman.consultant@platform-11.com'),
+(42, 62, '4183-8657-9088-0099', '08/30', '088', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila NCR Philippines 2419', 'Jennie', 'Kim', '639273894063', 'Ayala Makati Metro Manila NCR Philippines 2419', 'cc', '154', '154', 'jennie.kim@yopmail.com'),
+(43, 63, '4183-8657-9088-0099', '09/29', '789', 'Norman', 'Palisoc', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines', 'Jennie', 'Kim', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines 2419', 'cc', '563', '563', 'norman.consultant@platform-11.com'),
+(44, 64, '4183-8657-9088-0099', '09/29', '789', 'Norman', 'Palisoc', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines', 'Jennie', 'Kim', '639273894063', 'Cablong Santa Barbara Pangasinan Philippines 2419', 'cc', '563', '563', 'norman.consultant@platform-11.com'),
+(47, 67, '710938190238912', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Aiah', 'Arceta', '639273894063', 'Ayala Makati Metro Manila Philippines', 'GCASH', '231', '231', 'norman.consultant@platform-11.com'),
+(48, 68, '123124234525345', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'GCASH', '1470', '1470', 'norman.consultant@platform-11.com'),
+(49, 69, '123124234525345', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Norman', 'Palisoc', '639273894063', 'Ayala Makati Metro Manila Philippines', 'GCASH', '1470', '1470', 'norman.consultant@platform-11.com'),
+(58, 78, '123124234525345', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'GCASH', '2181', '2200', 'npalisoc@yondu.com'),
+(59, 79, '123124234525345', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'GCASH', '2181', '2200', 'npalisoc@yondu.com'),
+(60, 80, '123124234525345', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'GCASH', '2181', '2200', 'npalisoc@yondu.com'),
+(61, 81, '123124234525345', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'GCASH', '2181', '2200', 'npalisoc@yondu.com'),
+(62, 82, '', '-', '0', 'Mariah Queen Arceta', 'Arceta', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '2659', '3000', 'npalisoc@yondu.com'),
+(63, 83, '', '-', '0', 'Mariah Queen Arceta', 'Arceta', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '2659', '3000', 'npalisoc@yondu.com'),
+(64, 84, '123124234525345', '-', '0', '', '', '', '', '-', '-', '-', '-', 'GCASH', '1614', '2000', 'npalisoc@yondu.com'),
+(65, 85, '123124234525345', '-', '0', '', '', '', '', '-', '-', '-', '-', 'GCASH', '1614', '2000', 'npalisoc@yondu.com'),
+(66, 86, '123124234525345', '-', '0', '', '', '', '', '-', '-', '-', '-', 'GCASH', '1614', '2000', 'npalisoc@yondu.com'),
+(67, 87, '', '-', '0', '', '', '', '', '-', '-', '-', '-', 'CCDB', '1418', '1500', 'npalisoc@yondu.com'),
+(68, 88, '', '-', '0', '', '', '', '', '-', '-', '-', '-', 'CCDB', '1418', '1500', 'npalisoc@yondu.com'),
+(69, 89, '', '-', '0', '', '', '', '', '-', '-', '-', '-', 'CCDB', '1484', '1500', 'npalisoc@yondu.com'),
+(70, 90, '', '-', '0', '', '', '', '', '-', '-', '-', '-', 'CCDB', '1484', '1500', 'npalisoc@yondu.com'),
+(71, 91, '', '-', '0', '', '', '', '', '-', '-', '-', '-', 'CCDB', '1484', '1500', 'npalisoc@yondu.com'),
+(72, 92, '123124234525345', '-', '0', '', '', '', '', '-', '-', '-', '-', 'GCASH', '2460', '2500', 'npalisoc@yondu.com'),
+(73, 93, '123124234525345', '-', '0', '', '', '', '', '-', '-', '-', '-', 'GCASH', '2460', '2500', 'npalisoc@yondu.com');
 
 -- --------------------------------------------------------
 
@@ -485,13 +541,13 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `best_sellers`
 --
 ALTER TABLE `best_sellers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -509,13 +565,13 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `orders_billing`
 --
 ALTER TABLE `orders_billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
