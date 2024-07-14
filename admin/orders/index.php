@@ -189,6 +189,7 @@
             <table id="data" class="table table-striped" style="width:100%">
               <thead>
                 <tr>
+                  <th class="sans-bold">Row</th>
                   <th class="sans-bold">Order</th>
                   <th class="sans-bold">Date / Time</th>
                   <th class="sans-bold">Customer (Name)</th>
@@ -205,6 +206,7 @@
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                       $order_id = $row["id"];
+                      $transaction_id = $row["transaction_id"];
                       $product_id = $row["product_id"];
                       $variant_id = $row['variant_id'];
                       $order_date = $row['order_date'];
@@ -308,8 +310,12 @@
                         echo '
                           <tr>
                             <td class="sans-600">
+                              '.$order_id.'
+                            </td>
+                            <td class="sans-600">
                               ('.$order_quantity.') '.$row_product_name.'
                               '.$row_variant.'
+                              Transaction ID: '.$transaction_id.'
                             </td>
                             <td class="sans-regular">
                               '.$order_date.'<br/>'.$order_time.'

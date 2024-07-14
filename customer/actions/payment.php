@@ -68,7 +68,7 @@
           $order_time = date("h:i:sa");
           $stmt = $conn->prepare($insert_query);
           $stmt->bind_param(
-            'sssssssssssss',
+            'ssssssssssssss',
             $transaction_id,
             $product_id,
             $variant_id,

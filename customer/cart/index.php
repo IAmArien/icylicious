@@ -147,6 +147,15 @@
                           $product_count = $count_result_row['count(*)'];
                           $variant_id = $count_result_row['variant_id'];
                           $order_quantity = $count_result_row['order_quantity'];
+
+                          $product_name = "";
+                          $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+                          $product_info_result = $conn->query($fetch_query);
+                          if ($product_info_result->num_rows > 0) {
+                            $product_info_row = $product_info_result->fetch_assoc();
+                            $product_name = $product_info_row['product_name'];
+                          }
+
                           $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
                           $variant_result = $conn->query($fetch_query);
                           $variant_place = '';
@@ -235,7 +244,7 @@
                               <img src="../../admin/uploads/'.$first_image.'" class="img-cart-item" />
                               <div class="div-cart-item-info">
                                 <h5 class="sans-600 color-dark-grey">
-                                  ('.$order_quantity.') SPECIAL MANGO GRAHAM B1T1
+                                  ('.$order_quantity.') '.$product_name.'
                                 </h5>
                                 '.$variant_place.'
                                 '.$product_price_place.'

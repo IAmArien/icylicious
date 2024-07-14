@@ -33,35 +33,59 @@
             $variant_id = intval($row['variant_id']);
             $variant_price = $row['variant_price'];
             if ($checkout_type == 'add_to_cart') {
-              $insert_query = "INSERT INTO cart (
-                product_id,
-                variant_id,
-                user_id,
-                order_date,
-                order_time,
-                order_quantity,
-                is_pickup,
-                user_address,
-                user_phone,
-                user_email
-              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-              $order_date = date("Y/m/d");
-              $order_time = date("h:i:sa");
-              $is_pickup = "1";
-              $stmt = $conn->prepare($insert_query);
-              $stmt->bind_param(
-                'ssssssssss',
-                $product_id,
-                $variant_id,
-                $user_id,
-                $order_date,
-                $order_time,
-                $product_quantity,
-                $is_pickup,
-                $user_address,
-                $user_phone,
-                $customer_email
-              );
+              $fetch_query = "SELECT * FROM cart WHERE product_id = ".$product_id." AND user_email = '".$customer_email."'";
+              $result = $conn->query($fetch_query);
+              if ($result->num_rows > 0) {
+                $cart_row = $result->fetch_assoc();
+                $cart_id = $cart_row['id'];
+                $current_quantity = intval($cart_row['order_quantity']);
+                $product_quantity = $product_quantity + $current_quantity;
+                $update_query = "UPDATE cart SET 
+                  order_quantity = ?,
+                  order_date = ?,
+                  order_time = ?  
+                  WHERE id = ?";
+                $order_date = date("Y/m/d");
+                $order_time = date("h:i:sa");
+                $stmt = $conn->prepare($update_query);
+                $stmt->bind_param(
+                  'ssss',
+                  $product_quantity,
+                  $order_date,
+                  $order_time,
+                  $cart_id
+                );
+              } else {
+                $insert_query = "INSERT INTO cart (
+                  product_id,
+                  variant_id,
+                  user_id,
+                  order_date,
+                  order_time,
+                  order_quantity,
+                  is_pickup,
+                  user_address,
+                  user_phone,
+                  user_email
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $order_date = date("Y/m/d");
+                $order_time = date("h:i:sa");
+                $is_pickup = "1";
+                $stmt = $conn->prepare($insert_query);
+                $stmt->bind_param(
+                  'ssssssssss',
+                  $product_id,
+                  $variant_id,
+                  $user_id,
+                  $order_date,
+                  $order_time,
+                  $product_quantity,
+                  $is_pickup,
+                  $user_address,
+                  $user_phone,
+                  $customer_email
+                );
+              }
             } else {
               $fetch_query = "SELECT * FROM cart WHERE product_id = ".$product_id." AND user_email = '".$customer_email."'";
               $result = $conn->query($fetch_query);

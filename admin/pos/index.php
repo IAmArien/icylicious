@@ -185,47 +185,47 @@
               </p>
             </div>
           </div>
-          <div style="margin-top: 20px;">
+          <div style="margin-top: 5px;">
+            <nav class="nav">
+              <?php
+                $selected_category_name = 'All';
+                if (isset($_GET['category_name'])) {
+                  $selected_category_name = $_GET['category_name'];
+                  if ($selected_category_name == 'All') {
+                    echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
+                  } else {
+                    echo '<a class="nav-link color-light-grey sans-500" aria-current="page" href="./">All</a>';
+                  }
+                } else {
+                  echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
+                }
+                $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
+                $result = $conn->query($fetch_query);
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    $category_id = $row['id'];
+                    $category_name = $row['category_name'];
+                    $category_description = $row['category_description'];
+                    $active_status = '';
+                    if ($selected_category_name == $category_name) {
+                      $active_status = 'nav-link color-yellow sans-bold active';
+                    } else {
+                      $active_status = 'nav-link color-light-grey sans-500';
+                    }
+                    echo '
+                      <a
+                        class="'.$active_status.'"
+                        aria-current="page"
+                        href="./?id='.$category_id.'&category_name='.$category_name.'&category_description='.$category_description.'">
+                        '.$category_name.'
+                      </a>
+                    ';
+                  }
+                }
+              ?>
+            </nav>
             <div class="row">
               <div class="col-lg-8 col-md-8 col-sm-12">
-                <nav class="nav">
-                  <?php
-                    $selected_category_name = 'All';
-                    if (isset($_GET['category_name'])) {
-                      $selected_category_name = $_GET['category_name'];
-                      if ($selected_category_name == 'All') {
-                        echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
-                      } else {
-                        echo '<a class="nav-link color-light-grey sans-500" aria-current="page" href="./">All</a>';
-                      }
-                    } else {
-                      echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
-                    }
-                    $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
-                    $result = $conn->query($fetch_query);
-                    if ($result->num_rows > 0) {
-                      while ($row = $result->fetch_assoc()) {
-                        $category_id = $row['id'];
-                        $category_name = $row['category_name'];
-                        $category_description = $row['category_description'];
-                        $active_status = '';
-                        if ($selected_category_name == $category_name) {
-                          $active_status = 'nav-link color-yellow sans-bold active';
-                        } else {
-                          $active_status = 'nav-link color-light-grey sans-500';
-                        }
-                        echo '
-                          <a
-                            class="'.$active_status.'"
-                            aria-current="page"
-                            href="./?id='.$category_id.'&category_name='.$category_name.'&category_description='.$category_description.'">
-                            '.$category_name.'
-                          </a>
-                        ';
-                      }
-                    }
-                  ?>
-                </nav>
                 <div style="padding-top: 0px;">
                   <div class="row">
                     <?php
@@ -265,14 +265,16 @@
                                     $promotional_price = $promotions_row['promotional_price'];
                                     if ($promotional_price != "") {
                                       if ($promotional_price != 0) {
-                                        $product_price = floatval($product_price);
+                                        $product_price = floatval($promotional_price);
                                       }
                                     }
                                   }
                                 }
       
                                 echo '
-                                  <div class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
+                                  <div
+                                    onclick="onAddQuantity('."'".$product_id."'".')"
+                                    class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
                                     <div class="div-pos-product-container">
                                       <img
                                         src="../../admin/uploads/'.$product_image.'"
@@ -281,7 +283,7 @@
                                       <h5 class="sans-600 size-09" style="margin-bottom: 0px !important; padding-inline: 7px;">
                                         '.$product_name.'
                                       </h5>
-                                      <h3 class="color-dark-grey sans-bold size-12">
+                                      <h3 class="color-dark-grey sans-bold size-12" style="flex: 1;">
                                         ₱'.number_format($product_price).'
                                       </h3>
                                     </div>
@@ -321,14 +323,16 @@
                                 $promotional_price = $promotions_row['promotional_price'];
                                 if ($promotional_price != "") {
                                   if ($promotional_price != 0) {
-                                    $product_price = floatval($product_price);
+                                    $product_price = floatval($promotional_price);
                                   }
                                 }
                               }
                             }
   
                             echo '
-                              <div class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
+                              <div
+                                onclick="onAddQuantity('."'".$product_id."'".')"
+                                class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
                                 <div class="div-pos-product-container">
                                   <img
                                     src="../../admin/uploads/'.$product_image.'"
@@ -351,6 +355,85 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="div-checkout-container-form">
+                  <form action="../actions/checkout.php" method="POST">
+                    <h3 class="sans-600 size-15 h3-cart-item-title">
+                      <i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart Items
+                    </h3>
+                    <div class="div-cart-item-container-pos">
+                      <div class="div-cart-item-pos">
+                        <div class="div-cart-item-content-pos">
+                          <span style="cursor: pointer;">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                          </span>
+                          <div>
+                            <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                              (4) ORIGINAL CORN AND CREAM SMOOTHIE
+                            </h4>
+                            <p class="size-10" style="margin-bottom: 0px !important;">
+                              <b>Size</b>: REGULAR
+                            </p>
+                          </div>
+                        </div>
+                        <h4 class="sans-600 size-10">₱255.00</h4>
+                      </div>
+                      <div class="div-cart-item-pos">
+                        <div class="div-cart-item-content-pos">
+                          <span style="cursor: pointer;">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                          </span>
+                          <div>
+                            <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                              (4) ORIGINAL CORN AND CREAM SMOOTHIE
+                            </h4>
+                            <p class="size-10" style="margin-bottom: 0px !important;">
+                              <b>Size</b>: REGULAR
+                            </p>
+                          </div>
+                        </div>
+                        <h4 class="sans-600 size-10">₱255.00</h4>
+                      </div>
+                      <div class="div-cart-item-pos">
+                        <div class="div-cart-item-content-pos">
+                          <span style="cursor: pointer;">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                          </span>
+                          <div>
+                            <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                              (4) ORIGINAL CORN AND CREAM SMOOTHIE
+                            </h4>
+                            <p class="size-10" style="margin-bottom: 0px !important;">
+                              <b>Size</b>: REGULAR
+                            </p>
+                          </div>
+                        </div>
+                        <h4 class="sans-600 size-10">₱255.00</h4>
+                      </div>
+                    </div>
+                    <div class="div-cart-total-container-pos">
+                      <div class="div-cart-total-container-item-pos">
+                        <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">Subtotal</h4>
+                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">₱255.00</h4>
+                      </div>
+                      <div class="div-cart-total-container-item-pos">
+                        <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">VAT</h4>
+                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">₱0.00</h4>
+                      </div>
+                      <div class="div-cart-total-container-item-pos">
+                        <h4 class="sans-600 size-13" style="flex: 1; margin-bottom: 0px !important;">Total</h4>
+                        <h4 class="sans-600 size-13" style="margin-bottom: 0px !important;">₱255.00</h4>
+                      </div>
+                    </div>
+                    <div style="display: flex; flex-direction: row; gap: 12px; margin-top: 15px;">
+                      <button class="btn btn-danger btn-reset-order sans-600" style="flex: 1;">
+                        <i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;Reset
+                      </button>
+                      <button class="btn btn-primary btn-checkout-order sans-600" style="flex: 1;">
+                        <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             <div>
           </div>
@@ -387,98 +470,36 @@
     </div>
     <div
       class="modal fade" 
-      id="staticViewOrder" 
+      id="staticAddQuantity" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
       tabindex="-1" 
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <form action="../actions/update_order.php" method="POST">
-          <input type="hidden" name="order_id" id="order_id" />
+      <div class="modal-dialog modal-dialog-centered">
+        <form action="../actions/add_order.php" method="POST">
+          <input id="product_id" type="hidden" name="product_id" />
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Information</h1>
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Add Quantity</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div style="display: flex; flex-direction: column; width: 800px;">
-                <p class="sans-600">Customer Information</p>
-                <div style="display: flex; gap: 10px; margin-top: -10px;">
-                  <div style="flex: 1">
-                    <input
-                      id="order_fn"
-                      type="text"
-                      placeholder="First Name"
-                      name="first_name"
-                      required
-                      class="sans-regular form-control"
-                      readonly
-                    />
-                  </div>
-                  <div style="flex: 1">
-                    <input
-                      id="order_ln"
-                      type="text"
-                      placeholder="Last Name"
-                      name="last_name"
-                      required
-                      class="sans-regular form-control"
-                      readonly
-                    />
-                  </div>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                  <div style="flex: 1">
-                    <input
-                      id="order_email"
-                      readonly
-                      type="email"
-                      placeholder="Email Address (eg. myemail@gmail.com)"
-                      name="email"
-                      required
-                      class="sans-regular form-control"
-                    />
-                  </div>
-                  <div style="flex: 1">
-                    <input
-                      id="order_phone"
-                      readonly
-                      type="text"
-                      placeholder="Mobile No. (eg. +639__)"
-                      name="phone"
-                      required
-                      class="sans-regular form-control"
-                    />
-                  </div>
-                </div>
+              <div style="width: 400px;">
+                <label for="product_quantity" class="sans-600">Product Quantity</label>
                 <input
-                  id="order_address"
-                  readonly
-                  type="text"
-                  placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
-                  name="address"
+                  type="number"
+                  name="product_quantity"
+                  placeholder="Quantity (eg. 1)"
+                  class="form-control sans-600"
                   required
-                  class="sans-regular form-control"
+                  value="1"
                 />
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px">
-                  <p class="sans-600">Order Details</p>
-                  <textarea id="order_details" class="sans-regular form-control" rows="7" readonly style="margin-top: -17px;"></textarea>
-                </div>
-                <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 17px;">
-                  <h4 id="order_total" class="sans-600">Total: ₱1064</h4>
-                  <select name="order_status" class="form-select" style="width: 300px;">
-                    <option value="PROCESSING" selected>PROCESSING</option>
-                    <option value="SERVING">SERVING</option>
-                    <option value="CANCELLED">CANCELLED</option>
-                    <option value="FULFILLED">FULFILLED</option>
-                  </select>
-                </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary sans-600">Update Order</button>
+              <button type="submit" class="btn btn-primary sans-600">Add To Cart</button>
             </div>
           </div>
         </form>
@@ -528,6 +549,12 @@
         'searching': false
       });
     });
+  </script>
+  <script type="text/javascript">
+    const onAddQuantity = (product_id) => {
+      $('#staticAddQuantity').modal('show');
+      $('#product_id').val(product_id);
+    };
   </script>
   <script type="text/javascript">
     const onViewOrder = (
