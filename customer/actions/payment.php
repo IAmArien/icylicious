@@ -47,6 +47,7 @@
           $user_phone = $row['user_phone'];
           $user_email = $row['user_email'];
           $order_status = "PROCESSING";
+          $order_type = "ONLINE";
           $insert_query = "INSERT INTO orders (
               transaction_id,
               product_id,
@@ -60,8 +61,9 @@
               user_phone,
               user_email,
               order_status,
-              order_total
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+              order_total,
+              order_type
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
           $order_date = date("Y/m/d");
           $order_time = date("h:i:sa");
           $stmt = $conn->prepare($insert_query);
@@ -79,7 +81,8 @@
             $user_phone,
             $user_email,
             $order_status,
-            $order_total
+            $order_total,
+            $order_type
           );
           $insert_result = $stmt->execute();
           if ($insert_result == 1) {

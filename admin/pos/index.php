@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/global.css" />
-    <link rel="stylesheet" href="./css/orders.css" />
+    <link rel="stylesheet" href="./css/pos.css" />
   </head>
   <body>
     <div id="nav-sidebar" class="sidebar-container slide-expanded">
@@ -111,20 +111,8 @@
           type="button">
           <i class="fa-solid fa-tags"></i><span style="padding-left: 19px">Product Variants</span>
         </button>
-        <button 
-          id="btn-orders" 
-          class="btn btn-outline-success btn-sm
-            sans-700 
-            background-color-yellow 
-            border-color-yellow 
-            color-dark-grey 
-            btn-menu 
-            btn-menu-selected"
-          type="button">
-          <i class="fa-solid fa-cart-shopping"></i><span style="padding-left: 16px">Orders</span>
-        </button>
         <button
-          id="btn-pos"
+          id="btn-orders"
           class="btn btn-outline-success btn-sm
             sans-regular 
             background-color-super-light-grey 
@@ -133,7 +121,19 @@
             btn-menu 
             btn-menu-unselected"
           type="button">
-          <i class="fa-solid fa-money-bill-trend-up"></i><span style="padding-left: 19px">POS Panel</span>
+          <i class="fa-solid fa-tags"></i><span style="padding-left: 19px">Orders</span>
+        </button>
+        <button 
+          id="btn-pos" 
+          class="btn btn-outline-success btn-sm
+            sans-700 
+            background-color-yellow 
+            border-color-yellow 
+            color-dark-grey 
+            btn-menu 
+            btn-menu-selected"
+          type="button">
+          <i class="fa-solid fa-money-bill-trend-up"></i><span style="padding-left: 16px">POS Panel</span>
         </button>
         <button 
           id="btn-settings" 
@@ -169,7 +169,7 @@
             &nbsp;&nbsp;&nbsp;<i id="navbar-control" class="fa-solid fa-bars" style="cursor: pointer"></i>
             &nbsp;&nbsp;&nbsp;&nbsp;<b>Admin</b>&nbsp;
             <i class="fa-solid fa-chevron-right"></i>
-            &nbsp;Orders
+            &nbsp;POS Panel
           </a>
         </div>
       </nav>
@@ -178,202 +178,181 @@
           <div class="div-content-title">
             <div class="div-content-title-labels">
               <h4 class="color-dark-grey sans-600" style="font-size: 13pt;">
-                Manage Orders
+                POS Panel
               </h4>
               <p class="color-super-light-grey sans-regular" style="font-size: 10pt;">
-                Track and update orders statuses
+                Process orders and transactions quickly.
               </p>
             </div>
           </div>
           <div style="margin-top: 20px;">
-            <table id="data" class="table table-striped" style="width:100%">
-              <thead>
-                <tr>
-                  <th class="sans-bold">Order</th>
-                  <th class="sans-bold">Date / Time</th>
-                  <th class="sans-bold">Customer (Name)</th>
-                  <th class="sans-bold">Price</th>
-                  <th class="sans-bold">Order Status</th>
-                  <th class="sans-bold">Order Type</th>
-                  <th class="sans-bold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                  $fetch_query = "SELECT * FROM orders ORDER BY id DESC";
-                  $result = $conn->query($fetch_query);
-                  if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                      $order_id = $row["id"];
-                      $product_id = $row["product_id"];
-                      $variant_id = $row['variant_id'];
-                      $order_date = $row['order_date'];
-                      $order_time = $row['order_time'];
-                      $order_quantity = $row['order_quantity'];
-                      $order_status = $row['order_status'];
-                      $order_type = $row['order_type'];
-                      $order_total = floatval($row['order_total']);
-                      $user_email = $row['user_email'];
-
-                      $row_product_name = "";
-                      $row_product_price = number_format($order_total);
-                      $row_variant = "";
-                      $row_variant_type = "";
-                      $row_variant_name = "";
-                      $row_customer_name = "";
-                      $row_status_type = "";
-                      $row_status_name = "";
-                      $row_action_status = "";
-
-                      if ($order_status == 'PROCESSING') {
-                        $row_status_type = "badge-processing";
-                        $row_status_name = $order_status;
-                      } else if ($order_status == 'SERVING') {
-                        $row_status_type = "badge-serving";
-                        $row_status_name = $order_status;
-                        $row_action_status = "disabled";
-                      } else if ($order_status == 'CANCELLED') {
-                        $row_status_type = "badge-cancelled";
-                        $row_status_name = $order_status;
-                        $row_action_status = "disabled";
-                      } else if ($order_status == 'FULFILLED') {
-                        $row_status_type = "badge-fulfilled";
-                        $row_status_name = $order_status;
-                        $row_action_status = "disabled";
+            <div class="row">
+              <div class="col-lg-8 col-md-8 col-sm-12">
+                <nav class="nav">
+                  <?php
+                    $selected_category_name = 'All';
+                    if (isset($_GET['category_name'])) {
+                      $selected_category_name = $_GET['category_name'];
+                      if ($selected_category_name == 'All') {
+                        echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
+                      } else {
+                        echo '<a class="nav-link color-light-grey sans-500" aria-current="page" href="./">All</a>';
                       }
-
-                      $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
-                      $product_result = $conn->query($fetch_query);
-                      if ($product_result->num_rows > 0) {
-                        $product_row = $product_result->fetch_assoc();
-                        $product_name = $product_row['product_name'];
-                        $row_product_name = $product_name;
-
-                        $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
-                        $variant_result = $conn->query($fetch_query);
-                        if ($variant_result->num_rows > 0) {
-                          $variant_row = $variant_result->fetch_assoc();
-                          $variant_type = $variant_row['variant_type'];
-                          $variant_name = $variant_row['variant_name'];
-                          $row_variant_type = $variant_type;
-                          $row_variant_name = $variant_name;
-                          $row_variant = '
-                            <div style="padding-top: 0px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                              '.$variant_type.':&nbsp;&nbsp;
-                              <span class="badge-size color-light-grey sans-regular size-10">
-                                '.$variant_name.'
-                              </span>
-                            </div>
-                          ';
+                    } else {
+                      echo '<a class="nav-link active color-yellow sans-bold" aria-current="page" href="./">All</a>';
+                    }
+                    $fetch_query = "SELECT * FROM categories ORDER BY id ASC";
+                    $result = $conn->query($fetch_query);
+                    if ($result->num_rows > 0) {
+                      while ($row = $result->fetch_assoc()) {
+                        $category_id = $row['id'];
+                        $category_name = $row['category_name'];
+                        $category_description = $row['category_description'];
+                        $active_status = '';
+                        if ($selected_category_name == $category_name) {
+                          $active_status = 'nav-link color-yellow sans-bold active';
+                        } else {
+                          $active_status = 'nav-link color-light-grey sans-500';
                         }
-
-                        $fetch_query = "SELECT * FROM user_info WHERE email = '".$user_email."'";
-                        $first_name = "";
-                        $last_name = "";
-                        $email = "";
-                        $phone = "";
-                        $address = "";
-                        $customer_result = $conn->query($fetch_query);
-                        if ($customer_result->num_rows > 0) {
-                          $customer_row = $customer_result->fetch_assoc();
-                          $first_name = $customer_row['first_name'];
-                          $last_name = $customer_row['last_name'];
-                          $email = $customer_row['email'];
-                          $phone = $customer_row['phone'];
-                          $address = $customer_row['address'];
-                          $row_customer_name = $first_name.' '.$last_name;
-                        }
-
-                        $is_cancelled = "";
-                        $shipping_name = "";
-                        $shipping_phone = "";
-                        $shipping_address = "";
-                        $payment_type = "";
-                        if ($order_status == "CANCELLED") {
-                          $is_cancelled = 'disabled="disabled"';
-                        }
-
-                        $fetch_query = "SELECT * FROM orders_billing WHERE order_id = ".$order_id." LIMIT 1";
-                        $billing_result = $conn->query($fetch_query);
-                        if ($billing_result->num_rows > 0) {
-                          $billing_row = $billing_result->fetch_assoc();
-                          $shipping_first_name = $billing_row['shipping_first_name'];
-                          $shipping_last_name = $billing_row['shipping_last_name'];
-                          $shipping_phone = $billing_row['shipping_phone'];
-                          $shipping_address = $billing_row['shipping_address'];
-                          $payment_type = $billing_row['payment_type'];
-                          $shipping_name = $shipping_first_name.' '.$shipping_last_name;
-                        }
-
                         echo '
-                          <tr>
-                            <td class="sans-600">
-                              ('.$order_quantity.') '.$row_product_name.'
-                              '.$row_variant.'
-                            </td>
-                            <td class="sans-regular">
-                              '.$order_date.'<br/>'.$order_time.'
-                            </td>
-                            <td class="sans-600">
-                              '.$row_customer_name.'
-                            </td>
-                            <td class="sans-600">
-                              ₱'.$row_product_price.'
-                            </td>
-                            <td class="sans-regular" style="font-size: 9pt;">
-                              <span class="'.$row_status_type.'">'.$row_status_name.'</span>
-                            </td>
-                            <td class="sans-600">
-                              '.$order_type.'
-                            </td>
-                            <td>
-                              <button
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticViewOrder"
-                                onclick="onViewOrder(
-                                  '."'".$order_id."'".',
-                                  '."'".$first_name."'".',
-                                  '."'".$last_name."'".',
-                                  '."'".$email."'".',
-                                  '."'".$phone."'".',
-                                  '."'".$address."'".',
-                                  '."'".$order_date."'".',
-                                  '."'".$order_time."'".',
-                                  '."'".$order_quantity."'".',
-                                  '."'".$row_product_name."'".',
-                                  '."'".$row_variant_type."'".',
-                                  '."'".$row_variant_name."'".',
-                                  '."'".$row_product_price."'".',
-                                  '."'".$shipping_name."'".',
-                                  '."'".$shipping_phone."'".',
-                                  '."'".$shipping_address."'".',
-                                  '."'".$payment_type."'".',
-                                  '."'".$order_status."'".'
-                                )"
-                                class="btn btn-outline-primary btn-sm 
-                                  sans-400 
-                                  color-white"
-                                type="button">
-                                <i class="fas fa-eye"></i>
-                              </button>
-                              <button
-                                onclick="onCancelOrder('."'".$order_id."'".')"
-                                '.$is_cancelled.'
-                                class="btn btn-outline-primary btn-sm 
-                                  sans-400 
-                                  color-white"
-                                type="button">
-                                <i class="fa-solid fa-circle-xmark"></i>
-                              </button>
-                            </td>
-                          </tr>
+                          <a
+                            class="'.$active_status.'"
+                            aria-current="page"
+                            href="./?id='.$category_id.'&category_name='.$category_name.'&category_description='.$category_description.'">
+                            '.$category_name.'
+                          </a>
                         ';
                       }
                     }
-                  }
-                ?>
-              </tbody>
-            </table>
+                  ?>
+                </nav>
+                <div style="padding-top: 0px;">
+                  <div class="row">
+                    <?php
+                      if (isset($_GET['id'])) {
+                        $category_id = intval($_GET['id']);
+                        $fetch_query = "SELECT * FROM products_categories WHERE category_id = ".$category_id."";
+                        $category_result = $conn->query($fetch_query);
+                        if ($category_result->num_rows > 0) {
+                          while ($category_row = $category_result->fetch_assoc()) {
+                            $product_id = $category_row['product_id'];
+                            $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+                            $product_result = $conn->query($fetch_query);
+                            if ($product_result->num_rows > 0) {
+                              while ($product_row = $product_result->fetch_assoc()) {
+                                $product_id = $product_row['id'];
+                                $product_name = $product_row['product_name'];
+                                $product_image = "";
+                                $product_price = 0.00;
+      
+                                $fetch_query = "SELECT * FROM products_images WHERE product_id = ".$product_id." LIMIT 1";
+                                $image_result = $conn->query($fetch_query);
+                                if ($image_result->num_rows > 0) {
+                                  $image_row = $image_result->fetch_assoc();
+                                  $product_image = $image_row['product_image'];
+                                }
+      
+                                $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." LIMIT 1";
+                                $price_result = $conn->query($fetch_query);
+                                if ($price_result->num_rows > 0) {
+                                  $price_row = $price_result->fetch_assoc();
+                                  $variant_price = $price_row['variant_price'];
+                                  $product_price = floatval($variant_price);
+                                  $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
+                                  $promotions_result = $conn->query($fetch_query);
+                                  if ($promotions_result->num_rows > 0) {
+                                    $promotions_row = $promotions_result->fetch_assoc();
+                                    $promotional_price = $promotions_row['promotional_price'];
+                                    if ($promotional_price != "") {
+                                      if ($promotional_price != 0) {
+                                        $product_price = floatval($product_price);
+                                      }
+                                    }
+                                  }
+                                }
+      
+                                echo '
+                                  <div class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
+                                    <div class="div-pos-product-container">
+                                      <img
+                                        src="../../admin/uploads/'.$product_image.'"
+                                        class="img-product"
+                                      />
+                                      <h5 class="sans-600 size-09" style="margin-bottom: 0px !important; padding-inline: 7px;">
+                                        '.$product_name.'
+                                      </h5>
+                                      <h3 class="color-dark-grey sans-bold size-12">
+                                        ₱'.number_format($product_price).'
+                                      </h3>
+                                    </div>
+                                  </div>
+                                ';
+                              }
+                            }
+                          }
+                        }
+                      } else {
+                        $fetch_query = "SELECT * FROM products_info";
+                        $product_result = $conn->query($fetch_query);
+                        if ($product_result->num_rows > 0) {
+                          while ($product_row = $product_result->fetch_assoc()) {
+                            $product_id = $product_row['id'];
+                            $product_name = $product_row['product_name'];
+                            $product_image = "";
+                            $product_price = 0.00;
+  
+                            $fetch_query = "SELECT * FROM products_images WHERE product_id = ".$product_id." LIMIT 1";
+                            $image_result = $conn->query($fetch_query);
+                            if ($image_result->num_rows > 0) {
+                              $image_row = $image_result->fetch_assoc();
+                              $product_image = $image_row['product_image'];
+                            }
+  
+                            $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." LIMIT 1";
+                            $price_result = $conn->query($fetch_query);
+                            if ($price_result->num_rows > 0) {
+                              $price_row = $price_result->fetch_assoc();
+                              $variant_price = $price_row['variant_price'];
+                              $product_price = floatval($variant_price);
+                              $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
+                              $promotions_result = $conn->query($fetch_query);
+                              if ($promotions_result->num_rows > 0) {
+                                $promotions_row = $promotions_result->fetch_assoc();
+                                $promotional_price = $promotions_row['promotional_price'];
+                                if ($promotional_price != "") {
+                                  if ($promotional_price != 0) {
+                                    $product_price = floatval($product_price);
+                                  }
+                                }
+                              }
+                            }
+  
+                            echo '
+                              <div class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
+                                <div class="div-pos-product-container">
+                                  <img
+                                    src="../../admin/uploads/'.$product_image.'"
+                                    class="img-product"
+                                  />
+                                  <h5 class="sans-600 size-09" style="margin-bottom: 0px !important; padding-inline: 7px;">
+                                    '.$product_name.'
+                                  </h5>
+                                  <h3 class="color-dark-grey sans-bold size-12">
+                                    ₱'.number_format($product_price).'
+                                  </h3>
+                                </div>
+                              </div>
+                            ';
+                          }
+                        }
+                      }
+                    ?>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+              </div>
+            <div>
           </div>
         </div>
       </div>
@@ -533,10 +512,10 @@
         window.location.href = "../variants";
       });
       $('#btn-orders').click(() => {
-        window.location.href = "./";
+        window.location.href = "../orders";
       });
       $('#btn-pos').click(() => {
-        window.location.href = "../pos";
+        window.location.href = "./";
       });
       $('#btn-settings').click(() => {
         window.location.href = "../settings";
@@ -545,8 +524,8 @@
         window.location.href = "../actions/logout.php";
       });
       $('#data').dataTable({
-        'bLengthChange': true,
-        'searching': true
+        'bLengthChange': false,
+        'searching': false
       });
     });
   </script>
