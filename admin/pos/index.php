@@ -361,67 +361,102 @@
                       <i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart Items
                     </h3>
                     <div class="div-cart-item-container-pos">
-                      <div class="div-cart-item-pos">
-                        <div class="div-cart-item-content-pos">
-                          <span style="cursor: pointer;">
-                            <i class="fa-solid fa-circle-xmark"></i>
-                          </span>
-                          <div>
-                            <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
-                              (4) ORIGINAL CORN AND CREAM SMOOTHIE
-                            </h4>
-                            <p class="size-10" style="margin-bottom: 0px !important;">
-                              <b>Size</b>: REGULAR
-                            </p>
-                          </div>
-                        </div>
-                        <h4 class="sans-600 size-10">₱255.00</h4>
-                      </div>
-                      <div class="div-cart-item-pos">
-                        <div class="div-cart-item-content-pos">
-                          <span style="cursor: pointer;">
-                            <i class="fa-solid fa-circle-xmark"></i>
-                          </span>
-                          <div>
-                            <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
-                              (4) ORIGINAL CORN AND CREAM SMOOTHIE
-                            </h4>
-                            <p class="size-10" style="margin-bottom: 0px !important;">
-                              <b>Size</b>: REGULAR
-                            </p>
-                          </div>
-                        </div>
-                        <h4 class="sans-600 size-10">₱255.00</h4>
-                      </div>
-                      <div class="div-cart-item-pos">
-                        <div class="div-cart-item-content-pos">
-                          <span style="cursor: pointer;">
-                            <i class="fa-solid fa-circle-xmark"></i>
-                          </span>
-                          <div>
-                            <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
-                              (4) ORIGINAL CORN AND CREAM SMOOTHIE
-                            </h4>
-                            <p class="size-10" style="margin-bottom: 0px !important;">
-                              <b>Size</b>: REGULAR
-                            </p>
-                          </div>
-                        </div>
-                        <h4 class="sans-600 size-10">₱255.00</h4>
-                      </div>
+                      <?php
+                        $subtotal_order = 0.00;
+                        $total_order = 0.00;
+                        $vat = 0.00;
+                        if (isset($_SESSION['user_info.email'])) {
+                          $fetch_query = "SELECT * FROM cart WHERE user_email = '".$_SESSION['user_info.email']."' ORDER BY id DESC";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                              $product_id = $row['product_id'];
+                              $variant_id = $row['variant_id'];
+                              $order_quantity = intval($row['order_quantity']);
+
+                              $product_name = "";
+                              $product_price = 0.00;
+                              $variant_type = "";
+                              $variant_name = "";
+
+                              $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+                              $product_result = $conn->query($fetch_query);
+                              if ($product_result->num_rows > 0) {
+                                $product_row = $product_result->fetch_assoc();
+                                $product_name = $product_row['product_name'];
+                              }
+
+                              $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." AND variant_id = ".$variant_id." LIMIT 1";
+                              $price_result = $conn->query($fetch_query);
+                              if ($price_result->num_rows > 0) {
+                                $price_row = $price_result->fetch_assoc();
+                                $product_price = (floatval($price_row['variant_price']) * $order_quantity);
+
+                                $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
+                                $promotions_result = $conn->query($fetch_query);
+                                if ($promotions_result->num_rows > 0) {
+                                  $promotions_row = $promotions_result->fetch_assoc();
+                                  $promotional_price = $promotions_row['promotional_price'];
+                                  if ($promotional_price != "") {
+                                    if ($promotional_price != 0) {
+                                      $product_price = (floatval($promotional_price) * $order_quantity);
+                                    }
+                                  }
+                                }
+                              }
+
+                              $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
+                              $variant_result = $conn->query($fetch_query);
+                              if ($variant_result->num_rows > 0) {
+                                $variant_row = $variant_result->fetch_assoc();
+                                $variant_type = $variant_row['variant_type'];
+                                $variant_name = strtoupper($variant_row['variant_name']);
+                              }
+
+                              $subtotal_order += $product_price;
+
+                              echo '
+                                <div class="div-cart-item-pos">
+                                  <div class="div-cart-item-content-pos">
+                                    <span style="cursor: pointer;">
+                                      <i class="fa-solid fa-circle-xmark"></i>
+                                    </span>
+                                    <div>
+                                      <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                                        ('.$order_quantity.') '.$product_name.'
+                                      </h4>
+                                      <p class="size-10" style="margin-bottom: 0px !important;">
+                                        <b>'.$variant_type.'</b>: '.$variant_name.'
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <h4 class="sans-600 size-10">₱'.number_format($product_price).'</h4>
+                                </div>
+                              ';
+                            }
+                          }
+                        }
+                        $total_order += ($subtotal_order + $vat);
+                      ?>
                     </div>
                     <div class="div-cart-total-container-pos">
                       <div class="div-cart-total-container-item-pos">
                         <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">Subtotal</h4>
-                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">₱255.00</h4>
+                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                          ₱<?php echo number_format($subtotal_order) ?>
+                        </h4>
                       </div>
                       <div class="div-cart-total-container-item-pos">
                         <h4 class="sans-600 size-10" style="flex: 1; margin-bottom: 0px !important;">VAT</h4>
-                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">₱0.00</h4>
+                        <h4 class="sans-600 size-10" style="margin-bottom: 0px !important;">
+                          ₱<?php echo number_format($vat) ?>
+                        </h4>
                       </div>
                       <div class="div-cart-total-container-item-pos">
                         <h4 class="sans-600 size-13" style="flex: 1; margin-bottom: 0px !important;">Total</h4>
-                        <h4 class="sans-600 size-13" style="margin-bottom: 0px !important;">₱255.00</h4>
+                        <h4 class="sans-600 size-13" style="margin-bottom: 0px !important;">
+                          ₱<?php echo number_format($total_order) ?>
+                        </h4>
                       </div>
                     </div>
                     <div style="display: flex; flex-direction: row; gap: 12px; margin-top: 15px;">
@@ -479,6 +514,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <form action="../actions/add_order.php" method="POST">
           <input id="product_id" type="hidden" name="product_id" />
+          <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Add Quantity</h1>
