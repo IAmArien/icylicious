@@ -416,7 +416,7 @@
 
                             echo '
                               <div class="div-cart-item-pos">
-                                <div class="div-cart-item-content-pos">
+                                <div class="div-cart-item-content-pos" style="flex: 1;">
                                   <span style="cursor: pointer;" onclick="onDeleteOrder(
                                     '."'".$product_id."'".',
                                     '."'".$_SESSION['user_info.email']."'".'
@@ -436,6 +436,14 @@
                               </div>
                             ';
                           }
+                        } else {
+                          echo '
+                            <div class="div-empty-orders">
+                              <p class="sans-500 size-10" style="margin-bottom: 0px !important;">
+                                No Orders Yet.<br/>Select a product to Add to cart.
+                              </p>
+                            </div>
+                          ';
                         }
                       }
 
@@ -456,7 +464,7 @@
                       </h4>
                     </div>
                     <div class="div-cart-total-container-item-pos">
-                      <h4 class="sans-600 size-13" style="flex: 1; margin-bottom: 0px !important;">Total</h4>
+                      <h4 class="sans-600 size-13" style="flex: 1; margin-bottom: 0px !important;">Payable Amount</h4>
                       <h4 class="sans-600 size-13" style="margin-bottom: 0px !important;">
                         ₱<?php echo number_format($total_order) ?>
                       </h4>
@@ -472,12 +480,9 @@
                       </form>
                     </div>
                     <div style="display: flex; flex-direction: row; flex: 1;">
-                      <form action="../actions/checkout.php" method="POST" style="display: flex; flex-direction: row; flex: 1;">
-                        <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
-                        <button class="btn btn-primary btn-checkout-order sans-600" style="flex: 1;" type="submit">
-                          <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
-                        </button>
-                      </form>
+                      <button class="btn btn-primary btn-checkout-order sans-600" style="flex: 1;" type="button" onclick="onCheckout()">
+                        <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -553,6 +558,152 @@
         </form>
       </div>
     </div>
+    <div
+      class="modal fade" 
+      id="staticCheckout" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form action="../actions/checkout.php" method="POST">
+        <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Information</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="display: flex; flex-direction: column; width: 800px;">
+                <p class="sans-600" style="margin-bottom: 0px !important;">Customer Details</p>
+                <p class="sans-regular size-10">Field below are optional. By default, if no details provided, admin information will be used. </p>
+                <div style="display: flex; gap: 10px; margin-top: -10px;">
+                  <div style="flex: 1">
+                    <input
+                      id="order_fn"
+                      type="text"
+                      placeholder="First Name"
+                      name="first_name"
+                      class="sans-regular form-control"
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      id="order_ln"
+                      type="text"
+                      placeholder="Last Name"
+                      name="last_name"
+                      class="sans-regular form-control"
+                    />
+                  </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                  <div style="flex: 1">
+                    <input
+                      id="order_email"
+                      type="email"
+                      placeholder="Email Address (eg. myemail@gmail.com)"
+                      name="email"
+                      class="sans-regular form-control"
+                    />
+                  </div>
+                  <div style="flex: 1">
+                    <input
+                      id="order_phone"
+                      type="text"
+                      placeholder="Mobile No. (eg. +639__)"
+                      name="phone"
+                      class="sans-regular form-control"
+                    />
+                  </div>
+                </div>
+                <input
+                  id="order_address"
+                  type="text"
+                  placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
+                  name="address"
+                  class="sans-regular form-control"
+                />
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px">
+                  <p class="sans-600" style="margin-bottom: 0px !important;">Order Summary</p>
+                  <div class="div-order-summary-container-item">
+                    <div style="flex: 1;">
+                      <h4 class="sans-600 size-12">Payable Amount:</h4>
+                      <input
+                        id="total_amount"
+                        type="text"
+                        placeholder="₱0.00"
+                        name="total_amount"
+                        required
+                        class="sans-regular form-control"
+                        value="<?php echo $total_order; ?>"
+                      />
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 class="sans-600 size-12">Payment:</h4>
+                      <input
+                        id="payment"
+                        type="text"
+                        placeholder="₱0.00"
+                        name="payment"
+                        required
+                        class="sans-regular form-control"
+                      />
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 class="sans-600 size-12">Change:</h4>
+                      <input
+                        id="change"
+                        type="text"
+                        placeholder="₱0.00"
+                        name="change"
+                        required
+                        readonly
+                        class="sans-regular form-control"
+                      />
+                    </div>
+                  </div>
+                  <div class="div-order-summary-container-item">
+                    <div style="flex: 1;">
+                      <h4 class="sans-600 size-12">Type of Payment:</h4>
+                      <select name="payment_type" class="form-select" id="payment_type">
+                        <option value="CASH" selected>CASH</option>
+                        <option value="GCASH">GCash</option>
+                        <option value="CCDB">CC / DB</option>
+                      </select>
+                    </div>
+                    <div style="flex: 1;" style="display: none;" id="reference_number">
+                      <h4 class="sans-600 size-12">Reference Number:</h4>
+                      <input
+                        id="credit_card_no"
+                        type="text"
+                        placeholder="(eg. 21343729349312)"
+                        name="credit_card_no"
+                        class="sans-regular form-control"
+                      />
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 class="sans-600 size-12">Order Status:</h4>
+                      <select name="order_status" class="form-select">
+                        <option value="PROCESSING" selected>PROCESSING</option>
+                        <option value="SERVING">SERVING</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                        <option value="FULFILLED">FULFILLED</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Place Order</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/b2e03e5a6f.js" crossorigin="anonymous"></script>
@@ -599,12 +750,49 @@
     });
   </script>
   <script type="text/javascript">
+    $(document).ready(() => {
+      $('#total_amount').on('change', () => {
+        const payable = $('#total_amount').val();
+        const payment = $('#payment').val();
+        if (payable !== undefined && payment !== undefined) {
+          if (payable != "" && payment !== "") {
+            const change = parseFloat(payment) - parseFloat(payable);
+            $('#change').val(change);
+          }
+        }
+      });
+      $('#payment').on('change', () => {
+        const payable = $('#total_amount').val();
+        const payment = $('#payment').val();
+        if (payable !== undefined && payment !== undefined) {
+          if (payable != "" && payment !== "") {
+            const change = parseFloat(payment) - parseFloat(payable);
+            $('#change').val(change);
+          }
+        }
+      });
+      $('#payment_type').on('change', () => {
+        if ($('#payment_type').val() === "GCASH") {
+          $('#reference_number').css('display', 'block');
+          $('#credit_card_no').attr('required', 'required');
+        } else {
+          $('#reference_number').css('display', 'none');
+          $('#credit_card_no').removeAttr('required');
+        }
+      });
+      $('#reference_number').css('display', 'none');
+    });
+  </script>
+  <script type="text/javascript">
     const onAddQuantity = (product_id) => {
       $('#staticAddQuantity').modal('show');
       $('#product_id').val(product_id);
     };
     const onDeleteOrder = (product_id, user_email) => {
       window.location.href = `../actions/delete_order.php?product_id=${product_id}&user_email=${user_email}`
+    };
+    const onCheckout = () => {
+      $('#staticCheckout').modal('show');
     };
   </script>
   <script type="text/javascript">

@@ -508,6 +508,28 @@ th {
   justify-content: center;
 }
 
+.div-empty-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background-color: var(--super-light-white);
+  border: 1px solid var(--super-light-white);
+  border-radius: 10px;
+  padding-inline: 12px;
+  padding-block: 20px;
+  text-align: center;
+}
+
+.div-order-summary-container-item {
+  border-radius: 10px;
+  background-color: var(--super-light-white);
+  border: 1px solid var(--super-light-white);
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 /**
 ====================================================================================
 CONTENT WRAPPER CSS
