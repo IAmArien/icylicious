@@ -48,35 +48,85 @@
           $user_email = $row['user_email'];
           $order_status = "PROCESSING";
           $order_type = "ONLINE";
+
+          $product_name = "";
+          $variant_type = "";
+          $variant_name = "";
+          $variant_price = "";
+          $user_firstname = "";
+          $user_lastname = "";
+
+          $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+          $product_info_result = $conn->query($fetch_query);
+          if ($product_info_result->num_rows > 0) {
+            $product_info_row = $product_info_result->fetch_assoc();
+            $product_name = $product_info_row['product_name'];
+          }
+
+          $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
+          $variant_result = $conn->query($fetch_query);
+          if ($variant_result->num_rows > 0) {
+            $variant_row = $variant_result->fetch_assoc();
+            $variant_type = $variant_row['variant_type'];
+            $variant_name = $variant_row['variant_name'];
+          }
+
+          $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id." LIMIT 1";
+          $product_price_result = $conn->query($fetch_query);
+          if ($product_price_result->num_rows > 0) {
+            $product_price_row = $product_price_result->fetch_assoc();
+            $variant_price = $product_price_row['variant_price'];
+          }
+
+          $fetch_query = "SELECT * FROM user_info WHERE email = '".$customer_email."' LIMIT 1";
+          $user_info_result = $conn->query($fetch_query);
+          if ($user_info_result->num_rows > 0) {
+            $user_info_row = $user_info_result->fetch_assoc();
+            $user_firstname = $user_info_row['first_name'];
+            $user_lastname = $user_info_row['last_name'];
+          }
+
           $insert_query = "INSERT INTO orders (
               transaction_id,
               product_id,
+              product_name,
               variant_id,
+              variant_type,
+              variant_name,
+              variant_price,
               user_id,
               order_date,
               order_time,
               order_quantity,
               is_pickup,
+              user_firstname,
+              user_lastname,
               user_address,
               user_phone,
               user_email,
               order_status,
               order_total,
               order_type
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
           $order_date = date("Y/m/d");
           $order_time = date("h:i:sa");
           $stmt = $conn->prepare($insert_query);
           $stmt->bind_param(
-            'ssssssssssssss',
+            'ssssssssssssssssssss',
             $transaction_id,
             $product_id,
+            $product_name,
             $variant_id,
+            $variant_type,
+            $variant_name,
+            $variant_price,
             $user_id,
             $order_date,
             $order_time,
             $order_quantity,
             $is_pickup,
+            $user_firstname,
+            $user_lastname,
             $user_address,
             $user_phone,
             $user_email,
@@ -127,7 +177,7 @@
                     $billing_address,
                     $payment_type,
                     $order_total,
-                    $order_total
+                    $order_total,
                     $customer_email
                   );
                   $stmt->execute();
@@ -167,7 +217,7 @@
                   $shipping_address,
                   $payment_type,
                   $order_total,
-                  $order_total
+                  $order_total,
                   $customer_email
                 );
                 $stmt->execute();
