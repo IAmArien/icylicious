@@ -166,15 +166,24 @@
                               $order_id = $row['id'];
                               $product_id = $row['product_id'];
                               $variant_id = $row['variant_id'];
+                              $variant_type = $row['variant_type'];
+                              $variant_name = $row['variant_name'];
                               $order_date = $row['order_date'];
                               $order_time = $row['order_time'];
                               $order_quantity = $row['order_quantity'];
                               $order_status = $row['order_status'];
                               $order_total = floatval($row['order_total']);
 
-                              $row_product_name = "";
+                              $row_product_name = $row['product_name'];
                               $row_product_price = number_format($order_total);
-                              $row_variant = "";
+                              $row_variant = '
+                                <div style="padding-top: 5px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                                  '.$variant_type.':&nbsp;&nbsp;
+                                  <span class="badge-size color-light-grey sans-regular size-10">
+                                    '.$variant_name.'
+                                  </span>
+                                </div>
+                              ';
                               $row_status_type = "";
                               $row_status_name = "";
                               $row_action_status = "";
@@ -196,63 +205,39 @@
                                 $row_action_status = "disabled";
                               }
 
-                              $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
-                              $product_result = $conn->query($fetch_query);
-                              if ($product_result->num_rows > 0) {
-                                $product_row = $product_result->fetch_assoc();
-                                $product_name = $product_row['product_name'];
-                                $row_product_name = $product_name;
-
-                                $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
-                                $variant_result = $conn->query($fetch_query);
-                                if ($variant_result->num_rows > 0) {
-                                  $variant_row = $variant_result->fetch_assoc();
-                                  $variant_type = $variant_row['variant_type'];
-                                  $variant_name = $variant_row['variant_name'];
-                                  $row_variant = '
+                              echo '
+                                <tr>
+                                  <td class="sans-600">
+                                    ('.$order_quantity.') '.$row_product_name.'
                                     <div style="padding-top: 5px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
                                       '.$variant_type.':&nbsp;&nbsp;
                                       <span class="badge-size color-light-grey sans-regular size-10">
                                         '.$variant_name.'
                                       </span>
                                     </div>
-                                  ';
-                                }
-
-                                echo '
-                                  <tr>
-                                    <td class="sans-600">
-                                      ('.$order_quantity.') '.$row_product_name.'
-                                      <div style="padding-top: 5px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                                        '.$variant_type.':&nbsp;&nbsp;
-                                        <span class="badge-size color-light-grey sans-regular size-10">
-                                          '.$variant_name.'
-                                        </span>
-                                      </div>
-                                      <div style="height: 20px;"></div>
-                                    </td>
-                                    <td class="sans-regular">
-                                      '.$order_date.'<br/>'.$order_time.'
-                                    </td>
-                                    <td class="sans-600">
-                                      ₱'.$row_product_price.'
-                                    </td>
-                                    <td class="sans-regular" style="font-size: 9pt;">
-                                      <span class="'.$row_status_type.'">'.$row_status_name.'</span>
-                                    </td>
-                                    <td>
-                                      <form action="../actions/update_orders.php" method="POST">
-                                        <input type="hidden" name="order_id" value="'.$order_id.'" />
-                                        <button
-                                          '.$row_action_status.'
-                                          class="btn btn-outline-danger btn-sm sans-400" type="submit">
-                                          <i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;Cancel
-                                        </button>
-                                      </form>
-                                    </td>
-                                  </tr>
-                                ';
-                              }
+                                    <div style="height: 20px;"></div>
+                                  </td>
+                                  <td class="sans-regular">
+                                    '.$order_date.'<br/>'.$order_time.'
+                                  </td>
+                                  <td class="sans-600">
+                                    ₱'.$row_product_price.'
+                                  </td>
+                                  <td class="sans-regular" style="font-size: 9pt;">
+                                    <span class="'.$row_status_type.'">'.$row_status_name.'</span>
+                                  </td>
+                                  <td>
+                                    <form action="../actions/update_orders.php" method="POST">
+                                      <input type="hidden" name="order_id" value="'.$order_id.'" />
+                                      <button
+                                        '.$row_action_status.'
+                                        class="btn btn-outline-danger btn-sm sans-400" type="submit">
+                                        <i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;Cancel
+                                      </button>
+                                    </form>
+                                  </td>
+                                </tr>
+                              ';
                             }
                           }
                         }
