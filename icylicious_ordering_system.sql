@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2024 at 02:09 PM
+-- Generation Time: Jul 15, 2024 at 09:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,15 @@ CREATE TABLE `activity_log` (
   `user_email` varchar(255) NOT NULL,
   `user_fullname` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`id`, `activity`, `activity_date`, `activity_time`, `user_email`, `user_fullname`) VALUES
+(1, 'Update Product', '2024/07/15', '09:03:13pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(2, 'Add Category', '2024/07/15', '09:04:20pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(3, 'Delete Category', '2024/07/15', '09:04:22pm', 'npalisoc@yondu.com', ' Norman Palisoc');
 
 -- --------------------------------------------------------
 
@@ -151,9 +160,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `product_name`, `variant_id`, `variant_type`, `variant_name`, `variant_price`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_firstname`, `user_lastname`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`, `order_type`) VALUES
-(96, '66950e95bd4c9', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024/07/15', '01:57:09pm', 4, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS'),
+(96, '66950e95bd4c9', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024/07/15', '01:57:09pm', 4, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'SERVING', '2192', 'POS'),
 (97, '66950e95bd4c9', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024/07/15', '01:57:09pm', 2, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS'),
-(98, '66950e95bd4c9', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024/07/15', '01:57:10pm', 5, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS');
+(98, '66950e95bd4c9', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024/07/15', '01:57:10pm', 5, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS'),
+(99, '6695125acfe00', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 37, '2024/07/15', '02:13:14pm', 4, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'CANCELLED', '308', 'ONLINE');
 
 -- --------------------------------------------------------
 
@@ -188,7 +198,8 @@ CREATE TABLE `orders_billing` (
 INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_exp`, `credit_card_code`, `billing_first_name`, `billing_last_name`, `billing_phone`, `billing_address`, `shipping_first_name`, `shipping_last_name`, `shipping_phone`, `shipping_address`, `payment_type`, `amount_paid`, `payment`, `customer_email`) VALUES
 (76, 96, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '2192', '2200', 'npalisoc@yondu.com'),
 (77, 97, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '2192', '2200', 'npalisoc@yondu.com'),
-(78, 98, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '2192', '2200', 'npalisoc@yondu.com');
+(78, 98, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '2192', '2200', 'npalisoc@yondu.com'),
+(79, 99, '123124234525345', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Norman', 'Palisoc', '639273894063', 'Cablong', 'GCASH', '308', '308', 'norman.consultant@platform-11.com');
 
 -- --------------------------------------------------------
 
@@ -207,14 +218,13 @@ CREATE TABLE `products_categories` (
 --
 
 INSERT INTO `products_categories` (`id`, `category_id`, `product_id`) VALUES
-(31, 10, 31),
 (32, 15, 32),
 (33, 7, 33),
 (34, 15, 34),
-(35, 10, 35),
 (36, 7, 36),
 (37, 15, 37),
-(38, 15, 38);
+(38, 15, 38),
+(40, 10, 31);
 
 -- --------------------------------------------------------
 
@@ -233,14 +243,14 @@ CREATE TABLE `products_images` (
 --
 
 INSERT INTO `products_images` (`id`, `product_id`, `product_image`) VALUES
-(12, 31, '../uploads/449833622_890889206388208_5186544043050434752_n.jpg'),
 (13, 32, '../uploads/449963047_890893469721115_8037731534914943621_n.jpg'),
 (14, 33, '../uploads/448512011_890893443054451_1472447363313712759_n.jpg'),
 (15, 34, '../uploads/449930361_890893483054447_5029787391027050045_n.jpg'),
 (16, 35, '../uploads/447685776_871620354981760_7214760882104809249_n.jpg'),
 (18, 36, '../uploads/448021526_871620374981758_8464208450218718430_n.jpg'),
 (19, 37, '../uploads/447833255_871620384981757_6695675582191510910_n.jpg'),
-(20, 38, '../uploads/447728295_871620361648426_4025483537535039279_n.jpg');
+(22, 31, '../uploads/449833622_890889206388208_5186544043050434752_n.jpg'),
+(24, 38, '../uploads/447728295_871620361648426_4025483537535039279_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -329,10 +339,10 @@ CREATE TABLE `promotions` (
 --
 
 INSERT INTO `promotions` (`id`, `product_id`, `promotional_price`, `is_buy_x_take_x`, `buy_x_of`, `take_x_of`) VALUES
-(18, 31, 77, 0, 0, 0),
 (19, 32, 77, 0, 0, 0),
 (20, 33, 177, 0, 0, 0),
-(21, 34, 177, 0, 0, 0);
+(21, 34, 177, 0, 0, 0),
+(23, 31, 77, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -517,7 +527,7 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `best_sellers`
@@ -529,13 +539,13 @@ ALTER TABLE `best_sellers`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
@@ -547,25 +557,25 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `orders_billing`
 --
 ALTER TABLE `orders_billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
 --
 ALTER TABLE `products_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `products_images`
 --
 ALTER TABLE `products_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `products_info`
@@ -589,7 +599,7 @@ ALTER TABLE `products_ratings`
 -- AUTO_INCREMENT for table `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user_credentials`
