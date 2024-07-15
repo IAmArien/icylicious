@@ -209,20 +209,31 @@
                       $transaction_id = $row["transaction_id"];
                       $product_id = $row["product_id"];
                       $variant_id = $row['variant_id'];
+                      $variant_type = $row['variant_type'];
+                      $variant_name = $row['variant_name'];
                       $order_date = $row['order_date'];
                       $order_time = $row['order_time'];
                       $order_quantity = $row['order_quantity'];
                       $order_status = $row['order_status'];
                       $order_type = $row['order_type'];
                       $order_total = floatval($row['order_total']);
+                      $user_firstname = $row['user_firstname'];
+                      $user_lastname = $row['user_lastname'];
                       $user_email = $row['user_email'];
+                      $user_phone = $row['user_phone'];
+                      $user_address = $row['user_address'];
 
-                      $row_product_name = "";
+                      $row_product_name = $row["product_name"];
                       $row_product_price = number_format($order_total);
-                      $row_variant = "";
-                      $row_variant_type = "";
-                      $row_variant_name = "";
-                      $row_customer_name = "";
+                      $row_variant = '
+                        <div style="padding-top: 0px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
+                          '.$variant_type.':&nbsp;&nbsp;
+                          <span class="badge-size color-light-grey sans-regular size-10">
+                            '.$variant_name.'
+                          </span>
+                        </div>
+                      ';
+                      $row_customer_name = $user_firstname.' '.$user_lastname;
                       $row_status_type = "";
                       $row_status_name = "";
                       $row_action_status = "";
@@ -244,137 +255,94 @@
                         $row_action_status = "disabled";
                       }
 
-                      $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
-                      $product_result = $conn->query($fetch_query);
-                      if ($product_result->num_rows > 0) {
-                        $product_row = $product_result->fetch_assoc();
-                        $product_name = $product_row['product_name'];
-                        $row_product_name = $product_name;
-
-                        $fetch_query = "SELECT * FROM variants WHERE id = ".$variant_id." LIMIT 1";
-                        $variant_result = $conn->query($fetch_query);
-                        if ($variant_result->num_rows > 0) {
-                          $variant_row = $variant_result->fetch_assoc();
-                          $variant_type = $variant_row['variant_type'];
-                          $variant_name = $variant_row['variant_name'];
-                          $row_variant_type = $variant_type;
-                          $row_variant_name = $variant_name;
-                          $row_variant = '
-                            <div style="padding-top: 0px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                              '.$variant_type.':&nbsp;&nbsp;
-                              <span class="badge-size color-light-grey sans-regular size-10">
-                                '.$variant_name.'
-                              </span>
-                            </div>
-                          ';
-                        }
-
-                        $fetch_query = "SELECT * FROM user_info WHERE email = '".$user_email."'";
-                        $first_name = "";
-                        $last_name = "";
-                        $email = "";
-                        $phone = "";
-                        $address = "";
-                        $customer_result = $conn->query($fetch_query);
-                        if ($customer_result->num_rows > 0) {
-                          $customer_row = $customer_result->fetch_assoc();
-                          $first_name = $customer_row['first_name'];
-                          $last_name = $customer_row['last_name'];
-                          $email = $customer_row['email'];
-                          $phone = $customer_row['phone'];
-                          $address = $customer_row['address'];
-                          $row_customer_name = $first_name.' '.$last_name;
-                        }
-
-                        $is_cancelled = "";
-                        $shipping_name = "";
-                        $shipping_phone = "";
-                        $shipping_address = "";
-                        $payment_type = "";
-                        if ($order_status == "CANCELLED") {
-                          $is_cancelled = 'disabled="disabled"';
-                        }
-
-                        $fetch_query = "SELECT * FROM orders_billing WHERE order_id = ".$order_id." LIMIT 1";
-                        $billing_result = $conn->query($fetch_query);
-                        if ($billing_result->num_rows > 0) {
-                          $billing_row = $billing_result->fetch_assoc();
-                          $shipping_first_name = $billing_row['shipping_first_name'];
-                          $shipping_last_name = $billing_row['shipping_last_name'];
-                          $shipping_phone = $billing_row['shipping_phone'];
-                          $shipping_address = $billing_row['shipping_address'];
-                          $payment_type = $billing_row['payment_type'];
-                          $shipping_name = $shipping_first_name.' '.$shipping_last_name;
-                        }
-
-                        echo '
-                          <tr>
-                            <td class="sans-600">
-                              '.$order_id.'
-                            </td>
-                            <td class="sans-600">
-                              ('.$order_quantity.') '.$row_product_name.'
-                              '.$row_variant.'
-                              Transaction ID: '.$transaction_id.'
-                            </td>
-                            <td class="sans-regular">
-                              '.$order_date.'<br/>'.$order_time.'
-                            </td>
-                            <td class="sans-600">
-                              '.$row_customer_name.'
-                            </td>
-                            <td class="sans-600">
-                              ₱'.$row_product_price.'
-                            </td>
-                            <td class="sans-regular" style="font-size: 9pt;">
-                              <span class="'.$row_status_type.'">'.$row_status_name.'</span>
-                            </td>
-                            <td class="sans-600">
-                              '.$order_type.'
-                            </td>
-                            <td>
-                              <button
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticViewOrder"
-                                onclick="onViewOrder(
-                                  '."'".$order_id."'".',
-                                  '."'".$first_name."'".',
-                                  '."'".$last_name."'".',
-                                  '."'".$email."'".',
-                                  '."'".$phone."'".',
-                                  '."'".$address."'".',
-                                  '."'".$order_date."'".',
-                                  '."'".$order_time."'".',
-                                  '."'".$order_quantity."'".',
-                                  '."'".$row_product_name."'".',
-                                  '."'".$row_variant_type."'".',
-                                  '."'".$row_variant_name."'".',
-                                  '."'".$row_product_price."'".',
-                                  '."'".$shipping_name."'".',
-                                  '."'".$shipping_phone."'".',
-                                  '."'".$shipping_address."'".',
-                                  '."'".$payment_type."'".',
-                                  '."'".$order_status."'".'
-                                )"
-                                class="btn btn-outline-primary btn-sm 
-                                  sans-400 
-                                  color-white"
-                                type="button">
-                                <i class="fas fa-eye"></i>
-                              </button>
-                              <button
-                                onclick="onCancelOrder('."'".$order_id."'".')"
-                                '.$is_cancelled.'
-                                class="btn btn-outline-primary btn-sm 
-                                  sans-400 
-                                  color-white"
-                                type="button">
-                                <i class="fa-solid fa-circle-xmark"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        ';
+                      $is_cancelled = "";
+                      $shipping_name = "";
+                      $shipping_phone = "";
+                      $shipping_address = "";
+                      $payment_type = "";
+                      if ($order_status == "CANCELLED") {
+                        $is_cancelled = 'disabled="disabled"';
                       }
+
+                      $fetch_query = "SELECT * FROM orders_billing WHERE order_id = ".$order_id." LIMIT 1";
+                      $billing_result = $conn->query($fetch_query);
+                      if ($billing_result->num_rows > 0) {
+                        $billing_row = $billing_result->fetch_assoc();
+                        $shipping_first_name = $billing_row['shipping_first_name'];
+                        $shipping_last_name = $billing_row['shipping_last_name'];
+                        $shipping_phone = $billing_row['shipping_phone'];
+                        $shipping_address = $billing_row['shipping_address'];
+                        $payment_type = $billing_row['payment_type'];
+                        $shipping_name = $shipping_first_name.' '.$shipping_last_name;
+                      }
+
+                      echo '
+                        <tr>
+                          <td class="sans-600">
+                            '.$order_id.'
+                          </td>
+                          <td class="sans-600">
+                            ('.$order_quantity.') '.$row_product_name.'
+                            '.$row_variant.'
+                            Transaction ID: '.$transaction_id.'
+                          </td>
+                          <td class="sans-regular">
+                            '.$order_date.'<br/>'.$order_time.'
+                          </td>
+                          <td class="sans-600">
+                            '.$row_customer_name.'
+                          </td>
+                          <td class="sans-600">
+                            ₱'.$row_product_price.'
+                          </td>
+                          <td class="sans-regular" style="font-size: 9pt;">
+                            <span class="'.$row_status_type.'">'.$row_status_name.'</span>
+                          </td>
+                          <td class="sans-600">
+                            '.$order_type.'
+                          </td>
+                          <td>
+                            <button
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticViewOrder"
+                              onclick="onViewOrder(
+                                '."'".$order_id."'".',
+                                '."'".$user_firstname."'".',
+                                '."'".$user_lastname."'".',
+                                '."'".$user_email."'".',
+                                '."'".$user_phone."'".',
+                                '."'".$user_address."'".',
+                                '."'".$order_date."'".',
+                                '."'".$order_time."'".',
+                                '."'".$order_quantity."'".',
+                                '."'".$row_product_name."'".',
+                                '."'".$variant_type."'".',
+                                '."'".$variant_name."'".',
+                                '."'".$row_product_price."'".',
+                                '."'".$shipping_name."'".',
+                                '."'".$shipping_phone."'".',
+                                '."'".$shipping_address."'".',
+                                '."'".$payment_type."'".',
+                                '."'".$order_status."'".'
+                              )"
+                              class="btn btn-outline-primary btn-sm 
+                                sans-400 
+                                color-white"
+                              type="button">
+                              <i class="fas fa-eye"></i>
+                            </button>
+                            <button
+                              onclick="onCancelOrder('."'".$order_id."'".')"
+                              '.$is_cancelled.'
+                              class="btn btn-outline-primary btn-sm 
+                                sans-400 
+                                color-white"
+                              type="button">
+                              <i class="fa-solid fa-circle-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ';
                     }
                   }
                 ?>
