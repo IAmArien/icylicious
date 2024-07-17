@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 15, 2024 at 02:09 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jul 17, 2024 at 04:54 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,6 +35,19 @@ CREATE TABLE `activity_log` (
   `user_email` varchar(255) NOT NULL,
   `user_fullname` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`id`, `activity`, `activity_date`, `activity_time`, `user_email`, `user_fullname`) VALUES
+(1, 'Add Category', '2024/07/16', '07:03:10am', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(2, 'Delete Category', '2024/07/16', '07:03:13am', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(3, 'Update Category', '2024/07/17', '04:36:43pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(4, 'Update User', '2024/07/17', '04:36:48pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(5, 'Update Order', '2024/07/17', '04:36:56pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(6, 'Update Order', '2024/07/17', '04:37:00pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(7, 'Login', '2024/07/17', '04:42:07pm', 'npalisoc@yondu.com', ' Norman Palisoc');
 
 -- --------------------------------------------------------
 
@@ -517,7 +530,7 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `best_sellers`
@@ -529,13 +542,13 @@ ALTER TABLE `best_sellers`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
