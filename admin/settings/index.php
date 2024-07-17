@@ -280,6 +280,17 @@
                   <button type="submit" class="btn btn-primary sans-600" style="margin-top: 20px;">Update Account</button>
                 </div>
               </div>
+              <div class="row" style="margin-top: 40px;">
+                <div class="col-lg-7 col-md-7 col-sm-12">
+                  <h5 class="sans-600 size-12">Create a Backup Database</h5>
+                  <p class="sans-regular size-10">Generate a <b>SQL</b> formatted file containing all database information for backup.</p>
+                  <a href="../actions/export.php" target="_blank">
+                    <button type="button" class="btn btn-primary sans-600" style="margin-top: 5px;">
+                      <i class="fa-solid fa-database"></i>&nbsp;&nbsp;Backup Database
+                    </button>
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
