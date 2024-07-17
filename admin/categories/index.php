@@ -136,6 +136,18 @@
           <i class="fa-solid fa-money-bill-trend-up"></i><span style="padding-left: 19px">POS Panel</span>
         </button>
         <button 
+          id="btn-logs" 
+          class="btn btn-outline-success btn-sm
+            sans-regular 
+            background-color-super-light-grey 
+            border-color-super-light-grey 
+            color-white 
+            btn-menu 
+            btn-menu-unselected"
+          type="button">
+          <i class="fa-solid fa-chart-line"></i><span style="padding-left: 19px">Activity Logs</span>
+        </button>
+        <button 
           id="btn-settings" 
           class="btn btn-outline-success btn-sm
             sans-regular 
@@ -377,6 +389,9 @@
       });
       $('#btn-pos').click(() => {
         window.location.href = "../pos";
+      });
+      $('#btn-logs').click(() => {
+        window.location.href = "../logs";
       });
       $('#btn-settings').click(() => {
         window.location.href = "../settings";

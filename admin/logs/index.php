@@ -100,7 +100,7 @@
           <i class="fa-solid fa-gifts"></i><span style="padding-left: 15px">Product Management</span>
         </button>
         <button 
-          id="btn-orders" 
+          id="btn-variants" 
           class="btn btn-outline-success btn-sm
             sans-regular 
             background-color-super-light-grey 
