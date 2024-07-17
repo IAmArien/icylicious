@@ -788,6 +788,10 @@
         if (payable !== undefined && payment !== undefined) {
           if (payable != "" && payment !== "") {
             const change = parseFloat(payment) - parseFloat(payable);
+            if (change < 0.00) {
+              window.alert('Change must not be less than 0.');
+              return;
+            }
             $('#change').val(change);
           }
         }
@@ -798,6 +802,10 @@
         if (payable !== undefined && payment !== undefined) {
           if (payable != "" && payment !== "") {
             const change = parseFloat(payment) - parseFloat(payable);
+            if (change < 0.00) {
+              window.alert('Change must not be less than 0.');
+              return;
+            }
             $('#change').val(change);
           }
         }
