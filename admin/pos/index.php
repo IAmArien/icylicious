@@ -260,7 +260,7 @@
                         if ($category_result->num_rows > 0) {
                           while ($category_row = $category_result->fetch_assoc()) {
                             $product_id = $category_row['product_id'];
-                            $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
+                            $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." AND product_status = 'ACTIVE' LIMIT 1";
                             $product_result = $conn->query($fetch_query);
                             if ($product_result->num_rows > 0) {
                               while ($product_row = $product_result->fetch_assoc()) {
@@ -318,7 +318,7 @@
                           }
                         }
                       } else {
-                        $fetch_query = "SELECT * FROM products_info";
+                        $fetch_query = "SELECT * FROM products_info WHERE product_status = 'ACTIVE'";
                         $product_result = $conn->query($fetch_query);
                         if ($product_result->num_rows > 0) {
                           while ($product_row = $product_result->fetch_assoc()) {

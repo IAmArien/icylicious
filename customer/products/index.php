@@ -195,6 +195,7 @@
                   PI.id, 
                   PI.product_name, 
                   PI.product_description,
+                  PI.product_status,
                   PP.variant_price,
                   PP.variant_id, 
                   PM.promotional_price,
@@ -202,7 +203,7 @@
                   PM.buy_x_of,
                   PM.take_x_of 
                   FROM products_info AS PI INNER JOIN products_prices AS PP ON PI.id = PP.product_id
-                  LEFT JOIN promotions AS PM ON PI.id = PM.product_id";
+                  LEFT JOIN promotions AS PM ON PI.id = PM.product_id WHERE PI.product_status = 'ACTIVE'";
                   $result = $conn->query($fetch_query);
                 if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
@@ -350,6 +351,7 @@
                       PI.id, 
                       PI.product_name, 
                       PI.product_description,
+                      PI.product_status,
                       PP.variant_price,
                       PP.variant_id, 
                       PM.promotional_price,
@@ -359,7 +361,7 @@
                       FROM products_info AS PI 
                       INNER JOIN products_prices AS PP ON PI.id = PP.product_id 
                       LEFT JOIN promotions AS PM ON PI.id = PM.product_id 
-                      WHERE PI.id = ".$product_id."";
+                      WHERE PI.id = ".$product_id." AND PI.product_status = 'ACTIVE'";
                     $product_result = $conn->query($fetch_query);
                     if ($product_result->num_rows > 0) {
                       while ($row = $product_result->fetch_assoc()) {
