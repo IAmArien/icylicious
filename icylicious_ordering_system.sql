@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 17, 2024 at 04:54 PM
+-- Generation Time: Jul 19, 2024 at 12:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -47,7 +47,31 @@ INSERT INTO `activity_log` (`id`, `activity`, `activity_date`, `activity_time`, 
 (4, 'Update User', '2024/07/17', '04:36:48pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
 (5, 'Update Order', '2024/07/17', '04:36:56pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
 (6, 'Update Order', '2024/07/17', '04:37:00pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
-(7, 'Login', '2024/07/17', '04:42:07pm', 'npalisoc@yondu.com', ' Norman Palisoc');
+(7, 'Login', '2024/07/17', '04:42:07pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(8, 'Add Order', '2024/07/17', '04:59:34pm', 'npalisoc@yondu.com', ' Norman Palisoc'),
+(9, 'Login', '2024/07/17', '05:17:03pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(10, 'Add Order', '2024/07/17', '05:18:08pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(11, 'Login', '2024/07/18', '11:30:24pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(12, 'Add Order', '2024/07/18', '11:30:59pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(13, 'Delete Orders', '2024/07/18', '11:31:16pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(14, 'Login', '2024/07/18', '11:50:12pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(15, 'Archived Product: 38', '2024/07/18', '11:54:57pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(16, 'Archived Product: 36', '2024/07/18', '11:55:00pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(17, 'Login', '2024/07/18', '11:56:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(18, 'Archived Product: 35', '2024/07/19', '12:07:37am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(19, 'Archived Product: 38', '2024/07/19', '12:13:43am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(20, 'Archived Product: 36', '2024/07/19', '12:13:50am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(21, 'Archived Product: 35', '2024/07/19', '12:13:52am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(22, 'Archived Product: 38', '2024/07/19', '12:14:38am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(23, 'Archived Product: 36', '2024/07/19', '12:14:42am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(24, 'Archived Product: 34', '2024/07/19', '12:15:24am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(25, 'Archived Product: 37', '2024/07/19', '12:16:16am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(26, 'Archived Product: 33', '2024/07/19', '12:16:22am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(27, 'Archived Product: 38', '2024/07/19', '12:24:09am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(28, 'Archived Product: 36', '2024/07/19', '12:24:11am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(29, 'Archived Product: 34', '2024/07/19', '12:24:13am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(30, 'Archived Product: 37', '2024/07/19', '12:24:15am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(31, 'Archived Product: 33', '2024/07/19', '12:24:16am', 'npalisoc@yondu.com', 'BINI AIAH');
 
 -- --------------------------------------------------------
 
@@ -264,22 +288,23 @@ INSERT INTO `products_images` (`id`, `product_id`, `product_image`) VALUES
 CREATE TABLE `products_info` (
   `id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
-  `product_description` varchar(999) NOT NULL
+  `product_description` varchar(999) NOT NULL,
+  `product_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products_info`
 --
 
-INSERT INTO `products_info` (`id`, `product_name`, `product_description`) VALUES
-(31, 'MILK TEA AND 3 BUDDIES', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(33, 'TIGER BOBA (NO TEA DRINK)', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(34, 'MANGO GRAHAM SMOOTHIE', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(35, 'BUBBLE MILK TEA', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(36, '3 TIGER BOBA (NO TEA DRINK)', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(37, 'STRAWBERRY NUTELLA SMOOTHIE', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? '),
-(38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ');
+INSERT INTO `products_info` (`id`, `product_name`, `product_description`, `product_status`) VALUES
+(31, 'MILK TEA AND 3 BUDDIES', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(33, 'TIGER BOBA (NO TEA DRINK)', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(34, 'MANGO GRAHAM SMOOTHIE', 'Calling all Icylicious lovers!\\r\\nGet ready for our 7.7 Big Deals!\\r\\nPromo runs: July 7-30, 2024 only\\r\\n• (R) | Milk Tea and 3 Buddies P77\\r\\n• (R) | Original Corn and Cream Smoothie P77\\r\\n• 2 (L) | Tiger Boba (No Tea Drink) P177\\r\\n• (XL) | Special Mango Graham Smoothie P177\\r\\n• UPGRADE FROM (R) TO (L) | Add P7 (Milk Tea only) \\r\\nEnjoy amazing discounts on your fave drink!\\r\\nDon’t miss out!\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(35, 'BUBBLE MILK TEA', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(36, '3 TIGER BOBA (NO TEA DRINK)', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(37, 'STRAWBERRY NUTELLA SMOOTHIE', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -392,7 +417,7 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`id`, `first_name`, `last_name`, `email`, `phone`, `address`, `gender`, `birth_date`) VALUES
-(1, ' Norman', 'Palisoc', 'npalisoc@yondu.com', '+639273894063', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', 'Female', '2024-04-30'),
+(1, 'BINI', 'AIAH', 'npalisoc@yondu.com', '+639273894063', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', 'Female', '2024-04-30'),
 (37, 'Norman', 'Palisoc', 'norman.consultant@platform-11.com', '639273894063', 'Ayala Makati, Metro Manila, Philippines', 'Male', '2024-07-31'),
 (38, 'Jenni', 'Kim', 'jennie.kim@yopmail.com', '639273894063', 'Dagupan City, Pangasinan, Philippines', 'Female', '2024-07-31');
 
@@ -530,7 +555,7 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `best_sellers`
@@ -542,7 +567,7 @@ ALTER TABLE `best_sellers`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `categories`
