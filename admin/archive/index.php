@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Admin / Product Variants</title>
+    <title>Admin / Product Management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/global.css" />
-    <link rel="stylesheet" href="./css/orders.css" />
+    <link rel="stylesheet" href="./css/archive.css" />
   </head>
   <body>
     <div id="nav-sidebar" class="sidebar-container slide-expanded">
@@ -97,7 +97,7 @@
             btn-menu 
             btn-menu-unselected"
           type="button">
-          <i class="fa-solid fa-gifts"></i><span style="padding-left: 15px">Product Management</span>
+          <i class="fa-solid fa-file-zipper"></i><span style="padding-left: 19px">Product Management</span>
         </button>
         <button
           id="btn-variants"
@@ -114,12 +114,12 @@
         <button 
           id="btn-orders" 
           class="btn btn-outline-success btn-sm
-            sans-700 
-            background-color-yellow 
-            border-color-yellow 
-            color-dark-grey 
+            sans-regular 
+            background-color-super-light-grey 
+            border-color-super-light-grey 
+            color-white 
             btn-menu 
-            btn-menu-selected"
+            btn-menu-unselected"
           type="button">
           <i class="fa-solid fa-cart-shopping"></i><span style="padding-left: 16px">Orders</span>
         </button>
@@ -150,12 +150,12 @@
         <button 
           id="btn-archives" 
           class="btn btn-outline-success btn-sm
-            sans-regular 
-            background-color-super-light-grey 
-            border-color-super-light-grey 
-            color-white 
+            sans-700 
+            background-color-yellow 
+            border-color-yellow 
+            color-dark-grey 
             btn-menu 
-            btn-menu-unselected"
+            btn-menu-selected"
           type="button">
           <i class="fa-solid fa-file-zipper"></i><span style="padding-left: 23px">Archive</span>
         </button>
@@ -193,7 +193,7 @@
             &nbsp;&nbsp;&nbsp;<i id="navbar-control" class="fa-solid fa-bars" style="cursor: pointer"></i>
             &nbsp;&nbsp;&nbsp;&nbsp;<b>Admin</b>&nbsp;
             <i class="fa-solid fa-chevron-right"></i>
-            &nbsp;Orders
+            &nbsp;Archive
           </a>
         </div>
       </nav>
@@ -202,167 +202,126 @@
           <div class="div-content-title">
             <div class="div-content-title-labels">
               <h4 class="color-dark-grey sans-600" style="font-size: 13pt;">
-                Manage Orders
+                Archived products
               </h4>
               <p class="color-super-light-grey sans-regular" style="font-size: 10pt;">
-                Track and update orders statuses
+                Products being archived will be displayed here. You can keep or permanently removed products and associated information.
               </p>
+            </div>
+            <div class="div-content-title-actions">
             </div>
           </div>
           <div style="margin-top: 20px;">
             <table id="data" class="table table-striped" style="width:100%">
               <thead>
                 <tr>
-                  <th class="sans-bold">Row</th>
-                  <th class="sans-bold">Order</th>
-                  <th class="sans-bold">Date / Time</th>
-                  <th class="sans-bold">Customer (Name)</th>
-                  <th class="sans-bold">Price</th>
-                  <th class="sans-bold">Order Status</th>
-                  <th class="sans-bold">Order Type</th>
-                  <th class="sans-bold">Actions</th>
+                  <th class="sans-bold">(Name)</th>
+                  <th class="sans-bold">(Description)</th>
+                  <th class="sans-bold">(Category)</th>
+                  <th class="sans-bold">(Variants)</th>
+                  <th class="sans-bold">(Actions)</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                  $fetch_query = "SELECT * FROM orders ORDER BY id DESC";
+                  $fetch_query = "SELECT * FROM products_info WHERE product_status = 'ARCHIVED' ORDER BY id DESC";
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      $order_id = $row["id"];
-                      $transaction_id = $row["transaction_id"];
-                      $product_id = $row["product_id"];
-                      $variant_id = $row['variant_id'];
-                      $variant_type = $row['variant_type'];
-                      $variant_name = $row['variant_name'];
-                      $order_date = $row['order_date'];
-                      $order_time = $row['order_time'];
-                      $order_quantity = $row['order_quantity'];
-                      $order_status = $row['order_status'];
-                      $order_type = $row['order_type'];
-                      $order_total = floatval($row['order_total']);
-                      $user_firstname = $row['user_firstname'];
-                      $user_lastname = $row['user_lastname'];
-                      $user_email = $row['user_email'];
-                      $user_phone = $row['user_phone'];
-                      $user_address = $row['user_address'];
-
-                      $row_product_name = $row["product_name"];
-                      $row_product_price = number_format($order_total);
-                      $row_variant = '
-                        <div style="padding-top: 0px; display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                          '.$variant_type.':&nbsp;&nbsp;
-                          <span class="badge-size color-light-grey sans-regular size-10">
-                            '.$variant_name.'
-                          </span>
-                        </div>
-                      ';
-                      $row_customer_name = $user_firstname.' '.$user_lastname;
-                      $row_status_type = "";
-                      $row_status_name = "";
-                      $row_action_status = "";
-
-                      if ($order_status == 'PROCESSING') {
-                        $row_status_type = "badge-processing";
-                        $row_status_name = $order_status;
-                      } else if ($order_status == 'SERVING') {
-                        $row_status_type = "badge-serving";
-                        $row_status_name = $order_status;
-                        $row_action_status = "disabled";
-                      } else if ($order_status == 'CANCELLED') {
-                        $row_status_type = "badge-cancelled";
-                        $row_status_name = $order_status;
-                        $row_action_status = "disabled";
-                      } else if ($order_status == 'FULFILLED') {
-                        $row_status_type = "badge-fulfilled";
-                        $row_status_name = $order_status;
-                        $row_action_status = "disabled";
+                      $product_id = $row['id'];
+                      $product_name = $row['product_name'];
+                      $product_description = $row['product_description'];
+                      $product_category = "";
+                      $product_category_id = 0;
+                      $product_variant = "";
+                      $product_variant_id = 0;
+                      $product_variant_price = 0;
+                      $promotional_price = 0;
+                      $is_buy_x_take_x = -1;
+                      $buy_x_of = 0;
+                      $take_x_of = 0;
+                      $product_images = array();
+                      // fetch categories
+                      $fetch_query = "SELECT PC.category_id, CTG.category_name, CTG.category_description, CTG.id 
+                        FROM products_categories AS PC 
+                        INNER JOIN categories AS CTG ON
+                        PC.category_id = CTG.id 
+                        WHERE PC.product_id = ".$product_id."";
+                      $cat_result = $conn->query($fetch_query);
+                      if ($cat_result->num_rows > 0) {
+                        $cat_row = $cat_result->fetch_assoc();
+                        $product_category = $cat_row['category_name'];
+                        $product_category_id = $cat_row['id'];
                       }
-
-                      $is_cancelled = "";
-                      $shipping_name = "";
-                      $shipping_phone = "";
-                      $shipping_address = "";
-                      $payment_type = "";
-                      if ($order_status == "CANCELLED") {
-                        $is_cancelled = 'disabled="disabled"';
+                      // fetch variants and prices
+                      $fetch_query = "SELECT PP.variant_id, PP.variant_price, VT.variant_name, VT.variant_description, VT.id 
+                        FROM products_prices AS PP 
+                        INNER JOIN variants AS VT ON
+                        PP.variant_id = VT.id 
+                        WHERE PP.product_id = ".$product_id."";
+                      $var_result = $conn->query($fetch_query);
+                      if ($var_result->num_rows > 0) {
+                        $var_row = $var_result->fetch_assoc();
+                        $product_variant_id = $var_row['id'];
+                        $product_variant_price = $var_row['variant_price'];
+                        $product_variant = $var_row['variant_name'];
                       }
-
-                      $fetch_query = "SELECT * FROM orders_billing WHERE order_id = ".$order_id." LIMIT 1";
-                      $billing_result = $conn->query($fetch_query);
-                      if ($billing_result->num_rows > 0) {
-                        $billing_row = $billing_result->fetch_assoc();
-                        $shipping_first_name = $billing_row['shipping_first_name'];
-                        $shipping_last_name = $billing_row['shipping_last_name'];
-                        $shipping_phone = $billing_row['shipping_phone'];
-                        $shipping_address = $billing_row['shipping_address'];
-                        $payment_type = $billing_row['payment_type'];
-                        $shipping_name = $shipping_first_name.' '.$shipping_last_name;
+                      // fetch promotions
+                      $fetch_query = "SELECT PM.product_id, PM.promotional_price, PM.is_buy_x_take_x, PM.buy_x_of, PM.take_x_of 
+                        FROM PROMOTIONS AS PM 
+                        WHERE PM.product_id = ".$product_id."";
+                      $prom_result = $conn->query($fetch_query);
+                      if ($prom_result->num_rows > 0) {
+                        $prom_row = $prom_result->fetch_assoc();
+                        $promotional_price = $prom_row['promotional_price'];
+                        $is_buy_x_take_x = $prom_row['is_buy_x_take_x'];
+                        $buy_x_of = $prom_row['buy_x_of'];
+                        $take_x_of = $prom_row['take_x_of'];
                       }
-
+                      // fetch product images
+                      $fetch_query = "SELECT product_image FROM products_images WHERE product_id = ".$product_id."";
+                      $img_result = $conn->query($fetch_query);
+                      if ($img_result->num_rows > 0) {
+                        while ($img_row = $img_result->fetch_assoc()) {
+                          $image = $img_row['product_image'];
+                          array_push($product_images, $image);
+                        }
+                      }
+                      $final_prod_images = implode(',', $product_images);
                       echo '
                         <tr>
                           <td class="sans-600">
-                            '.$order_id.'
-                          </td>
-                          <td class="sans-600">
-                            ('.$order_quantity.') '.$row_product_name.'
-                            '.$row_variant.'
-                            Transaction ID: '.$transaction_id.'
+                            '.$product_name.'
                           </td>
                           <td class="sans-regular">
-                            '.$order_date.'<br/>'.$order_time.'
+                            '.$product_description.'
                           </td>
-                          <td class="sans-600">
-                            '.$row_customer_name.'
+                          <td class="sans-700">
+                            '.$product_category.'
                           </td>
-                          <td class="sans-600">
-                            ₱'.$row_product_price.'
-                          </td>
-                          <td class="sans-regular" style="font-size: 9pt;">
-                            <span class="'.$row_status_type.'">'.$row_status_name.'</span>
-                          </td>
-                          <td class="sans-600">
-                            '.$order_type.'
+                          <td class="sans-regular">
+                            '.$product_variant.'
                           </td>
                           <td>
                             <button
-                              data-bs-toggle="modal"
-                              data-bs-target="#staticViewOrder"
-                              onclick="onViewOrder(
-                                '."'".$order_id."'".',
-                                '."'".$user_firstname."'".',
-                                '."'".$user_lastname."'".',
-                                '."'".$user_email."'".',
-                                '."'".$user_phone."'".',
-                                '."'".$user_address."'".',
-                                '."'".$order_date."'".',
-                                '."'".$order_time."'".',
-                                '."'".$order_quantity."'".',
-                                '."'".$row_product_name."'".',
-                                '."'".$variant_type."'".',
-                                '."'".$variant_name."'".',
-                                '."'".$row_product_price."'".',
-                                '."'".$shipping_name."'".',
-                                '."'".$shipping_phone."'".',
-                                '."'".$shipping_address."'".',
-                                '."'".$payment_type."'".',
-                                '."'".$order_status."'".'
+                              onclick="onRemoveFromArchive(
+                                '."'".$product_id."'".'
                               )"
                               class="btn btn-outline-primary btn-sm 
                                 sans-400 
                                 color-white"
                               type="button">
-                              <i class="fas fa-eye"></i>
+                              <i class="fa-regular fa-file-zipper"></i>
                             </button>
                             <button
-                              onclick="onCancelOrder('."'".$order_id."'".')"
-                              '.$is_cancelled.'
+                              onclick="onDeleteProduct(
+                                '."'".$product_id."'".'
+                              )"
                               class="btn btn-outline-primary btn-sm 
                                 sans-400 
                                 color-white"
                               type="button">
-                              <i class="fa-solid fa-circle-xmark"></i>
+                              <i class="fa-solid fa-trash"></i>
                             </button>
                           </td>
                         </tr>
@@ -376,29 +335,30 @@
         </div>
       </div>
     </div>
-    <div id="div-overlay-content" class="overlay-content"></div>
     <div
       class="modal fade" 
-      id="staticCancelOrder" 
+      id="staticArchiveProduct" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
       tabindex="-1" 
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
       <div class="modal-dialog modal-md modal-dialog-centered">
-        <form action="../actions/cancel_order.php" method="POST">
-          <input id="cancel_order" type="hidden" name="order_id" />
+        <form action="../actions/archive.php" method="POST">
+          <input id="archive-pid" type="hidden" name="product_id" />
+          <input type="hidden" name="archive_status" value="ACTIVE" />
+          <input type="hidden" name="redirection" value="archive" />
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Cancel This Order?</h1>
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Unarchive This Product?</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p class="sans-regular size-14">Are you sure you want to cancel this order?. It cannot be undone.</p>
+              <p class="sans-regular size-14">Are you sure you want to remove this product from archive?. This will make the product's status to <b>ACTIVE</b>.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
-              <button type="submit" class="btn btn-primary sans-600">Cancel Order</button>
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Unarchive Product</button>
             </div>
           </div>
         </form>
@@ -406,103 +366,32 @@
     </div>
     <div
       class="modal fade" 
-      id="staticViewOrder" 
+      id="staticDeleteProduct" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
       tabindex="-1" 
       aria-labelledby="staticBackdropLabel" 
       aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <form action="../actions/update_order.php" method="POST">
-          <input type="hidden" name="order_id" id="order_id" />
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="../actions/delete_product.php" method="POST">
+          <input id="delete-pid" type="hidden" name="product_id" />
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Information</h1>
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Delete This Product?</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div style="display: flex; flex-direction: column; width: 800px;">
-                <p class="sans-600">Customer Information</p>
-                <div style="display: flex; gap: 10px; margin-top: -10px;">
-                  <div style="flex: 1">
-                    <input
-                      id="order_fn"
-                      type="text"
-                      placeholder="First Name"
-                      name="first_name"
-                      required
-                      class="sans-regular form-control"
-                      readonly
-                    />
-                  </div>
-                  <div style="flex: 1">
-                    <input
-                      id="order_ln"
-                      type="text"
-                      placeholder="Last Name"
-                      name="last_name"
-                      required
-                      class="sans-regular form-control"
-                      readonly
-                    />
-                  </div>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                  <div style="flex: 1">
-                    <input
-                      id="order_email"
-                      readonly
-                      type="email"
-                      placeholder="Email Address (eg. myemail@gmail.com)"
-                      name="email"
-                      required
-                      class="sans-regular form-control"
-                    />
-                  </div>
-                  <div style="flex: 1">
-                    <input
-                      id="order_phone"
-                      readonly
-                      type="text"
-                      placeholder="Mobile No. (eg. +639__)"
-                      name="phone"
-                      required
-                      class="sans-regular form-control"
-                    />
-                  </div>
-                </div>
-                <input
-                  id="order_address"
-                  readonly
-                  type="text"
-                  placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)"
-                  name="address"
-                  required
-                  class="sans-regular form-control"
-                />
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px">
-                  <p class="sans-600">Order Details</p>
-                  <textarea id="order_details" class="sans-regular form-control" rows="7" readonly style="margin-top: -17px;"></textarea>
-                </div>
-                <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 17px;">
-                  <h4 id="order_total" class="sans-600">Total: ₱1064</h4>
-                  <select name="order_status" class="form-select" style="width: 300px;">
-                    <option value="PROCESSING" selected>PROCESSING</option>
-                    <option value="SERVING">SERVING</option>
-                    <option value="CANCELLED">CANCELLED</option>
-                    <option value="FULFILLED">FULFILLED</option>
-                  </select>
-                </div>
-              </div>
+              <p class="sans-regular size-14">Are you sure you want to delete this product?. It cannot be undone.</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary sans-600">Update Order</button>
+              <button type="submit" class="btn btn-primary sans-600">Delete Product</button>
             </div>
           </div>
         </form>
       </div>
     </div>
+    <div id="div-overlay-content" class="overlay-content"></div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/b2e03e5a6f.js" crossorigin="anonymous"></script>
@@ -531,7 +420,7 @@
         window.location.href = "../variants";
       });
       $('#btn-orders').click(() => {
-        window.location.href = "./";
+        window.location.href = "../orders";
       });
       $('#btn-pos').click(() => {
         window.location.href = "../pos";
@@ -540,7 +429,7 @@
         window.location.href = "../logs";
       });
       $('#btn-archives').click(() => {
-        window.location.href = "../archive";
+        window.location.href = "./";
       });
       $('#btn-settings').click(() => {
         window.location.href = "../settings";
@@ -554,50 +443,25 @@
       });
     });
   </script>
+  <script type="text/javascript" src="./js/add_products.js"></script>
+  <script type="text/javascript" src="./js/edit_products.js"></script>
   <script type="text/javascript">
-    const onViewOrder = (
-      order_id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      address,
-      order_date,
-      order_time,
-      order_quantity,
-      product_name,
-      product_variant_type,
-      product_variant_name,
-      price,
-      shipping_name,
-      shipping_number,
-      shipping_address,
-      payment_type,
-      order_status,
-    ) => {
-      $('#order_id').val(order_id);
-      $('#order_fn').val(first_name);
-      $('#order_ln').val(last_name);
-      $('#order_email').val(email);
-      $('#order_phone').val(phone);
-      $('#order_address').val(address);
-      $('#order_details').val(
-        'Order Details\n' +
-        '- Date Time: ' + order_date + ' ' + order_time + '\n' +
-        '- ( ' + order_quantity + ' ) ' + product_name + ', ' + product_variant_name + '\n' +
-        '- Total price: ₱' + price + '\n\n' +
-        'Shipping Details: \n' +
-        '- ' + shipping_name + '\n' +
-        '- ' + shipping_number + '\n' +
-        '- ' + shipping_address + '\n' +
-        '- Payment type: ' + payment_type
-      );
-      $('#order_total').text('₱' + price);
+    const onDeleteProduct = (product_id) => {
+      $('#staticDeleteProduct').modal('show');
+      $('#delete-pid').val(product_id);
     }
-    const onCancelOrder = (order_id) => {
-      $('#staticCancelOrder').modal('show');
-      $('#cancel_order').val(order_id);
+    const onRemoveFromArchive = (product_id) => {
+      $('#staticArchiveProduct').modal('show');
+      $('#archive-pid').val(product_id);
     }
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $('#btn-archive').click(() => {
+        const product_id = $('#ed-product_id').val();
+        window.location.href = `../actions/archive.php?product_id=${product_id}`;
+      });
+    });
   </script>
   <script type="text/javascript">
     let isCollapsed = false;

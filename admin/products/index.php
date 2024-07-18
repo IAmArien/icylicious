@@ -148,6 +148,18 @@
           <i class="fa-solid fa-chart-line"></i><span style="padding-left: 19px">Activity Logs</span>
         </button>
         <button 
+          id="btn-archives" 
+          class="btn btn-outline-success btn-sm
+            sans-regular 
+            background-color-super-light-grey 
+            border-color-super-light-grey 
+            color-white 
+            btn-menu 
+            btn-menu-unselected"
+          type="button">
+          <i class="fa-solid fa-file-zipper"></i><span style="padding-left: 23px">Archive</span>
+        </button>
+        <button 
           id="btn-settings" 
           class="btn btn-outline-success btn-sm
             sans-regular 
@@ -219,7 +231,7 @@
               </thead>
               <tbody>
                 <?php
-                  $fetch_query = "SELECT * FROM products_info ORDER BY id DESC";
+                  $fetch_query = "SELECT * FROM products_info WHERE product_status = 'ACTIVE' ORDER BY id DESC";
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -338,6 +350,35 @@
             </table>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticArchiveProduct" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="../actions/archive.php" method="POST">
+          <input id="archive-pid" type="hidden" name="product_id" />
+          <input type="hidden" name="archive_status" value="ARCHIVED" />
+          <input type="hidden" name="redirection" value="products" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Archive This Product?</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular size-14">Are you sure you want to archive this product?. This will make the product's status to <b>ARCHIVE</b>, and will be moved to archive tab.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Archive Product</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <div
@@ -740,6 +781,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button id="btn-archive" type="button" class="btn btn-danger sans-600" style="background-color: #dc3545 !important; color: #ffffff !important;">Archive Product</button>
               <button type="submit" class="btn btn-primary sans-600">Update Product</button>
             </div>
           </div>
@@ -782,6 +824,9 @@
       });
       $('#btn-logs').click(() => {
         window.location.href = "../logs";
+      });
+      $('#btn-archives').click(() => {
+        window.location.href = "../archive";
       });
       $('#btn-settings').click(() => {
         window.location.href = "../settings";
@@ -954,6 +999,16 @@
         $('#ed-p-remove-image-3').css('display', 'none');
       }
     }
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $('#btn-archive').click(() => {
+        const product_id = $('#ed-product_id').val();
+        $('#staticEditProduct').modal('hide');
+        $('#staticArchiveProduct').modal('show');
+        $('#archive-pid').val(product_id);
+      });
+    });
   </script>
   <script type="text/javascript">
     let isCollapsed = false;
