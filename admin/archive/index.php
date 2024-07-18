@@ -205,7 +205,7 @@
                 Archived products
               </h4>
               <p class="color-super-light-grey sans-regular" style="font-size: 10pt;">
-                Products being archived will be displayed here. You can keep or permanently removed products and associated information.
+                Products being archived will be displayed here. You can keep or permanently remove products and associated information.
               </p>
             </div>
             <div class="div-content-title-actions">
