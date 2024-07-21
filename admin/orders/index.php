@@ -208,6 +208,22 @@
                 Track and update orders statuses
               </p>
             </div>
+            <div class="div-content-title-actions">
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#staticFilterOrders"
+                class="btn btn-outline-primary btn-sm sans-400"
+                type="button">
+                <i class="fa-solid fa-filter"></i>&nbsp;&nbsp;Filter Orders
+              </button>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#staticExportCSV"
+                class="btn btn-outline-primary btn-sm sans-400"
+                type="button">
+                <i class="fa-solid fa-file-export"></i>&nbsp;&nbsp;Export CSV
+              </button>
+            </div>
           </div>
           <div style="margin-top: 20px;">
             <table id="data" class="table table-striped" style="width:100%">
@@ -226,6 +242,10 @@
               <tbody>
                 <?php
                   $fetch_query = "SELECT * FROM orders ORDER BY id DESC";
+                  if (isset($_GET['transaction_id'])) {
+                    $transaction_id = $conn->real_escape_string($_GET['transaction_id']);
+                    $fetch_query = "SELECT * FROM orders WHERE transaction_id = '".$transaction_id."' ORDER BY id DESC";
+                  }
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -308,7 +328,7 @@
                           <td class="sans-600">
                             ('.$order_quantity.') '.$row_product_name.'
                             '.$row_variant.'
-                            Transaction ID: '.$transaction_id.'
+                            Receipt ID: '.$transaction_id.'
                           </td>
                           <td class="sans-regular">
                             '.$order_date.'<br/>'.$order_time.'
@@ -330,6 +350,7 @@
                               data-bs-toggle="modal"
                               data-bs-target="#staticViewOrder"
                               onclick="onViewOrder(
+                                '."'".$transaction_id."'".',
                                 '."'".$order_id."'".',
                                 '."'".$user_firstname."'".',
                                 '."'".$user_lastname."'".',
@@ -406,6 +427,105 @@
     </div>
     <div
       class="modal fade" 
+      id="staticFilterOrders" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="./" method="GET">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Filter Orders</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular size-11">
+                Select Start and End date to be filtered. You can also opt-in to auto-filter using the following selections: <b>This week</b>, <b>This month</b>, and <b>This year</b>.
+              </p>
+              <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center;" id="div-prefill">
+                <label for="prefill_filter" class="sans-600">Select Filter:</label>
+                <select class="form-select sans-regular" name="prefill_filter" style="flex: 1" id="prefill_filter">
+                  <option value="custom" selected>Custom</option>
+                  <option value="this_week">This Week</option>
+                  <option value="this_month">This Month</option>
+                  <option value="this_year">This Year</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 10px; margin-top: 20px;" id="div-custom">
+                <div style="flex: 1">
+                  <label for="start_date" class="sans-600">Start Date</label>
+                  <input
+                    id="start_date"
+                    type="date"
+                    placeholder="Start Date"
+                    name="start_date"
+                    required
+                    class="sans-regular form-control"
+                  />
+                </div>
+                <div style="flex: 1">
+                  <label for="end_date" class="sans-600">End Date</label>
+                  <input
+                    id="end_date"
+                    type="date"
+                    placeholder="End Date"
+                    name="end_date"
+                    required
+                    class="sans-regular form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+              <button type="submit" class="btn btn-primary sans-600">Filter Orders</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticExportCSV" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="../actions/export_orders.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Export Sales</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular size-11">
+                Select Start and End date to be filtered and included in the generated CSV report.
+              </p>
+              <div style="display: flex; gap: 10px; margin-top: 8px">
+                <div style="flex: 1">
+                  <label for="start_date" class="sans-600">Start Date</label>
+                  <input type="date" placeholder="Start Date" name="start_date" required class="sans-regular form-control">
+                </div>
+                <div style="flex: 1">
+                  <label for="end_date" class="sans-600">End Date</label>
+                  <input type="date" placeholder="End Date" name="end_date" required class="sans-regular form-control">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+              <button type="submit" class="btn btn-primary sans-600">Export in CSV</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
       id="staticViewOrder" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
@@ -415,6 +535,7 @@
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <form action="../actions/update_order.php" method="POST">
           <input type="hidden" name="order_id" id="order_id" />
+          <input type="hidden" name="tracking_number" id="tracking_number" />
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Order Information</h1>
@@ -497,6 +618,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary sans-600" id="btn-print-order-checkout">Print Receipt</button>
               <button type="submit" class="btn btn-primary sans-600">Update Order</button>
             </div>
           </div>
@@ -556,6 +678,7 @@
   </script>
   <script type="text/javascript">
     const onViewOrder = (
+      transaction_id,
       order_id,
       first_name,
       last_name,
@@ -592,6 +715,7 @@
         '- ' + shipping_address + '\n' +
         '- Payment type: ' + payment_type
       );
+      $('#tracking_number').val(transaction_id);
       $('#order_total').text('₱' + price);
     }
     const onCancelOrder = (order_id) => {
@@ -628,6 +752,31 @@
       $('#div-overlay-content').removeClass('overlay-content-expand');
       $('#div-overlay-content').addClass('overlay-content-collapsed');
       isCollapsed = true;
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $('#btn-print-order-checkout').click(() => {
+        const trackingNumber = $('#tracking_number').val();
+        if (trackingNumber) {
+          window.location.href = `../print/?transaction_id=${trackingNumber}`;
+        }
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $('#prefill_filter').on('change', () => {
+        const prefill_filter = $('#prefill_filter').val();
+        console.log(prefill_filter);
+        if (prefill_filter === 'custom') {
+          $('#start_date').removeAttr("disabled");
+          $('#end_date').removeAttr("disabled");
+        } else {
+          $('#start_date').attr("disabled", "disabled");
+          $('#end_date').attr("disabled", "disabled");
+        }
+      });
     });
   </script>
 </html>

@@ -1,0 +1,537 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+:root {
+  --black: #080808;
+  --dark-grey: #1c1c1c;
+  --light-grey: #414141;
+  --super-light-grey: #5d5d5d;
+  --yellow: #ffca26;
+  --white: #ffffff;
+  --light-white: #ececec;
+  --super-light-white: #f7f5f5;
+  --disabled-color: #848383;
+  --light-blue: #2392f4;
+}
+
+body {
+  background-color: var(--white);
+}
+
+/**
+====================================================================================
+SIDE BAR CSS
+====================================================================================
+**/
+.sidebar-container {
+  background-color: var(--light-grey);
+  width: 275px;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  left: 0px;
+  z-index: 999;
+}
+
+.navbar-fixed-top {
+  background-color: var(--light-grey) !important;
+}
+
+.div-tm-title {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.h4-tm-title {
+  text-align: center;
+  font-size: 11pt;
+  letter-spacing: 5px !important;
+  margin-inline: 15px;
+  padding-block: 10px;
+  border-radius: 7px;
+  margin-bottom: 0px !important;
+}
+
+.div-sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-inline: 15px;
+  margin-top: 25px;
+}
+
+.h6-title-name {
+  font-size: 13pt;
+  margin-bottom: 0px !important;
+}
+
+.p-title-email {
+  font-size: 9pt;
+  line-height: 0px;
+  margin-top: 10px;
+}
+
+.img-sidebar-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin-top: -5px;
+}
+
+.div-siderbar-menu-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 15px;
+  padding-top: 25px;
+  gap: 10px;
+}
+
+.div-siderbar-profile-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--super-light-grey);
+  padding-inline: 15px;
+  padding-block: 7px;
+  gap: 10px;
+}
+
+.btn-menu {
+  text-align: left;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.btn-menu-selected:hover {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-menu-selected:active {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-menu-unselected:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-menu-unselected:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+/**
+====================================================================================
+SIDE BAR CSS
+====================================================================================
+**/
+
+/**
+====================================================================================
+CONTENT CSS
+====================================================================================
+**/
+.content {
+  padding-left: 275px;
+}
+
+.a-navbar-path {
+  font-size: 12pt;
+}
+
+.a-navbar-path:hover {
+  color: var(--dark-grey) !important;
+}
+
+.a-navbar-path:active {
+  color: var(--dark-grey) !important;
+}
+
+.a-navbar-path:focus {
+  color: var(--dark-grey) !important;
+}
+
+.btn-profile:hover {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-profile:active {
+  background-color: transparent !important;
+  border-color: var(--yellow) !important;
+  color: var(--yellow) !important;
+}
+
+.btn-logout:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-logout:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+/**
+====================================================================================
+CONTENT CSS
+====================================================================================
+**/
+
+/**
+====================================================================================
+CONTENT WRAPPER CSS
+====================================================================================
+**/
+.content-wrapper {
+  padding-inline: 30px;
+  padding-block: 30px;
+}
+
+.div-content-title {
+  display: flex;
+}
+
+.div-content-title-labels {
+  flex: 1;
+}
+
+.dt-length, .dt-search, .dt-info {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: 10pt;
+  font-style: normal;
+}
+
+.btn-regular-outline:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-regular-outline:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+/**
+OUTLINE PRIMARY
+*/
+.btn-outline-primary {
+  border-color: var(--dark-grey) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-primary:active {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+/**
+OUTLINE PRIMARY
+*/
+
+.btn-primary, .btn-danger {
+  background-color: var(--yellow) !important;
+  border-color: var(--yellow) !important;
+  color: var(--dark-grey) !important;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: var(--light-white);
+  color: var(--dark-grey) !important;
+}
+
+.is_readonly {
+  color: var(--disabled-color) !important;
+}
+
+.gender-select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--light-white);
+  border-radius: 4px;
+  margin: 5px 0;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color: var(--light-white);
+  color: var(--dark-grey) !important;
+}
+
+td {
+  font-size: 10pt;
+}
+
+th {
+  font-size: 10pt;
+}
+
+.active>.page-link, .page-link.active {
+  background-color: var(--light-blue) !important;
+  border-color: var(--light-blue) !important;
+}
+
+.badge-enabled {
+  background-color: #28a745;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-disabled {
+  background-color: #dc3545;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.overlay-content {
+  background-color: #080808;
+  opacity: 0.5;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 99;
+  visibility: hidden;
+}
+
+.overlay-content-expand {
+  display: block;
+  transition: .4s;
+}
+
+.overlay-content-collapsed {
+  display: none;
+  transition: .4s;
+}
+
+.slide-collapsed {
+  left: -275px;
+  transition: .4s;
+}
+
+.content-slide-collapsed {
+  padding-left: 0px;
+  transition: .4s;
+}
+
+.slide-expanded {
+  left: 0px !important;
+  transition: .4s;
+}
+
+.content-slide-expanded {
+  padding-left: 275px;
+  transition: .4s;
+}
+
+@media screen and (max-width: 770px) {
+  .sidebar-container {
+    left: -275px;
+    transition: .4s;
+  }
+  .content {
+    padding-left: 0px;
+    transition: .4s;
+  }
+  .overlay-content {
+   visibility: visible;
+  }
+}
+
+.badge-processing {
+  background-color: #0d6efd;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-serving {
+  background-color: #ffca26;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-cancelled {
+  background-color: #dc3545;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.badge-fulfilled {
+  background-color: #28a745;
+  color: var(--white);
+  padding-inline: 7px;
+  padding-block: 3px;
+  border-radius: 5px;
+}
+
+.img-product {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.div-pos-product-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  border: 1px solid var(--light-white);
+  border-radius: 10px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.div-pos-product-container:hover {
+  opacity: 0.5;
+}
+
+.div-pos-product-col {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  padding-inline: 6px;
+}
+
+.div-cart-item-pos {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: var(--white);
+  border: 1px solid var(--light-white);
+  padding-inline: 10px;
+  padding-block: 10px;
+  border-radius: 8px;
+}
+
+.div-cart-item-content-pos {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.div-cart-item-container-pos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 17px;
+}
+
+.div-cart-item-action-pos {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 275px;
+}
+
+.btn-reset-order {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  color: var(--white) !important;
+}
+
+.btn-checkout-order {
+  background-color: #157347 !important;
+  border-color: #157347 !important;
+  color: var(--white) !important;
+}
+
+.div-checkout-container-form {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border: 1px solid var(--light-white);
+  border-radius: 10px;
+  margin-top: 14px;
+}
+
+.div-cart-total-container-pos {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: 1px solid var(--light-white);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.div-cart-total-container-item-pos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.div-empty-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background-color: var(--super-light-white);
+  border: 1px solid var(--super-light-white);
+  border-radius: 10px;
+  padding-inline: 12px;
+  padding-block: 20px;
+  text-align: center;
+}
+
+.div-order-summary-container-item {
+  border-radius: 10px;
+  background-color: var(--super-light-white);
+  border: 1px solid var(--super-light-white);
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+/**
+====================================================================================
+CONTENT WRAPPER CSS
+====================================================================================
+**/

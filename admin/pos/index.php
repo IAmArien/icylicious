@@ -537,7 +537,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p class="sans-regular size-11">Copy this <b>Transaction Number</b> for faster order tracking.</p>
+            <p class="sans-regular size-11">Copy this <b>Receipt ID</b> for faster order tracking. Navigate to Orders and search for the <b>Receipt ID</b>.</p>
             <div style="display: flex; flex-direction: row; gap: 10px;">
               <input
                 type="text"
@@ -550,6 +550,8 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+            <button type="button" class="btn btn-primary sans-600" id="btn-view-order-checkout">View Order</button>
+            <button type="button" class="btn btn-primary sans-600" id="btn-print-order-checkout">Print Receipt</button>
           </div>
         </div>
       </div>
@@ -927,6 +929,18 @@
   </script>
   <script type="text/javascript">
     $(document).ready(() => {
+      $('#btn-view-order-checkout').click(() => {
+        const trackingNumber = $('#tracking_number').val();
+        if (trackingNumber) {
+          window.location.href = `../orders/?transaction_id=${trackingNumber}`;
+        }
+      });
+      $('#btn-print-order-checkout').click(() => {
+        const trackingNumber = $('#tracking_number').val();
+        if (trackingNumber) {
+          window.location.href = `../print/?transaction_id=${trackingNumber}`;
+        }
+      });
       const onOrderPlaced = (transaction_id) => {
         $('#staticOrderPlaced').modal('show');
         $('#tracking_number').val(transaction_id);

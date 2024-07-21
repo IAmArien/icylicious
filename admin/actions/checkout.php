@@ -79,6 +79,13 @@
           if ($product_price_result->num_rows > 0) {
             $product_price_row = $product_price_result->fetch_assoc();
             $variant_price = $product_price_row['variant_price'];
+            $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id." LIMIT 1";
+            $promotions_result = $conn->query($fetch_query);
+            if ($promotions_result->num_rows > 0) {
+              $promotions_row = $promotions_result->fetch_assoc();
+              $promotional_price = $promotions_row['promotional_price'];
+              $variant_price = $promotional_price;
+            }
           }
 
           $fetch_query = "SELECT * FROM user_info WHERE email = '".$customer_email."' LIMIT 1";
