@@ -246,6 +246,33 @@
                     $transaction_id = $conn->real_escape_string($_GET['transaction_id']);
                     $fetch_query = "SELECT * FROM orders WHERE transaction_id = '".$transaction_id."' ORDER BY id DESC";
                   }
+                  if (isset($_GET['prefill_filter'])) {
+                    $prefill_filter = $conn->real_escape_string($_GET['prefill_filter']);
+                    if ($prefill_filter == 'custom') {
+                      if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+                        $param_start_date = $conn->real_escape_string($_GET['start_date']);
+                        $param_end_date = $conn->real_escape_string($_GET['end_date']);
+                        $start_date = date('Y-m-d', strtotime($param_start_date));
+                        $end_date = date('Y-m-d', strtotime($param_end_date));
+                        $fetch_query = "SELECT * FROM orders WHERE order_date >= '".$start_date."' AND order_date <= '".$end_date."'";
+                      }
+                    } else if ($prefill_filter == 'this_week') {
+                      $current_date = new DateTime();
+                      $first_day_of_week = (clone $current_date)->modify('last Sunday')->format('Y-m-d');
+                      $last_day_of_week = (clone $current_date)->modify('next Saturday')->format('Y-m-d');
+                      $fetch_query = "SELECT * FROM orders WHERE order_date >= '".$first_day_of_week."' AND order_date <= '".$last_day_of_week."'";
+                    } else if ($prefill_filter == 'this_month') {
+                      $current_date = new DateTime();
+                      $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                      $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                      $fetch_query = "SELECT * FROM orders WHERE order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
+                    } else if ($prefill_filter == 'this_year') {
+                      $current_date = new DateTime();
+                      $first_day_of_year = (clone $current_date)->modify('first day of January ' . $current_date->format('Y'))->format('Y-m-d');
+                      $last_day_of_year = (clone $current_date)->modify('last day of December ' . $current_date->format('Y'))->format('Y-m-d');
+                      $fetch_query = "SELECT * FROM orders WHERE order_date >= '".$first_day_of_year."' AND order_date <= '".$last_day_of_year."'";
+                    }
+                  }
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
