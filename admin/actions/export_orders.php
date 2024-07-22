@@ -71,7 +71,7 @@
             $user_email = $row['user_email'];
             $user_phone = $row['user_phone'];
             $user_address = $row['user_address'];
-            $concat = $order_id.",".$transaction_id.",".$product_name.",".$variant_type.",".$variant_name.",".$variant_price.",".$order_date.",".$order_time.",".$order_type.",".$customer_name.",".$user_email.",".$user_phone.",".$user_address;
+            $concat = $order_id.",".$transaction_id.",".$product_name.",".$variant_type.",".$variant_name.",".$variant_price.",".$order_date.",".$order_time.",".$order_quantity.",".$order_status.",".$order_type.",".$order_total.",".$customer_name.",".$user_email.",".$user_phone.",".$user_address;
             $val = explode(",", $concat);
             fputcsv($fp, $val);
           }
