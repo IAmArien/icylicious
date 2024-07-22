@@ -205,7 +205,7 @@
                 Dashboard
               </h4>
               <p class="color-super-light-grey sans-regular" style="font-size: 10pt;">
-                Track orders and sales base from the last 30-day transactions
+                Track orders and sales base from this <b>current month's transactions</b>.
               </p>
             </div>
           </div>
@@ -214,13 +214,16 @@
               <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12">
                   <div class="div-dashboard-card">
-                    <div class="div-dashboard-card-item" style="background-color: #28a745;">
+                    <div class="div-dashboard-card-item" style="background-color: #198754;">
                       <i class="fa-solid fa-money-bill-trend-up"></i>
                     </div>
                     <div class="div-dashboard-card-content">
                       <h3 class="sans-600">
                       <?php
-                          $fetch_query = "SELECT order_total FROM orders";
+                          $current_date = new DateTime();
+                          $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                          $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                          $fetch_query = "SELECT order_total FROM orders WHERE order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
                           $result = $conn->query($fetch_query);
                           if ($result->num_rows > 0) {
                             $total = 0.00;
@@ -232,21 +235,24 @@
                           }
                         ?>
                       </h3>
-                      <p class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                      <a href="../orders" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
                         Total Sales
-                      </p>
+                      </a>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12">
                   <div class="div-dashboard-card">
-                    <div class="div-dashboard-card-item" style="background-color: #0d6efd;">
+                    <div class="div-dashboard-card-item" style="background-color: #0a53be;">
                       <i class="fa-solid fa-cart-shopping"></i>
                     </div>
                     <div class="div-dashboard-card-content">
                       <h3 class="sans-600">
                         <?php
-                          $fetch_query = "SELECT count(*) FROM orders";
+                          $current_date = new DateTime();
+                          $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                          $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                          $fetch_query = "SELECT count(*) FROM orders WHERE order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
                           $result = $conn->query($fetch_query);
                           if ($result->num_rows > 0) {
                             $row = $result->fetch_assoc();
@@ -254,16 +260,16 @@
                           }
                         ?>
                       </h3>
-                      <p class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                      <a href="../orders" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
                         Total Orders
-                      </p>
+                      </a>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12">
                   <div class="div-dashboard-card">
-                    <div class="div-dashboard-card-item" style="background-color: #dc3545;">
-                      <i class="fa-solid fa-users"></i>
+                    <div class="div-dashboard-card-item" style="background-color: #ffc107;">
+                      <i class="fa-solid fa-users color-dark-grey"></i>
                     </div>
                     <div class="div-dashboard-card-content">
                       <h3 class="sans-600">
@@ -276,9 +282,131 @@
                           }
                         ?>
                       </h3>
-                      <p class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                      <a href="../users" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
                         Total Customers
-                      </p>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 20px;">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #dc3545;">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $current_date = new DateTime();
+                          $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                          $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                          $fetch_query = "SELECT count(*) FROM orders WHERE order_status = 'CANCELLED' AND order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <a href="../orders" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Cancelled Orders
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 20px;">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #25cff2;">
+                      <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $current_date = new DateTime();
+                          $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                          $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                          $fetch_query = "SELECT count(*) FROM orders WHERE order_status = 'FULFILLED' AND order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <a href="../orders" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Fulfilled Orders
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 20px;">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #198754;">
+                      <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $fetch_query = "SELECT count(*) FROM products_info";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <a href="../products" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Total Products
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 20px;">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #0a53be;">
+                      <i class="fa-solid fa-spinner"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $current_date = new DateTime();
+                          $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                          $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                          $fetch_query = "SELECT count(*) FROM orders WHERE order_status = 'PROCESSING' AND order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <a href="../orders" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Processing Orders
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 20px;">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #6c757d;">
+                      <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $current_date = new DateTime();
+                          $first_day_of_month = $current_date->modify('first day of this month')->format('Y-m-d');
+                          $last_day_of_month = $current_date->modify('last day of this month')->format('Y-m-d');
+                          $fetch_query = "SELECT count(*) FROM orders WHERE order_status = 'SERVING' AND order_date >= '".$first_day_of_month."' AND order_date <= '".$last_day_of_month."'";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <a href="../orders" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Serving Orders
+                      </a>
                     </div>
                   </div>
                 </div>
