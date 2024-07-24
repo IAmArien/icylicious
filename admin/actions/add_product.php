@@ -32,14 +32,16 @@
         $product_category = intval($conn->real_escape_string($_POST['product_category']));
         $product_variants = intval($conn->real_escape_string($_POST['product_variants']));
         $product_price = intval($conn->real_escape_string($_POST['product_price']));
+        $product_status = 'ACTIVE';
 
         // insert product info
         $insert_query = "INSERT INTO products_info (
           product_name,
-          product_description
-        ) VALUES (?, ?)";
+          product_description,
+          product_status
+        ) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param('ss', $product_name, $product_description);
+        $stmt->bind_param('sss', $product_name, $product_description, $product_status);
         $result = $stmt->execute();
 
         // get the inserted product info

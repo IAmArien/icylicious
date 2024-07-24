@@ -216,6 +216,13 @@
                 type="button">
                 <i class="fa-solid fa-circle-plus"></i>&nbsp;&nbsp;Add New Product
               </button>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#staticExportCSV"
+                class="btn btn-outline-primary btn-sm sans-400"
+                type="button">
+                <i class="fa-solid fa-file-export"></i>&nbsp;&nbsp;Export CSV
+              </button>
             </div>
           </div>
           <div style="margin-top: 20px;">
@@ -226,6 +233,7 @@
                   <th class="sans-bold">(Description)</th>
                   <th class="sans-bold">(Category)</th>
                   <th class="sans-bold">(Variants)</th>
+                  <th class="sans-bold">(Stock)</th>
                   <th class="sans-bold">(Actions)</th>
                 </tr>
               </thead>
@@ -295,6 +303,16 @@
                         }
                       }
                       $final_prod_images = implode(',', $product_images);
+                      // fetch product stocks
+                      $stocks = 0;
+                      $restock_level_point = 0;
+                      $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$product_id." LIMIT 1";
+                      $inventory_result = $conn->query($fetch_query);
+                      if ($inventory_result->num_rows > 0) {
+                        $inventory_row = $inventory_result->fetch_assoc();
+                        $stocks = intval($inventory_row['stocks']);
+                        $restock_level_point = intval($inventory_row['restock_level_point']);
+                      }
                       echo '
                         <tr>
                           <td class="sans-600">
@@ -308,6 +326,9 @@
                           </td>
                           <td class="sans-regular">
                             '.$product_variant.'
+                          </td>
+                          <td class="sans-600">
+                            '.$stocks.'
                           </td>
                           <td>
                             <button
@@ -403,6 +424,94 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary sans-600">Delete Product</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticExportCSV" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <form action="../actions/export_products.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Export Products</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular size-11">
+                Select Start and End date to be filtered and included in the generated CSV report.
+              </p>
+              <div style="display: flex; gap: 10px; margin-top: 8px">
+                <div style="flex: 1">
+                  <label for="start_date" class="sans-600">Start Date</label>
+                  <input type="date" placeholder="Start Date" name="start_date" required class="sans-regular form-control">
+                </div>
+                <div style="flex: 1">
+                  <label for="end_date" class="sans-600">End Date</label>
+                  <input type="date" placeholder="End Date" name="end_date" required class="sans-regular form-control">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+              <button type="submit" class="btn btn-primary sans-600">Export in CSV</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
+      id="staticProductStockUpdate" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form action="../actions/add_stock.php" method="POST">
+          <input id="stock_product_id" type="hidden" name="product_id" />
+          <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Add Stock</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="sans-regular color-dark-grey size-11">
+                Add stock to this product: <b id="b-product-name"></b>
+              </p>
+              <div style="width: 400px; display: flex; flex-direction: column; gap: 6px;">
+                <label for="product_stocks" class="sans-600">Number of Stock</label>
+                <input
+                  type="number"
+                  name="product_stocks"
+                  placeholder="Stock (eg. 10)"
+                  class="form-control sans-600"
+                  required
+                />
+              </div>
+              <div style="width: 400px; display: flex; flex-direction: column; gap: 6px; margin-top: 12px;">
+                <label for="product_restocks" class="sans-600">Restock Level Point</label>
+                <input
+                  type="number"
+                  name="product_restocks"
+                  placeholder="Restock Level Point (eg. 3)"
+                  class="form-control sans-600"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600">Add Stock</button>
             </div>
           </div>
         </form>
@@ -781,7 +890,14 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
-              <button id="btn-archive" type="button" class="btn btn-danger sans-600" style="background-color: #dc3545 !important; color: #ffffff !important;">Archive Product</button>
+              <button
+                id="btn-archive"
+                type="button"
+                class="btn btn-danger sans-600"
+                style="background-color: #dc3545 !important; color: #ffffff !important; border-color: #dc3545 !important;">
+                Archive Product
+              </button>
+              <button id="btn-stock-update" type="button" class="btn btn-outline-primary sans-600">Update Stocks</button>
               <button type="submit" class="btn btn-primary sans-600">Update Product</button>
             </div>
           </div>
@@ -1007,6 +1123,14 @@
         $('#staticEditProduct').modal('hide');
         $('#staticArchiveProduct').modal('show');
         $('#archive-pid').val(product_id);
+      });
+      $('#btn-stock-update').click(() => {
+        const product_id = $('#ed-product_id').val();
+        const product_name = $('#ed-product_name').val();
+        $('#staticEditProduct').modal('hide');
+        $('#staticProductStockUpdate').modal('show');
+        $('#stock_product_id').val(product_id);
+        $('#b-product-name').text(product_name);
       });
     });
   </script>

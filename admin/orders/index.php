@@ -256,6 +256,11 @@
                         $end_date = date('Y-m-d', strtotime($param_end_date));
                         $fetch_query = "SELECT * FROM orders WHERE order_date >= '".$start_date."' AND order_date <= '".$end_date."'";
                       }
+                    } else if ($prefill_filter == 'this_day') {
+                      $current_date = new DateTime();
+                      $start_of_today = $current_date->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+                      $end_of_today = $current_date->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+                      $fetch_query = "SELECT * FROM orders WHERE order_date >= '".$start_of_today."' AND order_date <= '".$end_of_today."'";
                     } else if ($prefill_filter == 'this_week') {
                       $current_date = new DateTime();
                       $first_day_of_week = (clone $current_date)->modify('last Sunday')->format('Y-m-d');
@@ -475,6 +480,7 @@
                 <label for="prefill_filter" class="sans-600">Select Filter:</label>
                 <select class="form-select sans-regular" name="prefill_filter" style="flex: 1" id="prefill_filter">
                   <option value="custom" selected>Custom</option>
+                  <option value="this_day">This Day</option>
                   <option value="this_week">This Week</option>
                   <option value="this_month">This Month</option>
                   <option value="this_year">This Year</option>
@@ -699,7 +705,8 @@
       });
       $('#data').dataTable({
         'bLengthChange': true,
-        'searching': true
+        'searching': true,
+        'order': [[0, 'desc']]
       });
     });
   </script>
