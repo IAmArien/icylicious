@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 25, 2024 at 05:49 PM
+-- Generation Time: Jul 26, 2024 at 01:49 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -224,7 +224,11 @@ INSERT INTO `activity_log` (`id`, `activity`, `activity_date`, `activity_time`, 
 (181, 'Add Order', '2024/07/25', '05:37:31pm', 'npalisoc@yondu.com', 'BINI AIAH'),
 (182, 'Delete Orders', '2024/07/25', '05:37:33pm', 'npalisoc@yondu.com', 'BINI AIAH'),
 (183, 'Add Order', '2024/07/25', '05:39:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
-(184, 'Delete Orders', '2024/07/25', '05:39:38pm', 'npalisoc@yondu.com', 'BINI AIAH');
+(184, 'Delete Orders', '2024/07/25', '05:39:38pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(185, 'Login', '2024/07/26', '12:56:53am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(186, 'Add Order', '2024/07/26', '01:17:41am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(187, 'Checkout', '2024/07/26', '01:18:13am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(188, 'Exported Products', '2024/07/26', '01:35:07am', 'npalisoc@yondu.com', 'BINI AIAH');
 
 -- --------------------------------------------------------
 
@@ -317,6 +321,8 @@ CREATE TABLE `orders` (
   `transaction_id` varchar(255) NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
+  `product_stock` int(11) NOT NULL,
+  `product_restock_level_point` int(11) NOT NULL,
   `variant_id` int(11) DEFAULT NULL,
   `variant_type` varchar(255) NOT NULL,
   `variant_name` varchar(255) NOT NULL,
@@ -340,37 +346,41 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `product_name`, `variant_id`, `variant_type`, `variant_name`, `variant_price`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_firstname`, `user_lastname`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`, `order_type`) VALUES
-(96, '66950e95bd4c9', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024-07-15', '01:57:09pm', 4, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
-(97, '66950e95bd4c9', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024-07-15', '01:57:09pm', 2, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
-(98, '66950e95bd4c9', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-15', '01:57:10pm', 5, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
-(99, '669d0c5d1b0c1', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '03:25:49pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
-(100, '669d0c5d1b0c1', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:25:49pm', 3, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
-(101, '669d0c5d1b0c1', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024-07-21', '03:25:49pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
-(102, '669d0c5d1b0c1', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024-07-21', '03:25:49pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
-(103, '669d0cff57183', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024-07-21', '03:28:31pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '420', 'POS'),
-(104, '669d0cff57183', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:28:31pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '420', 'POS'),
-(105, '669d0e5de9f10', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '03:34:21pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '520', 'POS'),
-(106, '669d0e5de9f10', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024-07-21', '03:34:22pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '520', 'POS'),
-(107, '669d0e5de9f10', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:34:22pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '520', 'POS'),
-(108, '669d16dd85e8e', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '04:10:37pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '177', 'POS'),
-(109, '669d174d61015', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '177', 1, '2024-07-21', '04:12:29pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '177', 'POS'),
-(110, '669d1772d7b5a', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:13:06pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
-(111, '669d1772d7b5a', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:13:07pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
-(112, '669d1772d7b5a', 37, 'STRAWBERRY NUTELLA SMOOTHIE', 3, 'Size', 'Large', '166', 1, '2024-07-21', '04:13:07pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
-(113, '669d1772d7b5a', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '177', 1, '2024-07-21', '04:13:07pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
-(114, '669d1cee93824', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:36:30pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
-(115, '669d1cee93824', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:36:30pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
-(116, '669d1cee93824', 36, '3 TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:36:30pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
-(117, '669d1e7a99817', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:43:06pm', 5, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '651', 'POS'),
-(118, '669d1e7a99817', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:43:06pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '651', 'POS'),
-(119, '669dce89bf0d5', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-22', '05:14:17am', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '532', 'POS'),
-(120, '669ddbeecbad4', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-22', '06:11:26am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '443', 'POS'),
-(121, '669ddbeecbad4', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '177', 1, '2024-07-22', '06:11:26am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '443', 'POS'),
-(122, '66a075e21d318', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 37, '2024-07-24', '05:32:50am', 2, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'CANCELLED', '154', 'ONLINE'),
-(123, '66a10e0067fd0', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-24', '04:21:52pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '343', 'POS'),
-(124, '66a10e0067fd0', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '77', 1, '2024-07-24', '04:21:52pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '343', 'POS'),
-(125, '66a26e65e2540', 35, 'BUBBLE MILK TEA', 3, 'Size', 'Large', '69', 37, '2024-07-25', '05:25:25pm', 1, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '69', 'ONLINE');
+INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `product_name`, `product_stock`, `product_restock_level_point`, `variant_id`, `variant_type`, `variant_name`, `variant_price`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_firstname`, `user_lastname`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`, `order_type`) VALUES
+(96, '66950e95bd4c9', 33, 'TIGER BOBA (NO TEA DRINK)', 0, 0, 3, 'Size', 'Large', '249', 1, '2024-07-15', '01:57:09pm', 4, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
+(97, '66950e95bd4c9', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '149', 1, '2024-07-15', '01:57:09pm', 2, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
+(98, '66950e95bd4c9', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-15', '01:57:10pm', 5, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
+(99, '669d0c5d1b0c1', 34, 'MANGO GRAHAM SMOOTHIE', 0, 0, 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '03:25:49pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
+(100, '669d0c5d1b0c1', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:25:49pm', 3, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
+(101, '669d0c5d1b0c1', 33, 'TIGER BOBA (NO TEA DRINK)', 0, 0, 3, 'Size', 'Large', '249', 1, '2024-07-21', '03:25:49pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
+(102, '669d0c5d1b0c1', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '149', 1, '2024-07-21', '03:25:49pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
+(103, '669d0cff57183', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '149', 1, '2024-07-21', '03:28:31pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '420', 'POS'),
+(104, '669d0cff57183', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:28:31pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '420', 'POS'),
+(105, '669d0e5de9f10', 34, 'MANGO GRAHAM SMOOTHIE', 0, 0, 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '03:34:21pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '520', 'POS'),
+(106, '669d0e5de9f10', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '149', 1, '2024-07-21', '03:34:22pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '520', 'POS'),
+(107, '669d0e5de9f10', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:34:22pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '520', 'POS'),
+(108, '669d16dd85e8e', 34, 'MANGO GRAHAM SMOOTHIE', 0, 0, 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '04:10:37pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '177', 'POS'),
+(109, '669d174d61015', 34, 'MANGO GRAHAM SMOOTHIE', 0, 0, 1, 'Size', 'Extra Large', '177', 1, '2024-07-21', '04:12:29pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '177', 'POS'),
+(110, '669d1772d7b5a', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:13:06pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
+(111, '669d1772d7b5a', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:13:07pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
+(112, '669d1772d7b5a', 37, 'STRAWBERRY NUTELLA SMOOTHIE', 0, 0, 3, 'Size', 'Large', '166', 1, '2024-07-21', '04:13:07pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
+(113, '669d1772d7b5a', 34, 'MANGO GRAHAM SMOOTHIE', 0, 0, 1, 'Size', 'Extra Large', '177', 1, '2024-07-21', '04:13:07pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '686', 'POS'),
+(114, '669d1cee93824', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:36:30pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
+(115, '669d1cee93824', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:36:30pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
+(116, '669d1cee93824', 36, '3 TIGER BOBA (NO TEA DRINK)', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:36:30pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
+(117, '669d1e7a99817', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:43:06pm', 5, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '651', 'POS'),
+(118, '669d1e7a99817', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:43:06pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '651', 'POS'),
+(119, '669dce89bf0d5', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-22', '05:14:17am', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '532', 'POS'),
+(120, '669ddbeecbad4', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-22', '06:11:26am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '443', 'POS'),
+(121, '669ddbeecbad4', 34, 'MANGO GRAHAM SMOOTHIE', 0, 0, 1, 'Size', 'Extra Large', '177', 1, '2024-07-22', '06:11:26am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '443', 'POS'),
+(122, '66a075e21d318', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '149', 37, '2024-07-24', '05:32:50am', 2, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'CANCELLED', '154', 'ONLINE'),
+(123, '66a10e0067fd0', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 1, '2024-07-24', '04:21:52pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '343', 'POS'),
+(124, '66a10e0067fd0', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 0, 0, 6, 'Size', 'Regular', '77', 1, '2024-07-24', '04:21:52pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '343', 'POS'),
+(125, '66a26e65e2540', 35, 'BUBBLE MILK TEA', 0, 0, 3, 'Size', 'Large', '69', 37, '2024-07-25', '05:25:25pm', 1, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '69', 'ONLINE'),
+(126, '66a27e68478a3', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 3, 'Size', 'Large', '266', 37, '2024-07-25', '06:33:44pm', 6, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '2069', 'ONLINE'),
+(127, '66a27e68478a3', 35, 'BUBBLE MILK TEA', 0, 0, 3, 'Size', 'Large', '69', 37, '2024-07-25', '06:33:44pm', 3, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '2069', 'ONLINE'),
+(128, '66a27e68478a3', 42, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 0, 0, 4, 'Size', 'Medium', '266', 37, '2024-07-25', '06:33:44pm', 1, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '2069', 'ONLINE'),
+(129, '66a2dd34f4075', 35, 'BUBBLE MILK TEA', 6, 5, 3, 'Size', 'Large', '69', 1, '2024-07-26', '01:18:13am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '69', 'POS');
 
 -- --------------------------------------------------------
 
@@ -431,7 +441,11 @@ INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_e
 (101, 121, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '443', '500', 'npalisoc@yondu.com'),
 (102, 123, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '343', '400', 'npalisoc@yondu.com'),
 (103, 124, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '343', '400', 'npalisoc@yondu.com'),
-(104, 125, '12313123123', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Norman', 'Palisoc', '639273894063', 'Cablong', 'GCASH', '69', '69', 'norman.consultant@platform-11.com');
+(104, 125, '12313123123', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Norman', 'Palisoc', '639273894063', 'Cablong', 'GCASH', '69', '69', 'norman.consultant@platform-11.com'),
+(105, 126, '0000-0000-0000-0000', '00/00', '000', 'Norman', 'Palisoc', '17978193478234', 'Cablong', 'Norman', 'Palisoc', '17978193478234', 'Cablong', 'CCDB', '2069', '2069', 'norman.consultant@platform-11.com'),
+(106, 127, '0000-0000-0000-0000', '00/00', '000', 'Norman', 'Palisoc', '17978193478234', 'Cablong', 'Norman', 'Palisoc', '17978193478234', 'Cablong', 'CCDB', '2069', '2069', 'norman.consultant@platform-11.com'),
+(107, 128, '0000-0000-0000-0000', '00/00', '000', 'Norman', 'Palisoc', '17978193478234', 'Cablong', 'Norman', 'Palisoc', '17978193478234', 'Cablong', 'CCDB', '2069', '2069', 'norman.consultant@platform-11.com'),
+(108, 129, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '69', '70', 'npalisoc@yondu.com');
 
 -- --------------------------------------------------------
 
@@ -534,10 +548,10 @@ CREATE TABLE `products_inventory` (
 --
 
 INSERT INTO `products_inventory` (`id`, `product_id`, `stocks`, `restock_level_point`) VALUES
-(1, 38, 95, 50),
+(1, 38, 89, 50),
 (2, 36, 12, 11),
-(3, 42, 90, 65),
-(4, 35, 9, 5);
+(3, 42, 89, 65),
+(4, 35, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -796,7 +810,7 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `best_sellers`
@@ -808,7 +822,7 @@ ALTER TABLE `best_sellers`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -826,13 +840,13 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT for table `orders_billing`
 --
 ALTER TABLE `orders_billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
