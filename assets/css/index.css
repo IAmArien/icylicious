@@ -225,3 +225,10 @@
   padding-top: 1px;
   text-transform: uppercase;
 }
+
+.img-review {
+  border-radius: 10px;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}

@@ -517,6 +517,11 @@
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top: 50px;">
             <div class="carousel-inner">
               <div class="carousel-item active">
+                <div style="display: flex; flex-direction: row; gap: 10px; margin-bottom: 25px; justify-content: center;">
+                  <img src="./assets/images/270355904_5077174782327164_5819940532561183880_n.jpg" class="img-review" />
+                  <img src="./assets/images/270776607_5077175045660471_203937953918983864_n.jpg" class="img-review" />
+                  <img src="./assets/images/270294551_5077175445660431_1486475624832130836_n.jpg" class="img-review" />
+                </div>
                 <h4 class="sans-600 color-dark-grey">Francis Alex Verdan</h4>
                 <div style="height: 15px;"></div>
                 <p class="sans-italic color-super-light-grey">
@@ -525,6 +530,10 @@
                 </p>
               </div>
               <div class="carousel-item">
+                <div style="display: flex; flex-direction: row; gap: 10px; margin-bottom: 25px; justify-content: center;">
+                  <img src="./assets/images/100994768_2575689195984689_6315846307525165056_n.jpg" class="img-review" />
+                  <img src="./assets/images/78131996_2575706109316331_1679696413077798912_n.jpg" class="img-review" />
+                </div>
                 <h4 class="sans-600 color-dark-grey">Aizel Domingo Torno</h4>
                 <div style="height: 15px;"></div>
                 <p class="sans-italic color-super-light-grey">
@@ -533,6 +542,11 @@
                 </p>
               </div>
               <div class="carousel-item">
+                <div style="display: flex; flex-direction: row; gap: 10px; margin-bottom: 25px; justify-content: center;">
+                  <img src="./assets/images/153700270_3805183899547885_1875737753938311061_n.jpg" class="img-review" />
+                  <img src="./assets/images/153973654_3805183966214545_4833128801112132761_n.jpg" class="img-review" />
+                  <img src="./assets/images/154278013_3805184032881205_6441672684888015433_n.jpg" class="img-review" />
+                </div>
                 <h4 class="sans-600 color-dark-grey">Yhen Selafar</h4>
                 <div style="height: 15px;"></div>
                 <p class="sans-italic color-super-light-grey">
