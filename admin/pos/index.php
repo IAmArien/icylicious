@@ -833,7 +833,7 @@
                         <option value="PROCESSING" selected>PROCESSING</option>
                         <option value="SERVING">SERVING</option>
                         <option value="CANCELLED">CANCELLED</option>
-                        <option value="FULFILLED">FULFILLED</option>
+                        <option value="COMPLETED">COMPLETED</option>
                       </select>
                     </div>
                   </div>

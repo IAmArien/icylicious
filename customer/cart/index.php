@@ -144,6 +144,7 @@
                         $count_result = $conn->query($fetch_query);
                         if ($count_result->num_rows > 0) {
                           $count_result_row = $count_result->fetch_assoc();
+                          $cart_id = $count_result_row['id'];
                           $product_count = $count_result_row['count(*)'];
                           $variant_id = $count_result_row['variant_id'];
                           $order_quantity = $count_result_row['order_quantity'];
@@ -257,6 +258,17 @@
                                   <button class="btn btn-sm btn-danger sans-regular" type="submit">
                                     Remove
                                   </button>
+                                  <button
+                                    class="btn btn-sm btn-primary sans-600"
+                                    type="button"
+                                    style="margin-top: 8px;"
+                                    onclick="onUpdateQuantity(
+                                      '."'".$cart_id."'".',
+                                      '."'".$product_id."'".',
+                                      '."'".$order_quantity."'".'
+                                    )">
+                                    Edit
+                                  </button>
                                 </div>
                               </form>
                             </div>
@@ -268,30 +280,6 @@
                     }
                   }
                 ?>
-                <!-- <div class="div-cart-item">
-                  <img src="../../assets/images/about_us_logo.png" class="img-cart-item" />
-                  <div class="div-cart-item-info">
-                    <h5 class="sans-600 color-dark-grey">
-                      (4) SPECIAL MANGO GRAHAM B1T1
-                    </h5>
-                    <div style="display: flex; flex-direction: row; sans-regular size-10 color-light-grey">
-                      Size:&nbsp;&nbsp;
-                      <span class="badge-size color-light-grey sans-regular size-10">
-                        REGULAR
-                      </span>
-                    </div>
-                    <div class="div-price-container">
-                      <h5 class="color-dark-grey sans-bold">₱199</h5>
-                      <h6 class="strike-price color-super-light-grey sans-regular">₱250</h6>
-                    </div>
-                  </div>
-                  <div class="div-total-price-action">
-                    <h3 class="color-dark-grey sans-bold">₱796</h3>
-                    <button class="btn btn-sm btn-danger sans-regular">
-                      Remove
-                    </button>
-                  </div>
-                </div> -->
               </div>
             </div>
             <div class="div-checkout-price">
@@ -462,6 +450,46 @@
     <div class="div-footer">
       <h6 class="sans-regular" style="padding-top: 7px;">&#169; 2024 All rights reserved.</h6>
     </div>
+    <div
+      class="modal fade" 
+      id="staticUpdateQuantity" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form action="../actions/update_cart.php" method="POST">
+          <input id="cart_id" type="hidden" name="cart_id" />
+          <input id="product_id" type="hidden" name="product_id" />
+          <input type="hidden" name="user_email" value="<?php if (isset($_SESSION['user_info.email'])) echo $_SESSION['user_info.email']; ?>" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 sans-600" id="staticBackdropLabel">Update Quantity</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="width: 400px;">
+                <label for="product_quantity" class="sans-600" style="margin-bottom: 8px;">Product Quantity</label>
+                <input
+                  type="number"
+                  name="product_quantity"
+                  id="product_quantity"
+                  placeholder="Quantity (eg. 1)"
+                  class="form-control sans-600"
+                  required
+                  value="1"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary sans-600" id="btn-add-to-cart-order">Update Cart</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/b2e03e5a6f.js" crossorigin="anonymous"></script>
@@ -475,7 +503,16 @@
       $('#btn-profile').click(() => {
         window.location.href = "../account";
       });
+      
     });
+  </script>
+  <script type="text/javascript">
+    const onUpdateQuantity = (cart_id, product_id, quantity) => {
+      $('#staticUpdateQuantity').modal('show');
+      $('#product_quantity').val(quantity);
+      $('#product_id').val(product_id);
+      $('#cart_id').val(cart_id);
+    }
   </script>
   <script type="text/javascript">
     const alertMessage = (message) => {
