@@ -199,7 +199,7 @@
                                 $row_status_type = "badge-cancelled";
                                 $row_status_name = $order_status;
                                 $row_action_status = "disabled";
-                              } else if ($order_status == 'FULFILLED') {
+                              } else if ($order_status == 'COMPLETED') {
                                 $row_status_type = "badge-fulfilled";
                                 $row_status_name = $order_status;
                                 $row_action_status = "disabled";

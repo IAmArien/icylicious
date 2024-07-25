@@ -6,10 +6,12 @@
       if (
         isset($_POST['product_id']) &&
         isset($_POST['product_quantity']) &&
-        isset($_POST['user_email'])
+        isset($_POST['user_email']) &&
+        isset($_POST['selected_variant'])
       ) {
         $product_id = intval($conn->real_escape_string($_POST['product_id']));
         $product_quantity = intval($conn->real_escape_string($_POST['product_quantity']));
+        $selected_variant = $conn->real_escape_string($_POST['selected_variant']);
         $customer_email = $conn->real_escape_string($_POST['user_email']);
 
         if ($product_quantity == 0) {
@@ -24,14 +26,18 @@
           $user_phone = $row['phone'];
           $user_address = $row['address'];
 
-          $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id."";
+          $parts = explode("-", $selected_variant);
+          $variant_product_id = intval($parts[0]);
+          $variant_id = intval($parts[1]);
+
+          $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$variant_product_id." AND variant_id = ".$variant_id." LIMIT 1";
           $result = $conn->query($fetch_query);
           if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $variant_id = intval($row['variant_id']);
             $variant_price = $row['variant_price'];
 
-            $fetch_query = "SELECT * FROM cart WHERE product_id = ".$product_id." AND user_email = '".$customer_email."'";
+            $fetch_query = "SELECT * FROM cart WHERE product_id = ".$variant_product_id." AND variant_id = ".$variant_id." AND user_email = '".$customer_email."'";
             $result = $conn->query($fetch_query);
             if ($result->num_rows > 0) {
               $cart_row = $result->fetch_assoc();
@@ -72,7 +78,7 @@
               $stmt = $conn->prepare($insert_query);
               $stmt->bind_param(
                 'ssssssssss',
-                $product_id,
+                $variant_product_id,
                 $variant_id,
                 $user_id,
                 $order_date,

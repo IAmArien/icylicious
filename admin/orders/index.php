@@ -325,7 +325,7 @@
                         $row_status_type = "badge-cancelled";
                         $row_status_name = $order_status;
                         $row_action_status = "disabled";
-                      } else if ($order_status == 'FULFILLED') {
+                      } else if ($order_status == 'COMPLETED') {
                         $row_status_type = "badge-fulfilled";
                         $row_status_name = $order_status;
                         $row_action_status = "disabled";
@@ -644,7 +644,7 @@
                     <option value="PROCESSING" selected>PROCESSING</option>
                     <option value="SERVING">SERVING</option>
                     <option value="CANCELLED">CANCELLED</option>
-                    <option value="FULFILLED">FULFILLED</option>
+                    <option value="COMPLETED">COMPLETED</option>
                   </select>
                 </div>
               </div>

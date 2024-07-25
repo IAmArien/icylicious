@@ -294,12 +294,44 @@
                                     }
                                   }
                                 }
+
+                                // fetch variants types
+                                $fetch_query = "SELECT * FROM products_info WHERE product_name = '".$product_name."'";
+                                $product_variants_result = $conn->query($fetch_query);
+                                $variants = array();
+                                if ($product_variants_result->num_rows > 0) {
+                                  while ($product_variants_row = $product_variants_result->fetch_assoc()) {
+                                    $product_id_for_variant = $product_variants_row['id'];
+                                    $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id_for_variant." LIMIT 1";
+                                    $product_variant_price_result = $conn->query($fetch_query);
+                                    if ($product_variant_price_result->num_rows > 0) {
+                                      $product_variant_price_row = $product_variant_price_result->fetch_assoc();
+                                      $product_variant_id = intval($product_variant_price_row['variant_id']);
+                                      $fetch_query = "SELECT * FROM variants WHERE id = ".$product_variant_id."";
+                                      $product_variant_result = $conn->query($fetch_query);
+                                      if ($product_variant_result->num_rows > 0) {
+                                        $product_variant_row = $product_variant_result->fetch_assoc();
+                                        $product_variant_id = $product_variant_row['id'];
+                                        $product_variant_type = $product_variant_row['variant_type'];
+                                        $product_variant_name = $product_variant_row['variant_name'];
+                                        $data = array(
+                                          "product_id" => $product_id_for_variant,
+                                          "id" => $product_variant_id,
+                                          "type" => $product_variant_type,
+                                          "name" => $product_variant_name
+                                        );
+                                        array_push($variants, $data);
+                                      }
+                                    }
+                                  }
+                                }
       
                                 echo '
                                   <div
                                     onclick="onAddQuantity('."'".$product_id."'".')"
                                     class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
                                     <div class="div-pos-product-container">
+                                      <input type="hidden" id="'.$product_id.'-variant-types" value='."'".json_encode($variants)."'".' />
                                       <img
                                         src="../../admin/uploads/'.$product_image.'"
                                         class="img-product"
@@ -352,12 +384,44 @@
                                 }
                               }
                             }
+
+                            // fetch variants types
+                            $fetch_query = "SELECT * FROM products_info WHERE product_name = '".$product_name."'";
+                            $product_variants_result = $conn->query($fetch_query);
+                            $variants = array();
+                            if ($product_variants_result->num_rows > 0) {
+                              while ($product_variants_row = $product_variants_result->fetch_assoc()) {
+                                $product_id_for_variant = $product_variants_row['id'];
+                                $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id_for_variant." LIMIT 1";
+                                $product_variant_price_result = $conn->query($fetch_query);
+                                if ($product_variant_price_result->num_rows > 0) {
+                                  $product_variant_price_row = $product_variant_price_result->fetch_assoc();
+                                  $product_variant_id = intval($product_variant_price_row['variant_id']);
+                                  $fetch_query = "SELECT * FROM variants WHERE id = ".$product_variant_id."";
+                                  $product_variant_result = $conn->query($fetch_query);
+                                  if ($product_variant_result->num_rows > 0) {
+                                    $product_variant_row = $product_variant_result->fetch_assoc();
+                                    $product_variant_id = $product_variant_row['id'];
+                                    $product_variant_type = $product_variant_row['variant_type'];
+                                    $product_variant_name = $product_variant_row['variant_name'];
+                                    $data = array(
+                                      "product_id" => $product_id_for_variant,
+                                      "id" => $product_variant_id,
+                                      "type" => $product_variant_type,
+                                      "name" => $product_variant_name
+                                    );
+                                    array_push($variants, $data);
+                                  }
+                                }
+                              }
+                            }
   
                             echo '
                               <div
                                 onclick="onAddQuantity('."'".$product_id."'".')"
                                 class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
                                 <div class="div-pos-product-container">
+                                  <input type="hidden" id="'.$product_id.'-variant-types" value='."'".json_encode($variants)."'".' />
                                   <img
                                     src="../../admin/uploads/'.$product_image.'"
                                     class="img-product"
@@ -584,6 +648,9 @@
                   required
                   value="1"
                 />
+                <h4 class="sans-600 size-12" style="margin-top: 12px;">Choose Variant:</h4>
+                <select name="selected_variant" class="form-select" id="choose_variant" required>
+                </select>
               </div>
             </div>
             <div class="modal-footer">
@@ -841,6 +908,15 @@
   </script>
   <script type="text/javascript">
     const onAddQuantity = (product_id) => {
+      const selectedVariants = $(`#${product_id}-variant-types`).val();
+      if (selectedVariants) {
+        const result = JSON.parse(selectedVariants);
+        var $dropdown = $("#choose_variant");
+        $dropdown.empty();
+        $.each(result, function() {
+          $dropdown.append($("<option />").val(`${this.product_id}-${this.id}`).text(this.name));
+        });
+      }
       $('#staticAddQuantity').modal('show');
       $('#product_id').val(product_id);
     };

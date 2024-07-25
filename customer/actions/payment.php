@@ -56,6 +56,23 @@
           $user_firstname = "";
           $user_lastname = "";
 
+          $stocks = 0;
+          $new_stocks = 0;
+          $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$product_id." LIMIT 1";
+          $inventory_result = $conn->query($fetch_query);
+          if ($inventory_result->num_rows > 0) {
+            $inventory_row = $inventory_result->fetch_assoc();
+            $stocks = intval($inventory_row['stocks']);
+            $restock_level_point = intval($inventory_row['restock_level_point']);
+            if ($order_quantity > $stocks) {
+              $_SESSION['errors.type'] = 'checkout';
+              $_SESSION['errors.title'] = 'Unable to checkout';
+              $_SESSION['errors.message'] = 'Something went wrong, unable to add to cart products. Product must be out of stock or quantity might be greater than the available products.';
+              header('Location: ../cart/');
+              return;
+            }
+          }
+
           $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
           $product_info_result = $conn->query($fetch_query);
           if ($product_info_result->num_rows > 0) {
@@ -136,6 +153,13 @@
           );
           $insert_result = $stmt->execute();
           if ($insert_result == 1) {
+            // update stocks
+            $new_stocks = $stocks - intval($order_quantity);
+            $update_stocks_query = "UPDATE products_inventory SET stocks = ? WHERE product_id = ?";
+            $stmt = $conn->prepare($update_stocks_query);
+            $stmt->bind_param('ss', $new_stocks, $product_id);
+            $stmt->execute();
+
             $fetch_query = "SELECT id FROM orders WHERE user_email = '".$user_email."' ORDER BY id DESC LIMIT 1";
             $order_result = $conn->query($fetch_query);
             if ($order_result->num_rows > 0) {

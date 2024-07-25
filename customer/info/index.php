@@ -272,6 +272,7 @@
                 ?>
               </p>
               <?php
+                $is_available = true;
                 if (isset($_GET['id'])) {
                   $product_id = $_GET['id'];
                   $fetch_query = "SELECT 
@@ -286,6 +287,7 @@
                   $result = $conn->query($fetch_query);
                   if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
+                    $variant_id = $row['variant_id'];
                     $variant_name = $row['variant_name'];
                     $variant_type = $row['variant_type'];
                     $variant_price = $row['variant_price'];
@@ -298,8 +300,53 @@
                       </div>
                       <div style="height: 20px;"></div>
                     ';
-                    echo $variant_label;
+                    // echo $variant_label;
+
                     if (isset($_SESSION['user_credentials.username'])) {
+                      $fetch_query = "SELECT product_name FROM products_info WHERE id = ".$product_id."";
+                      $result = $conn->query($fetch_query);
+                      if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        $product_name = $row['product_name'];
+                        // fetch variants types
+                        $fetch_query = "SELECT * FROM products_info WHERE product_name = '".$product_name."'";
+                        $product_variants_result = $conn->query($fetch_query);
+                        $variants = array();
+                        $options = "";
+                        if ($product_variants_result->num_rows > 0) {
+                          while ($product_variants_row = $product_variants_result->fetch_assoc()) {
+                            $product_id_for_variant = $product_variants_row['id'];
+                            $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$product_id_for_variant." LIMIT 1";
+                            $product_variant_price_result = $conn->query($fetch_query);
+                            if ($product_variant_price_result->num_rows > 0) {
+                              $product_variant_price_row = $product_variant_price_result->fetch_assoc();
+                              $product_variant_id = intval($product_variant_price_row['variant_id']);
+                              $fetch_query = "SELECT * FROM variants WHERE id = ".$product_variant_id."";
+                              $product_variant_result = $conn->query($fetch_query);
+                              if ($product_variant_result->num_rows > 0) {
+                                $product_variant_row = $product_variant_result->fetch_assoc();
+                                $product_variant_id = $product_variant_row['id'];
+                                $product_variant_type = $product_variant_row['variant_type'];
+                                $product_variant_name = $product_variant_row['variant_name'];
+                                $data = array(
+                                  "product_id" => $product_id_for_variant,
+                                  "id" => $product_variant_id,
+                                  "type" => $product_variant_type,
+                                  "name" => $product_variant_name
+                                );
+                                array_push($variants, $data);
+                                $options .= '<option value="'.$product_id_for_variant.'-'.$product_variant_id.'">'.$product_variant_name.'</option>';
+                              }
+                            }
+                          }
+                        }
+                        echo '
+                          <h4 class="sans-600 size-12" style="margin-top: 12px;">Choose Variant:</h4>
+                          <select name="select_variant" class="form-control" required style="width: 250px; margin-bottom: 30px;">
+                            '.$options.'
+                          </select>
+                        ';
+                      }
                       echo '
                         <div class="div-quantity">
                           <button id="quantity_add" type="button" class="btn btn-sm btn-success">
@@ -319,6 +366,30 @@
                           </button>
                         </div>
                       ';
+                      $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$product_id." LIMIT 1";
+                      $inventory_result = $conn->query($fetch_query);
+                      if ($inventory_result->num_rows > 0) {
+                        $inventory_row = $inventory_result->fetch_assoc();
+                        $stocks = intval($inventory_row['stocks']);
+                        $restock_level_point = intval($inventory_row['restock_level_point']);
+                        $is_available = true;
+                        if ($stocks <= $restock_level_point) {
+                          echo '
+                            <p class="sans-600 size-11" style="margin-top: 12px;">
+                              Stock Available: '.$stocks.' <b>(Running out)</b>
+                            </p>
+                          ';
+                        } else {
+                          echo '
+                            <p class="sans-600 size-11" style="margin-top: 12px;">Stock Available: '.$stocks.'</p>
+                          ';
+                        }                        
+                      } else {
+                        $is_available = false;
+                        echo '
+                          <p class="sans-600 size-11" style="margin-top: 12px; color: red;">Not Available (Out of Stock)</p>
+                        ';
+                      }
                     }
                     $fetch_query = "SELECT * FROM promotions WHERE product_id = ".$product_id."";
                     $result = $conn->query($fetch_query);
@@ -335,37 +406,74 @@
                           </div>
                         ';
                       } else {
-                        echo '
-                          <div class="div-price-container" style="margin-top: 20px;">
-                            <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
-                            <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
-                          </div>
-                        ';
+                        if ($promotional_price == "") {
+                          echo '
+                            <div class="div-price-container" style="margin-top: 20px;">
+                              <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                            </div>
+                          ';
+                        } else {
+                          echo '
+                            <div class="div-price-container" style="margin-top: 20px;">
+                              <h3 class="color-dark-grey sans-bold">₱'.$promotional_price.'</h3>
+                              <h5 class="strike-price color-super-light-grey sans-regular">₱'.$variant_price.'</h5>
+                            </div>
+                          ';
+                        }
                       }
+                    } else {
+                      echo '
+                        <div class="div-price-container" style="margin-top: 20px;">
+                          <h3 class="color-dark-grey sans-bold">₱'.$variant_price.'</h3>
+                        </div>
+                      ';
                     }
                   }
                 }
               ?>
               <?php
                 if (isset($_SESSION['user_credentials.username'])) {
-                  echo '
-                    <div style="padding-top: 20px;">
-                      <button
-                        class="btn btn-lg btn-primary sans-600"
-                        type="submit"
-                        name="checkout_type"
-                        value="add_to_cart">
-                        <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
-                      </button>&nbsp;
-                      <button
-                        class="btn btn-lg btn-secondary sans-600"
-                        type="submit"
-                        name="checkout_type"
-                        value="checkout">
-                        <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
-                      </button>
-                    </div>
-                  ';
+                  if ($is_available) {
+                    echo '
+                      <div style="padding-top: 20px;">
+                        <button
+                          class="btn btn-lg btn-primary sans-600"
+                          type="submit"
+                          name="checkout_type"
+                          value="add_to_cart">
+                          <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
+                        </button>&nbsp;
+                        <button
+                          class="btn btn-lg btn-secondary sans-600"
+                          type="submit"
+                          name="checkout_type"
+                          value="checkout">
+                          <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                        </button>
+                      </div>
+                    ';
+                  } else {
+                    echo '
+                      <div style="padding-top: 20px;">
+                        <button
+                          class="btn btn-lg btn-primary sans-600"
+                          type="submit"
+                          name="checkout_type"
+                          value="add_to_cart"
+                          disabled="disabled">
+                          <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp;Add to Cart
+                        </button>&nbsp;
+                        <button
+                          class="btn btn-lg btn-secondary sans-600"
+                          type="submit"
+                          name="checkout_type"
+                          value="checkout"
+                          disabled="disabled">
+                          <i class="fa-regular fa-credit-card"></i>&nbsp;&nbsp;Checkout
+                        </button>
+                      </div>
+                    ';
+                  }
                 } else {
                   echo '<p class="sans-regular color-dark-grey">Login to place an order for this product.</p>';
                 }
