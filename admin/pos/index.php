@@ -325,10 +325,27 @@
                                     }
                                   }
                                 }
+
+                                $is_available = "1";
+                                $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$product_id." LIMIT 1";
+                                $inventory_result = $conn->query($fetch_query);
+                                if ($inventory_result->num_rows > 0) {
+                                  $inventory_row = $inventory_result->fetch_assoc();
+                                  $stocks = $inventory_row['stocks'];
+                                  $restock_level_point = $inventory_row['restock_level_point'];
+                                  if ($stocks == 0) {
+                                    $is_available = "0";
+                                  }
+                                } else {
+                                  $is_available = "0";
+                                }
       
                                 echo '
                                   <div
-                                    onclick="onAddQuantity('."'".$product_id."'".')"
+                                    onclick="onAddQuantity(
+                                      '."'".$product_id."'".',
+                                      '."'".$is_available."'".'
+                                    )"
                                     class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
                                     <div class="div-pos-product-container">
                                       <input type="hidden" id="'.$product_id.'-variant-types" value='."'".json_encode($variants)."'".' />
@@ -415,10 +432,27 @@
                                 }
                               }
                             }
+
+                            $is_available = "1";
+                            $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$product_id." LIMIT 1";
+                            $inventory_result = $conn->query($fetch_query);
+                            if ($inventory_result->num_rows > 0) {
+                              $inventory_row = $inventory_result->fetch_assoc();
+                              $stocks = $inventory_row['stocks'];
+                              $restock_level_point = $inventory_row['restock_level_point'];
+                              if ($stocks == 0) {
+                                $is_available = "0";
+                              }
+                            } else {
+                              $is_available = "0";
+                            }
   
                             echo '
                               <div
-                                onclick="onAddQuantity('."'".$product_id."'".')"
+                                onclick="onAddQuantity(
+                                  '."'".$product_id."'".',
+                                  '."'".$is_available."'".'
+                                )"
                                 class="col-lg-3 col-md-4 col-sm-6 div-pos-product-col">
                                 <div class="div-pos-product-container">
                                   <input type="hidden" id="'.$product_id.'-variant-types" value='."'".json_encode($variants)."'".' />
@@ -638,6 +672,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <p id="stock-notif-label" class="sans-600 size-11" style="color: red;">This product is out of stock.</p>
               <div style="width: 400px;">
                 <label for="product_quantity" class="sans-600">Product Quantity</label>
                 <input
@@ -655,7 +690,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary sans-600">Add To Cart</button>
+              <button type="submit" class="btn btn-primary sans-600" id="btn-add-to-cart-order">Add To Cart</button>
             </div>
           </div>
         </form>
@@ -907,7 +942,8 @@
     });
   </script>
   <script type="text/javascript">
-    const onAddQuantity = (product_id) => {
+    const onAddQuantity = (product_id, is_available) => {
+      console.log(is_available);
       const selectedVariants = $(`#${product_id}-variant-types`).val();
       if (selectedVariants) {
         const result = JSON.parse(selectedVariants);
@@ -919,6 +955,13 @@
       }
       $('#staticAddQuantity').modal('show');
       $('#product_id').val(product_id);
+      if (is_available === "1") {
+        $('#btn-add-to-cart-order').removeAttr("disabled");
+        $('#stock-notif-label').css("display", "none");
+      } else {
+        $('#btn-add-to-cart-order').attr("disabled", "disabled");
+        $('#stock-notif-label').css("display", "block");
+      }
     };
     const onDeleteOrder = (product_id, user_email) => {
       window.location.href = `../actions/delete_order.php?product_id=${product_id}&user_email=${user_email}`

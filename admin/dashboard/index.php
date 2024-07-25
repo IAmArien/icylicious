@@ -410,6 +410,28 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 20px;">
+                  <div class="div-dashboard-card">
+                    <div class="div-dashboard-card-item" style="background-color: #dc3545;">
+                      <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="div-dashboard-card-content">
+                      <h3 class="sans-600">
+                        <?php
+                          $fetch_query = "SELECT count(*) FROM products_inventory WHERE stocks <= restock_level_point";
+                          $result = $conn->query($fetch_query);
+                          if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            echo $row['count(*)'];
+                          }
+                        ?>
+                      </h3>
+                      <a href="../products" class="sans-regular size-10" style="color: #848383; margin-bottom: 0px !important; margin-top: -8px;">
+                        Products for Restock
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
