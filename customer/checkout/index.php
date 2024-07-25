@@ -101,7 +101,7 @@
                   class="btn btn-md <?php if (isset($_GET['payment_type'])) if ($_GET['payment_type'] == 'GCASH') echo 'btn-secondary'; else echo 'btn-primary'; else echo 'btn-primary'; ?> sans-600"
                   id="btn-cc"
                   style="flex: 1;">
-                  Credit / Debit Card Payment
+                  Cash On Delivery (COD)
                 </button>
                 <button
                   type="button"
@@ -236,14 +236,15 @@
                   } else {
                     echo '
                       <div class="div-cc-details" id="div-cc-details">
-                        <h6 class="sans-600 color-dark-grey">Credit / Debit Card details:</h6>
-                        <div class="div-form-container">
+                        <h6 class="sans-600 color-dark-grey">Cash on Delivery (COD) Details:</h6>
+                        <div class="div-form-container" style="display: none;">
                           <input
                             type="text"
                             placeholder="Credit / Debit Card No. (eg. 4183-8657-9088-0099)"
                             name="credit_card_no"
                             required
                             class="form-control sans-regular"
+                            value="0000-0000-0000-0000"
                           />
                           <div style="display: flex; gap: 10px;">
                             <div style="flex: 1">
@@ -253,6 +254,7 @@
                                 name="credit_card_exp"
                                 required
                                 class="form-control sans-regular"
+                                value="00/00"
                               />
                             </div>
                             <div style="flex: 1">
@@ -262,12 +264,12 @@
                                 name="credit_card_code"
                                 required
                                 class="form-control sans-regular"
+                                value="000"
                               />
                             </div>
                           </div>
                         </div>
-                        <div style="height: 35px;"></div>
-                        <h6 class="sans-600 color-dark-grey">Billing / Payment details:</h6>
+                        <div style="height: 5px;"></div>
                         <div class="div-form-container">
                           <div style="display: flex; gap: 10px;">
                             <div style="flex: 1">
@@ -532,7 +534,7 @@
         }
       });
       $('#btn-cc').click(() => {
-        window.location.href = "./?payment_type=CCDB";
+        window.location.href = "./?payment_type=COD";
         // $('#btn-gc').removeClass("btn-primary");
         // $('#btn-gc').addClass("btn-secondary");
         // $('#btn-cc').removeClass("btn-secondary");
