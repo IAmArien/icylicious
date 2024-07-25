@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 22, 2024 at 06:05 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jul 25, 2024 at 05:49 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -117,7 +117,114 @@ INSERT INTO `activity_log` (`id`, `activity`, `activity_date`, `activity_time`, 
 (74, 'Exported Orders', '2024/07/22', '05:42:12am', 'npalisoc@yondu.com', 'BINI AIAH'),
 (75, 'Exported Orders', '2024/07/22', '05:44:24am', 'npalisoc@yondu.com', 'BINI AIAH'),
 (76, 'Exported Orders', '2024/07/22', '05:45:30am', 'npalisoc@yondu.com', 'BINI AIAH'),
-(77, 'Exported Orders', '2024/07/22', '05:46:49am', 'npalisoc@yondu.com', 'BINI AIAH');
+(77, 'Exported Orders', '2024/07/22', '05:46:49am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(78, 'Login', '2024/07/22', '06:08:45am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(79, 'Exported Orders', '2024/07/22', '06:09:52am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(80, 'Exported Orders', '2024/07/22', '06:11:11am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(81, 'Add Order', '2024/07/22', '06:11:18am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(82, 'Add Order', '2024/07/22', '06:11:20am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(83, 'Checkout', '2024/07/22', '06:11:26am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(84, 'Login', '2024/07/24', '05:12:41am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(85, 'Login', '2024/07/24', '05:19:05am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(86, 'Login', '2024/07/24', '05:25:04am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(87, 'Login', '2024/07/24', '05:34:29am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(88, 'Add Product', '2024/07/24', '05:36:18am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(89, 'Add Product', '2024/07/24', '05:39:34am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(90, 'Delete Product', '2024/07/24', '05:39:40am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(91, 'Add Product', '2024/07/24', '05:46:41am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(92, 'Update Product', '2024/07/24', '05:47:03am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(93, 'Update Product', '2024/07/24', '05:47:03am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(94, 'Exported Orders', '2024/07/24', '06:04:05am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(95, 'Login', '2024/07/24', '06:20:38am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(96, 'Add Order', '2024/07/24', '06:20:43am', 'npalisoc@yondu.com', 'BINI AIAH'),
+(97, 'Login', '2024/07/24', '04:14:10pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(98, 'Add Order', '2024/07/24', '04:15:06pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(99, 'Delete Orders', '2024/07/24', '04:15:09pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(100, 'Delete Product', '2024/07/24', '04:15:14pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(101, 'Add Order', '2024/07/24', '04:21:38pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(102, 'Add Order', '2024/07/24', '04:21:41pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(103, 'Checkout', '2024/07/24', '04:21:52pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(104, 'Add / Update Stocks', '2024/07/24', '04:49:22pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(105, 'Add / Update Stocks', '2024/07/24', '04:49:41pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(106, 'Add / Update Stocks', '2024/07/24', '04:49:58pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(107, 'Login', '2024/07/25', '02:12:37pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(108, 'Update Order', '2024/07/25', '02:18:04pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(109, 'Update Order', '2024/07/25', '02:18:10pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(110, 'Update Order', '2024/07/25', '02:18:16pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(111, 'Add Product', '2024/07/25', '02:48:46pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(112, 'Add / Update Stocks', '2024/07/25', '02:49:02pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(113, 'Login', '2024/07/25', '03:00:31pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(114, 'Add Order', '2024/07/25', '03:27:09pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(115, 'Add Order', '2024/07/25', '03:27:15pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(116, 'Add Order', '2024/07/25', '03:27:25pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(117, 'Delete Orders', '2024/07/25', '03:27:31pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(118, 'Add Order', '2024/07/25', '03:32:20pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(119, 'Add Order', '2024/07/25', '03:32:25pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(120, 'Add Order', '2024/07/25', '03:32:28pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(121, 'Add Order', '2024/07/25', '03:32:34pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(122, 'Add Order', '2024/07/25', '03:32:40pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(123, 'Add Order', '2024/07/25', '03:32:44pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(124, 'Add Order', '2024/07/25', '03:33:47pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(125, 'Add Order', '2024/07/25', '03:35:45pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(126, 'Delete Orders', '2024/07/25', '03:35:49pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(127, 'Add Order', '2024/07/25', '03:35:55pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(128, 'Add Order', '2024/07/25', '03:36:01pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(129, 'Add Order', '2024/07/25', '03:37:40pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(130, 'Add Order', '2024/07/25', '03:39:09pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(131, 'Add Order', '2024/07/25', '03:39:13pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(132, 'Add Order', '2024/07/25', '03:39:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(133, 'Add Order', '2024/07/25', '03:39:41pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(134, 'Delete Orders', '2024/07/25', '03:39:59pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(135, 'Add Order', '2024/07/25', '03:40:12pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(136, 'Add Order', '2024/07/25', '03:40:18pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(137, 'Delete Orders', '2024/07/25', '03:40:47pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(138, 'Add Order', '2024/07/25', '03:40:52pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(139, 'Add Order', '2024/07/25', '03:41:00pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(140, 'Delete Orders', '2024/07/25', '03:48:59pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(141, 'Add Order', '2024/07/25', '03:59:44pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(142, 'Add Order', '2024/07/25', '04:00:31pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(143, 'Add Order', '2024/07/25', '04:00:47pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(144, 'Add Order', '2024/07/25', '04:01:00pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(145, 'Add Order', '2024/07/25', '04:01:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(146, 'Add Order', '2024/07/25', '04:01:42pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(147, 'Add Order', '2024/07/25', '04:02:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(148, 'Add Order', '2024/07/25', '04:02:37pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(149, 'Add Order', '2024/07/25', '04:02:38pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(150, 'Add Order', '2024/07/25', '04:02:43pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(151, 'Add Order', '2024/07/25', '04:02:55pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(152, 'Add Order', '2024/07/25', '04:03:45pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(153, 'Add Order', '2024/07/25', '04:04:01pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(154, 'Delete Orders', '2024/07/25', '04:05:10pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(155, 'Add Order', '2024/07/25', '04:08:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(156, 'Add Order', '2024/07/25', '04:08:40pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(157, 'Add Order', '2024/07/25', '04:08:44pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(158, 'Add Order', '2024/07/25', '04:08:49pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(159, 'Add Order', '2024/07/25', '04:08:55pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(160, 'Add Order', '2024/07/25', '04:10:11pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(161, 'Add Order', '2024/07/25', '04:10:14pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(162, 'Add Order', '2024/07/25', '04:10:18pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(163, 'Delete Order', '2024/07/25', '04:10:32pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(164, 'Add Order', '2024/07/25', '04:10:45pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(165, 'Delete Order', '2024/07/25', '04:10:47pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(166, 'Delete Order', '2024/07/25', '04:11:07pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(167, 'Add Order', '2024/07/25', '04:12:05pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(168, 'Add Order', '2024/07/25', '04:12:07pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(169, 'Add Order', '2024/07/25', '04:12:10pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(170, 'Add Order', '2024/07/25', '04:12:13pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(171, 'Add Order', '2024/07/25', '04:12:16pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(172, 'Add Order', '2024/07/25', '04:12:19pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(173, 'Delete Order', '2024/07/25', '04:12:23pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(174, 'Delete Orders', '2024/07/25', '04:12:24pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(175, 'Login', '2024/07/25', '04:58:07pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(176, 'Login', '2024/07/25', '05:06:55pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(177, 'Add / Update Stocks', '2024/07/25', '05:07:11pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(178, 'Login', '2024/07/25', '05:25:43pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(179, 'Add Order', '2024/07/25', '05:36:35pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(180, 'Delete Orders', '2024/07/25', '05:36:38pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(181, 'Add Order', '2024/07/25', '05:37:31pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(182, 'Delete Orders', '2024/07/25', '05:37:33pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(183, 'Add Order', '2024/07/25', '05:39:36pm', 'npalisoc@yondu.com', 'BINI AIAH'),
+(184, 'Delete Orders', '2024/07/25', '05:39:38pm', 'npalisoc@yondu.com', 'BINI AIAH');
 
 -- --------------------------------------------------------
 
@@ -234,9 +341,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `product_name`, `variant_id`, `variant_type`, `variant_name`, `variant_price`, `user_id`, `order_date`, `order_time`, `order_quantity`, `is_pickup`, `user_firstname`, `user_lastname`, `user_address`, `user_phone`, `user_email`, `order_status`, `order_total`, `order_type`) VALUES
-(96, '66950e95bd4c9', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024-07-15', '01:57:09pm', 4, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS'),
-(97, '66950e95bd4c9', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024-07-15', '01:57:09pm', 2, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS'),
-(98, '66950e95bd4c9', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-15', '01:57:10pm', 5, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'FULFILLED', '2192', 'POS'),
+(96, '66950e95bd4c9', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024-07-15', '01:57:09pm', 4, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
+(97, '66950e95bd4c9', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 1, '2024-07-15', '01:57:09pm', 2, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
+(98, '66950e95bd4c9', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-15', '01:57:10pm', 5, 1, ' Norman', 'Palisoc', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'COMPLETED', '2192', 'POS'),
 (99, '669d0c5d1b0c1', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '249', 1, '2024-07-21', '03:25:49pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
 (100, '669d0c5d1b0c1', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '03:25:49pm', 3, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
 (101, '669d0c5d1b0c1', 33, 'TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '249', 1, '2024-07-21', '03:25:49pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1483', 'POS'),
@@ -257,7 +364,13 @@ INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `product_name`, `var
 (116, '669d1cee93824', 36, '3 TIGER BOBA (NO TEA DRINK)', 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:36:30pm', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '1141', 'POS'),
 (117, '669d1e7a99817', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '77', 1, '2024-07-21', '04:43:06pm', 5, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '651', 'POS'),
 (118, '669d1e7a99817', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-21', '04:43:06pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '651', 'POS'),
-(119, '669dce89bf0d5', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-22', '05:14:17am', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '532', 'POS');
+(119, '669dce89bf0d5', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-22', '05:14:17am', 2, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '532', 'POS'),
+(120, '669ddbeecbad4', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-22', '06:11:26am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '443', 'POS'),
+(121, '669ddbeecbad4', 34, 'MANGO GRAHAM SMOOTHIE', 1, 'Size', 'Extra Large', '177', 1, '2024-07-22', '06:11:26am', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '443', 'POS'),
+(122, '66a075e21d318', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '149', 37, '2024-07-24', '05:32:50am', 2, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'CANCELLED', '154', 'ONLINE'),
+(123, '66a10e0067fd0', 38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 3, 'Size', 'Large', '266', 1, '2024-07-24', '04:21:52pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '343', 'POS'),
+(124, '66a10e0067fd0', 32, 'ORIGINAL CORN AND CREAM SMOOTHIE', 6, 'Size', 'Regular', '77', 1, '2024-07-24', '04:21:52pm', 1, 1, 'BINI', 'AIAH', 'Mayombo Dagupan City, Pangasinan, Philippines, 2319', '+639273894063', 'npalisoc@yondu.com', 'PROCESSING', '343', 'POS'),
+(125, '66a26e65e2540', 35, 'BUBBLE MILK TEA', 3, 'Size', 'Large', '69', 37, '2024-07-25', '05:25:25pm', 1, 1, 'Norman', 'Palisoc', 'Ayala Makati, Metro Manila, Philippines', '639273894063', 'norman.consultant@platform-11.com', 'PROCESSING', '69', 'ONLINE');
 
 -- --------------------------------------------------------
 
@@ -313,7 +426,12 @@ INSERT INTO `orders_billing` (`id`, `order_id`, `credit_card_no`, `credit_card_e
 (96, 116, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '1141', '1200', 'npalisoc@yondu.com'),
 (97, 117, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '651', '700', 'npalisoc@yondu.com'),
 (98, 118, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '651', '700', 'npalisoc@yondu.com'),
-(99, 119, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '532', '550', 'npalisoc@yondu.com');
+(99, 119, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '532', '550', 'npalisoc@yondu.com'),
+(100, 120, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '443', '500', 'npalisoc@yondu.com'),
+(101, 121, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '443', '500', 'npalisoc@yondu.com'),
+(102, 123, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '343', '400', 'npalisoc@yondu.com'),
+(103, 124, '', '-', '0', 'Norman', 'Palisoc', '+639273894063', 'Cablong', '-', '-', '-', '-', 'CASH', '343', '400', 'npalisoc@yondu.com'),
+(104, 125, '12313123123', '-', '0', 'Norman', 'Palisoc', '639273894063', '-', 'Norman', 'Palisoc', '639273894063', 'Cablong', 'GCASH', '69', '69', 'norman.consultant@platform-11.com');
 
 -- --------------------------------------------------------
 
@@ -339,7 +457,9 @@ INSERT INTO `products_categories` (`id`, `category_id`, `product_id`) VALUES
 (35, 10, 35),
 (36, 7, 36),
 (37, 15, 37),
-(38, 15, 38);
+(38, 15, 38),
+(40, 7, 38),
+(43, 15, 42);
 
 -- --------------------------------------------------------
 
@@ -365,7 +485,8 @@ INSERT INTO `products_images` (`id`, `product_id`, `product_image`) VALUES
 (16, 35, '../uploads/447685776_871620354981760_7214760882104809249_n.jpg'),
 (18, 36, '../uploads/448021526_871620374981758_8464208450218718430_n.jpg'),
 (19, 37, '../uploads/447833255_871620384981757_6695675582191510910_n.jpg'),
-(20, 38, '../uploads/447728295_871620361648426_4025483537535039279_n.jpg');
+(20, 38, '../uploads/447728295_871620361648426_4025483537535039279_n.jpg'),
+(21, 42, '../uploads/447728295_871620361648426_4025483537535039279_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -392,7 +513,31 @@ INSERT INTO `products_info` (`id`, `product_name`, `product_description`, `produ
 (35, 'BUBBLE MILK TEA', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
 (36, '3 TIGER BOBA (NO TEA DRINK)', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
 (37, 'STRAWBERRY NUTELLA SMOOTHIE', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
-(38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE');
+(38, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE'),
+(42, '3 ORIGINAL CORN AND CREAM SMOOTHIE WITH PEARLS', 'Don’t miss out! Today’s the final day to seize and enjoy our 6.6 Mid-Year Promo! \\r\\n\\r\\nAvailable at all Icylicious Stores.\\r\\nT A R A , I C Y ? ', 'ACTIVE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products_inventory`
+--
+
+CREATE TABLE `products_inventory` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `stocks` int(11) NOT NULL,
+  `restock_level_point` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products_inventory`
+--
+
+INSERT INTO `products_inventory` (`id`, `product_id`, `stocks`, `restock_level_point`) VALUES
+(1, 38, 95, 50),
+(2, 36, 12, 11),
+(3, 42, 90, 65),
+(4, 35, 9, 5);
 
 -- --------------------------------------------------------
 
@@ -419,7 +564,9 @@ INSERT INTO `products_prices` (`id`, `product_id`, `variant_id`, `variant_price`
 (35, 35, 3, 69),
 (36, 36, 3, 266),
 (37, 37, 3, 166),
-(38, 38, 3, 266);
+(38, 38, 3, 266),
+(40, 39, 1, 8900),
+(43, 42, 4, 266);
 
 -- --------------------------------------------------------
 
@@ -598,6 +745,12 @@ ALTER TABLE `products_info`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `products_inventory`
+--
+ALTER TABLE `products_inventory`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products_prices`
 --
 ALTER TABLE `products_prices`
@@ -643,7 +796,7 @@ ALTER TABLE `variants`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT for table `best_sellers`
@@ -655,7 +808,7 @@ ALTER TABLE `best_sellers`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -673,37 +826,43 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `orders_billing`
 --
 ALTER TABLE `orders_billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `products_categories`
 --
 ALTER TABLE `products_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `products_images`
 --
 ALTER TABLE `products_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `products_info`
 --
 ALTER TABLE `products_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `products_inventory`
+--
+ALTER TABLE `products_inventory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products_prices`
 --
 ALTER TABLE `products_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `products_ratings`
