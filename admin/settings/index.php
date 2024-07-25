@@ -253,6 +253,8 @@
                     id="edit-pn" 
                     type="text" 
                     placeholder="Mobile No. (eg. +639__)" 
+                    min="0"
+                    max="11"
                     name="phone" 
                     required 
                     class="sans-regular"

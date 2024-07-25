@@ -327,8 +327,9 @@
                           <td class="sans-regular">
                             '.$product_variant.'
                           </td>
-                          <td class="sans-600">
-                            '.$stocks.'
+                          <td class="sans-regular">
+                            Stock: <b>'.$stocks.'</b>
+                            Level Point: <b>'.$restock_level_point.'</b>
                           </td>
                           <td>
                             <button
@@ -495,6 +496,7 @@
                   name="product_stocks"
                   placeholder="Stock (eg. 10)"
                   class="form-control sans-600"
+                  min="0"
                   required
                 />
               </div>
@@ -505,6 +507,7 @@
                   name="product_restocks"
                   placeholder="Restock Level Point (eg. 3)"
                   class="form-control sans-600"
+                  min="0"
                   required
                 />
               </div>

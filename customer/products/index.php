@@ -536,6 +536,8 @@
                   placeholder="Mobile No. (eg. +639__)"
                   name="phone"
                   required
+                  min="0"
+                  max="11"
                   class="form-control sans-regular"
                   style="margin-top: 10px;"
                 />
@@ -737,6 +739,8 @@
                   placeholder="Mobile No. (eg. +639__)"
                   name="phone"
                   required
+                  min="0"
+                  max="11"
                   class="form-control sans-regular"
                 />
                 <input

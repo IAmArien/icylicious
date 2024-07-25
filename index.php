@@ -593,6 +593,8 @@
                   required
                   class="form-control sans-regular"
                   style="margin-top: 10px;"
+                  min="0"
+                  max="11"
                 />
                 <input
                   type="text"
@@ -793,6 +795,8 @@
                   name="phone"
                   required
                   class="form-control sans-regular"
+                  min="0"
+                  max="11"
                 />
                 <input
                   type="text"

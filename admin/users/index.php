@@ -370,7 +370,7 @@
                 </div>
               </div>
               <input type="email" placeholder="Email Address (eg. myemail@gmail.com)" name="email" required class="sans-regular">
-              <input type="text" placeholder="Mobile No. (eg. +639__)" name="phone" required class="sans-regular">
+              <input type="text" placeholder="Mobile No. (eg. +639__)" name="phone" required class="sans-regular" min="0" max="11">
               <input type="text" placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)" name="address" required class="sans-regular">
               <div style="display: flex; gap: 10px; margin-top: 8px">
                 <div style="flex: 1; display: flex; flex-direction: column">
@@ -423,7 +423,7 @@
                 </div>
               </div>
               <input id="edit-ea" type="email" placeholder="Email Address (eg. myemail@gmail.com)" name="email" required readonly class="sans-regular is_readonly">
-              <input id="edit-pn" type="text" placeholder="Mobile No. (eg. +639__)" name="phone" required class="sans-regular">
+              <input id="edit-pn" type="text" placeholder="Mobile No. (eg. +639__)" name="phone" required class="sans-regular" min="0" max="11">
               <input id="edit-ad" type="text" placeholder="Address (eg. Ayala Makati, Metro Manila, Philippines)" name="address" required class="sans-regular">
               <div style="display: flex; gap: 10px; margin-top: 8px">
                 <div style="flex: 1; display: flex; flex-direction: column">

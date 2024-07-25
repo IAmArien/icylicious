@@ -180,6 +180,8 @@
                             placeholder="Mobile No. (eg. +639__)"
                             name="billing_phone"
                             required
+                            min="0"
+                            max="11"
                             class="form-control sans-regular"
                           />
                           <input
@@ -222,6 +224,8 @@
                             type="number"
                             placeholder="Mobile No. (eg. +639__)"
                             name="shipping_phone"
+                            min="0"
+                            max="11"
                             class="form-control sans-regular"
                           />
                           <input
@@ -303,6 +307,8 @@
                             placeholder="Mobile No. (eg. +639__)"
                             name="billing_phone"
                             required
+                            min="0"
+                            max="11"
                             class="form-control sans-regular"
                           />
                           <input
@@ -351,6 +357,8 @@
                               type="number"
                               placeholder="Mobile No. (eg. +639__)"
                               name="shipping_phone"
+                              min="0"
+                              max="11"
                               class="form-control sans-regular"
                             />
                             <input
@@ -432,6 +440,8 @@
                           placeholder="Mobile No. (eg. +639__)"
                           name="billing_phone"
                           required
+                          min="0"
+                          max="11"
                           class="form-control sans-regular"
                         />
                         <input
@@ -480,6 +490,8 @@
                             type="number"
                             placeholder="Mobile No. (eg. +639__)"
                             name="shipping_phone"
+                            min="0"
+                            max="11"
                             class="form-control sans-regular"
                           />
                           <input

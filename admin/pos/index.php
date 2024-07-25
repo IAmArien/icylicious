@@ -622,6 +622,29 @@
     <div id="div-overlay-content" class="overlay-content"></div>
     <div
       class="modal fade" 
+      id="staticErrorModal" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabindex="-1" 
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 sans-600" id="h-error-title"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="sans-regular size-11" id="p-error-description"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary sans-600" data-bs-dismiss="modal">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade" 
       id="staticOrderPlaced" 
       data-bs-backdrop="static" 
       data-bs-keyboard="false" 
@@ -759,6 +782,8 @@
                       placeholder="Mobile No. (eg. +639__)"
                       name="billing_phone"
                       class="sans-regular form-control"
+                      min="0"
+                      max="11"
                     />
                   </div>
                 </div>
@@ -1064,6 +1089,11 @@
         $('#staticOrderPlaced').modal('show');
         $('#tracking_number').val(transaction_id);
       }
+      const onErrorModal = (title, message) => {
+        $('#staticErrorModal').modal('show');
+        $('#h-error-title').text(title);
+        $('#p-error-description').text(message);
+      }
       <?php
         if (isset($_SESSION['checkout.transaction_id'])) {
           echo '
@@ -1072,6 +1102,20 @@
             }, 500);
           ';
           unset($_SESSION['checkout.transaction_id']);
+        }
+        if (
+          isset($_SESSION['errors.type']) &&
+          isset($_SESSION['errors.title']) &&
+          isset($_SESSION['errors.message'])
+        ) {
+          echo '
+            setTimeout(() => {
+              onErrorModal("'.$_SESSION['errors.title'].'", "'.$_SESSION['errors.message'].'");
+            }, 500);
+          ';
+          unset($_SESSION['errors.type']);
+          unset($_SESSION['errors.title']);
+          unset($_SESSION['errors.message']);
         }
       ?>
     });

@@ -58,6 +58,23 @@
           $variant_price = "";
           $user_firstname = "";
           $user_lastname = "";
+          $stocks = 0;
+          $restock_level_point = 0;
+
+          $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$product_id." LIMIT 1";
+          $inventory_result = $conn->query($fetch_query);
+          if ($inventory_result->num_rows > 0) {
+            $inventory_row = $inventory_result->fetch_assoc();
+            $stocks = intval($inventory_row['stocks']);
+            $restock_level_point = intval($inventory_row['restock_level_point']);
+            if ($product_quantity > $stocks) {
+              $_SESSION['errors.type'] = 'checkout';
+              $_SESSION['errors.title'] = 'Unable to checkout';
+              $_SESSION['errors.message'] = 'Something went wrong, unable to checkout products. Product must be out of stock or quantity might be greater than the available products.';
+              header('Location: ../pos/');
+              return;
+            }
+          }
 
           $fetch_query = "SELECT * FROM products_info WHERE id = ".$product_id." LIMIT 1";
           $product_info_result = $conn->query($fetch_query);
@@ -100,6 +117,8 @@
               transaction_id,
               product_id,
               product_name,
+              product_stock,
+              product_restock_level_point,
               variant_id,
               variant_type,
               variant_name,
@@ -117,15 +136,17 @@
               order_status,
               order_total,
               order_type
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
           $order_date = date("Y/m/d");
           $order_time = date("h:i:sa");
           $stmt = $conn->prepare($insert_query);
           $stmt->bind_param(
-            'ssssssssssssssssssss',
+            'ssssssssssssssssssssss',
             $transaction_id,
             $product_id,
             $product_name,
+            $stocks,
+            $restock_level_point,
             $variant_id,
             $variant_type,
             $variant_name,

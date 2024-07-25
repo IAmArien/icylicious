@@ -30,6 +30,21 @@
           $variant_product_id = intval($parts[0]);
           $variant_id = intval($parts[1]);
 
+          $fetch_query = "SELECT * FROM products_inventory WHERE product_id = ".$variant_product_id." LIMIT 1";
+          $inventory_result = $conn->query($fetch_query);
+          if ($inventory_result->num_rows > 0) {
+            $inventory_row = $inventory_result->fetch_assoc();
+            $stocks = intval($inventory_row['stocks']);
+            $restock_level_point = intval($inventory_row['restock_level_point']);
+            if ($product_quantity > $stocks) {
+              $_SESSION['errors.type'] = 'checkout';
+              $_SESSION['errors.title'] = 'Unable to add to cart';
+              $_SESSION['errors.message'] = 'Something went wrong, unable to add to cart products. Product must be out of stock or quantity might be greater than the available products.';
+              header('Location: ../pos/');
+              return;
+            }
+          }
+
           $fetch_query = "SELECT * FROM products_prices WHERE product_id = ".$variant_product_id." AND variant_id = ".$variant_id." LIMIT 1";
           $result = $conn->query($fetch_query);
           if ($result->num_rows > 0) {

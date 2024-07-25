@@ -622,6 +622,8 @@
                       name="phone"
                       required
                       class="sans-regular form-control"
+                      min="0"
+                      max="11"
                     />
                   </div>
                 </div>

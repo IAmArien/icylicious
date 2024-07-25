@@ -189,6 +189,8 @@
                         placeholder="Mobile No. (eg. +639__)"
                         name="phone"
                         required
+                        min="0"
+                        max="11"
                         class="form-control sans-regular"
                         value="<?php if (isset($_SESSION['user_info.phone'])) echo $_SESSION['user_info.phone']; ?>"
                       />
@@ -276,6 +278,8 @@
                   placeholder="Mobile No. (eg. +639__)"
                   name="phone"
                   required
+                  min="0"
+                  max="11"
                   class="form-control sans-regular"
                   style="margin-top: 10px;"
                 />
